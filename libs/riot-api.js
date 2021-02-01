@@ -47,22 +47,8 @@ function HttpsReq(_hostname, _path, _token, _log) {
     });
 }
 
-/* Make Query Parameters */
-function MakeQueryParams(_params, PARAMS) {
-    var query_params = '';
-    for(param of PARAMS) {
-        if(_params[param]) {
-            if(query_params === '') {
-                query_params += '?';
-            }else {
-                query_params += '&';
-            }
-            query_params += param + '=';
-            query_params += _params[param];
-        }
-    }
-    return query_params;
-}
+
+
 
 /* Make Overrided Configure */
 function MakeConfig(_config) {
@@ -101,6 +87,7 @@ function QueryReq (_PATHPARAM, _path, _params, _config) {
 
     var query_params = '';
 
+    /* Make Query Parameters */
     for(param in _params) {
         if(param === _PATHPARAM) {
             continue;
