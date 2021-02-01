@@ -1,30 +1,40 @@
-CREATE TABLE users (
-    normname varchar(50) NOT NULL,
-    updatetime timestamp NOT NULL,
-    profilehtml text NOT NULL,
+CREATE TABLE kr_users (
+    id_my           int         NOT NULL AUTO_INCREMENT,
+    norm_name       varchar(50) NOT NULL,
+    updatetime      timestamp   NOT NULL,
+
+    account_id      char(56)    NOT NULL,
+    summoner_id     char(63)    NOT NULL,
+    puuid           char(78)    NOT NULL,
+
+    real_name       varchar(50) NOT NULL,
+    profile_icon_id int         NOT NULL,
+    summoner_level  int         NOT NULL,
+
+    solo_tier       varchar(12) NOT NULL,
+    solo_rank       varchar(5)  NOT NULL,
+    solo_lp         int         NOT NULL,
+    solo_wins       int         NOT NULL,
+    solo_losses     int         NOT NULL,
+
+    flex_tier       varchar(12) NOT NULL,
+    flex_rank       varchar(5)  NOT NULL,
+    flex_lp         int         NOT NULL,
+    flex_wins       int         NOT NULL,
+    flex_losses     int         NOT NULL
+
     PRIMARY KEY (normname)
 );
 
-CREATE TABLE dates (
-    normname varchar(50) NOT NULL,
-    playdate varchar(20) NOT NULL,
-    total tinyint NOT NULL,
-    solo tinyint NOT NULL,
-    flex tinyint NOT NULL,
-    norm tinyint NOT NULL,
-    aram tinyint NOT NULL,
-    urf tinyint NOT NULL,
-    ai tinyint NOT NULL,
-    CONSTRAINT pk_name_date PRIMARY KEY (normname,playdate)
-);
+CREATE TABLE kr_games (
+    id_my       int         NOT NULL,
+    game_id     bigint      NOT NULL,
+    play_time   timestamp   NOT NULL,
+    platform_my tinyint     NOT NULL,
+    champion    smallint    NOT NULL,
+    queue_type  smallint    NOT NULL,
+    lane_my     tinyint     NOT NULL,
 
-CREATE TABLE games (
-    game_id int(10) NOT NULL AUTO_INCREMENT,
-    normname varchar(50) NOT NULL,
-    playdate varchar(20) NOT NULL,
-    champ varchar(20) NOT NULL,
-    gametype varchar(10) NOT NULL,
-    yourgg_game_id bigint NOT NULL,
     PRIMARY KEY (game_id),
-    INDEX idx_normname (normname)
+    INDEX idx_id_my (id_my)
 );

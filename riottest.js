@@ -21,7 +21,7 @@ riotApi.SetGlobalConfig({token: mytoken, log: true, platform: 'kr'});
 //     console.log(err);
 // });
 
-riotApi.SummonerV4.byName('유년이').then(data => {
+riotApi.SummonerV4.byName('hideonbush').then(data => {
     console.log(data);
     // var params = {
     //     encryptedAccountId: data.accountId,
