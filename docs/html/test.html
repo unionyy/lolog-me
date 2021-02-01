@@ -1,0 +1,50 @@
+<HTML>
+    <HEAD>
+    <TITLE> 이미지의 특정부위에 설명 상자 출력 </TITLE>
+    <script language="JavaScript">
+    //<!--
+    
+    //마우스 따라다니는 메세지판
+    
+    function msgposit(){
+    message.style.posLeft = event.x + 40 + document.body.scrollLeft
+    message.style.posTop = event.y - 40 + document.body.scrollTop
+    }
+    
+    function msgset(str,str2){
+    var text
+    text ='<table border="0" cellpadding="6" cellspacing="0" bgcolor="#FDFFF2" style="font-size:9pt; border-width:1; border-color:black; border-style:solid;">'
+    text += '<tr><td><p><b>' + str + '<br><br></b>' + str2 + '</td></tr></table>'
+    message.innerHTML=text
+    }
+    
+    function msghide(){
+    message.innerHTML=''
+    }
+    
+    //-->
+    </script>
+    </HEAD>
+    
+    <BODY>
+    
+    <!-- 메시창모양 -->
+    <div id="message" style="position:absolute; left:78px; top:165px; width:200px; height:62px; z-index:1; border-width:1px; border-style:none;">
+    <p> </p>
+    </div>
+    
+    <!-- 이미지 -->
+    <p><img src="carengen.jpg" width="574" height="374" border="0" usemap="#ImageMap1">
+    
+    <!-- 이미지맵 링크 -->
+    <map name="ImageMap1">
+    <area shape="rect" coords="40, 214, 94, 273" href="#" onmousemove="msgposit()" onmouseout="msghide()" onmouseover="msgset('엔진오일필터','엔진오일의 불순물을 걸러줍니다.')">
+    <area shape="rect" coords="243, 241, 293, 291" href="#" onmousemove="msgposit()" onmouseout="msghide()" onmouseover="msgset('엔진오일 채크기','엔진오일의 양을 채크합니다.')">
+    <area shape="rect" coords="376, 262, 414, 308" href="#" onmousemove="msgposit()" onmouseout="msghide()" onmouseover="msgset('냉각수 주입구','냉각수가 부족할때 보충합니다.')">
+    <area shape="rect" coords="426, 50, 529, 142" href="#" onmousemove="msgposit()" onmouseout="msghide()" onmouseover="msgset('배터리','차량에 필요한 전력을 공급합니다.')">
+    <area shape="rect" coords="354, 9, 424, 79" href="#" onmousemove="msgposit()" onmouseout="msghide()" onmouseover="msgset('공기필터','차량의 연료와 혼합되는 공기를 걸러줍니다.')">
+    <area shape="rect" coords="164, 121, 213, 158" href="#" onmousemove="msgposit()" onmouseout="msghide()" onmouseover="msgset('엔진오일 주입구','엔진오일을 교환할때 엔진오일을 주입하는 곳입니다.')">
+    <area shape="rect" coords="91, 308, 142, 350" href="#" onmousemove="msgposit()" onmouseout="msghide()" onmouseover="msgset('워셔액 주입구','차량 앞유리창의 윈도우 브러쉬에서 방사되는 워셔액을 보충하는 곳입니다.')" >
+    </map></p>
+    </BODY>
+    </HTML>
