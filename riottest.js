@@ -1,4 +1,4 @@
-const riotApi = require('./libs/riot-api'); 
+const riotApi = require('./lib/riot-api'); 
 
 // for testing
 const riot = require('./secure/riot.json');
