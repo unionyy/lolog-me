@@ -1,6 +1,4 @@
-const { write } = require('fs');
 const https = require('https');
-const { config } = require('process');
 const urlencode = require('urlencode');
 
 const BASEURL = '.api.riotgames.com'
@@ -114,6 +112,17 @@ module.exports.SetGlobalConfig = function (_config) {
 
     if(config_global.log) {
         console.log('configure set', config_global);
+    }
+}
+
+module.exports.GeneralReq = {
+    Normal: function(_path, _pathParam, _config) {
+        return NormalReq(_path, _pathParam, _config);
+    },
+    Query: function(_path, _pathParam, _queryParams, _config) {
+        var params = _queryParams;
+        params.pathParam = _pathParam;
+        return QueryReq('pathParam', _path, params, _config);
     }
 }
 

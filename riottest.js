@@ -23,9 +23,10 @@ riotApi.SetGlobalConfig({token: mytoken, log: true, platform: 'kr'});
 
 riotApi.SummonerV4.byName('유년이').then(data => {
     console.log(data);
-    var params = {
-        encryptedAccountId: data.accountId,
-        beginIndex: 1100
-    }
-    riotApi.MatchV4.byAccount(params);
+    // var params = {
+    //     encryptedAccountId: data.accountId,
+    //     beginIndex: 1100
+    // }
+    // riotApi.MatchV4.byAccount(params);
+    riotApi.GeneralReq.Query('/lol/match/v4/matchlists/by-account/', data.accountId, {beginIndex: 1100});
 });
