@@ -35,7 +35,7 @@ CREATE TABLE users (
 CREATE TABLE games (
     id_my       int         NOT NULL,
     game_id     bigint      NOT NULL,
-    play_time   timestamp   NOT NULL,
+    time_int    int         NOT NULL,
     platform_my tinyint     NOT NULL,
     champion    smallint    NOT NULL,
     queue_type  smallint    NOT NULL,
