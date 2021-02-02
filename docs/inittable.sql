@@ -2,6 +2,7 @@ CREATE TABLE kr_users (
     id_my           int         NOT NULL AUTO_INCREMENT,
     norm_name       varchar(50) NOT NULL,
     updatetime      timestamp   NOT NULL,
+    explore_idx     int         NOT NULL,
 
     account_id      char(56)    NOT NULL,
     summoner_id     char(63)    NOT NULL,
@@ -37,4 +38,5 @@ CREATE TABLE kr_games (
 
     PRIMARY KEY (game_id),
     INDEX idx_id_my (id_my)
+    CONSTRAINT pk_my_game PRIMARY KEY (id_my,game_id)
 );

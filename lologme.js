@@ -7,9 +7,7 @@ const urlencode = require('urlencode');
 const sanitizedHtml = require('sanitize-html');
 
 const template = require('./lib/template.js');
-const riotApi = require('./lib/riot-api'); 
-const riot = require('./secure/riot.json');
-const riotToken = riot['token'];
+const riot = require('./lib/riot.js');
 
 function NormalizeName(name) {
   var username = name;
@@ -37,18 +35,10 @@ app.get('/user/:username', (req, res) => {
   var normName = NormalizeName(urlencode.decode(req.params.username));
   console.log(ip, normName)
 
-  riotApi.SetGlobalConfig({
-    token: riotToken,
-    log: true,
-    platform: 'kr'
-  });
-
-  riotApi.SummonerV4.byName(normName).then(data => {
-    res.send(data);
-  })
-
+  riot.Search(normName, 'kr');
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
+  console.log(`Example app listening at http://localhost:${port}`);
+  riot.Init();
 });
