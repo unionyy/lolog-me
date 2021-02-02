@@ -1,0 +1,14 @@
+Search (platform, name)
+
+Normalize (platform, norm_name)
+
+SearchDB (platform, norm_name) => O
+
+API REQ (platform, norm_name) => X
+
+SearchDB (puuid) => O, Update DB
+
+InsertDB (all)
+
+API REQ Games
+

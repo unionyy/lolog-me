@@ -1,8 +1,8 @@
 CREATE TABLE users (
     id_my           int         NOT NULL AUTO_INCREMENT,
-    norm_name       varchar(50) NOT NULL,
+    norm_name       varchar(50),
     platform_my     tinyint     NOT NULL,
-    update_time      timestamp  NOT NULL,
+    update_time     timestamp  NOT NULL,
     explore_idx     int         NOT NULL,
 
     account_id      char(56)    NOT NULL,
