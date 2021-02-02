@@ -1,7 +1,8 @@
-CREATE TABLE kr_users (
+CREATE TABLE users (
     id_my           int         NOT NULL AUTO_INCREMENT,
     norm_name       varchar(50) NOT NULL,
-    updatetime      timestamp   NOT NULL,
+    platform_my     tinyint     NOT NULL,
+    update_time      timestamp  NOT NULL,
     explore_idx     int         NOT NULL,
 
     account_id      char(56)    NOT NULL,
@@ -22,12 +23,16 @@ CREATE TABLE kr_users (
     flex_rank       varchar(5)  NOT NULL,
     flex_lp         int         NOT NULL,
     flex_wins       int         NOT NULL,
-    flex_losses     int         NOT NULL
+    flex_losses     int         NOT NULL,
 
-    PRIMARY KEY (normname)
+    PRIMARY KEY (id_my),
+
+    UNIQUE INDEX unique_puuid (puuid),
+
+    UNIQUE INDEX platform_name (platform_my, norm_name)
 );
 
-CREATE TABLE kr_games (
+CREATE TABLE games (
     id_my       int         NOT NULL,
     game_id     bigint      NOT NULL,
     play_time   timestamp   NOT NULL,
@@ -36,7 +41,5 @@ CREATE TABLE kr_games (
     queue_type  smallint    NOT NULL,
     lane_my     tinyint     NOT NULL,
 
-    PRIMARY KEY (game_id),
-    INDEX idx_id_my (id_my)
-    CONSTRAINT pk_my_game PRIMARY KEY (id_my,game_id)
+    CONSTRAINT pk_my_game PRIMARY KEY (id_my, game_id)
 );
