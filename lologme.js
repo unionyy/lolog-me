@@ -41,6 +41,8 @@ app.get('/user/:username', (req, res) => {
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
   riot.Init().then(()=> {
-    riot.Search('apple', 'kr');
+    // riot.Search('devil', 'kr').then(data=> {
+    //   console.log(data);
+    // })
   });
 });
