@@ -1,0 +1,33 @@
+#title-main {
+    margin-top: 200px;
+}
+
+#title-title {
+    text-align: center;
+    font-size:4em;
+    
+}
+
+#title-title a {
+    color: #24292e;
+    text-decoration: none;
+}
+
+#title-search {
+    display: grid;
+    grid-template-columns: 500px 50px;
+    width: 550px;
+    align-self:flex-end;
+    margin: auto;
+}
+
+#title-search-box {
+    width: 100%;
+    height: 30px;
+}
+
+#title-search-button {
+    width: 100%;
+    height: 100%;
+}
+

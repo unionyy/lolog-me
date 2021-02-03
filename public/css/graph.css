@@ -1,0 +1,298 @@
+body {
+    margin: 0px;
+}
+
+#user-main {
+    background-color: #24292e;
+    display: grid;
+    grid-template-columns: auto 300px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 40px;
+    padding-right: 40px;
+    align-items: center;
+}
+
+#user-title {
+    display: inline;
+    margin: 0;
+}
+
+#user-title a {
+    color: white;
+    text-decoration: none;
+}
+
+#user-search {
+    display: grid;
+    grid-template-columns: auto 50px;
+}
+
+#user-search-box {
+    width: 100%;
+    height: 30px;
+}
+
+#user-search-button {
+    width: 100%;
+    height: 100%;
+}
+
+#user-content {
+    margin-top: 50px;
+}
+
+/*******************************/
+#user-profile {
+    display:grid;
+    grid-template-columns: 300px auto 460px;
+
+    overflow:hidden;
+    background-color:whitesmoke;
+    border-radius: 5px;
+    border: 1px solid rgb(222, 222, 222);
+    padding: 30px;
+    margin: 20px;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+#user-profile-bio {
+    display:inline-flex;
+}
+
+#user-profile-bio-img {
+    display:inline-flex;    
+}
+#user-profile-bio-img img{
+    border-radius: 15px;
+    display:inline-block;
+    align-self: center;
+    height: 120px;
+    
+}
+
+#user-profile-bio-name {
+    display:block;
+    width: 100%;
+    align-self: center;
+    text-align: left;
+    color: #24292e;
+    font-size: x-large;
+    font-weight: 900;
+    margin-left: 10px
+}
+#user-profile-bio-grid {
+    display:grid;
+}
+
+#user-profile-refresh {
+    display:inline-block;
+    align-content: center;
+}
+
+#user-ranks {
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+.profile-rank {
+    display:inline-flex;
+    margin: auto;
+}
+
+.profile-rank img {
+    display:inline-block;
+    align-self: center;
+    height: 120px;
+}
+
+.profile-rank-text {
+    color: #24292e;
+    display:inline-block;
+    align-self: center;
+    text-align: center;
+    font-weight: 700;
+}
+.profile-rank-text-grid {
+    display:grid
+}
+
+.gg-sub-title {
+    font-size: 0.8em;
+    font-weight: 500;
+    color:rgb(100, 100, 100);
+}
+
+.mt-1 {
+    font-size: 0.8em;
+    font-weight: 500;
+    color:rgb(100, 100, 100);
+}
+
+.text-success   {color:rgb(57, 174, 241);}
+.text-warning   {color:rgb(243, 111, 59);}
+.text-inactive  {color:#7c7c7c;}
+
+.text-iron, .text-bronze, .text-silver, .text-gold, .text-platinum, .text-diamond,
+.text-master, .text-grandmaster, .text-challenger, .text-unranked {
+        font-size: 1.4em;
+        font-weight: 900;
+}
+/* Tier Text Color */
+.text-iron          {color:#3d2a28;}
+.text-bronze        {color:#5c2e1d;}
+.text-silver        {color:#829094;}
+.text-gold          {color:#ecb938;}
+.text-platinum      {color:#0ec351;}
+.text-diamond       {color:#432ac7;}
+.text-master        {color:#ab14cc;}
+.text-grandmaster   {color:#fb2627;}
+.text-challenger    {color:rgb(57, 174, 241);}
+.text-unranked      {color:#7c7c7c;}
+
+/*******************************/
+
+#user-graph {
+    margin-top: 50px;
+}
+
+#user-graph-header {
+    margin-left: 30px;
+
+    display:grid;
+    grid-template-columns: 360px auto 510px;
+
+
+}
+
+#username-total {
+    color: #24292e;
+    font-size: 1.6em;
+    font-weight: 700;
+}
+
+#username-period {
+    color: #24292e;
+    font-size: 1.3em;
+    font-weight: 500;
+}
+
+#type-check {
+    display:inline-block;
+    align-self:flex-end;
+    text-align: right;
+}
+
+#user-graph-svg {
+    margin-top: 20px;
+    
+    background-color: whitesmoke;
+    border: 1px solid rgb(222, 222, 222);
+    border-radius: 5px;
+    padding-top: 10px;
+    padding-bottom: 15px;
+
+    overflow:auto;
+    direction: rtl;
+}
+
+/* svg icon have to DISPLAY!!! */
+.graph-svg {
+    width: 0px;
+    height: 0px;
+}
+
+.month {
+    fill: #24292e;
+    font-weight: 600;
+}
+
+.wday {
+    fill:#9be9a8;
+    font-weight: 900;
+}
+
+.wday-point {
+    fill:#40c463;
+}
+
+/* Games */
+#user-games {
+    margin-top: 50px;
+
+    text-align: center;
+}
+
+#user-games-header {
+    color: #24292e;
+}
+
+#user-games-number {
+    color: #24292e;
+    font-size: 1.6em;
+    font-weight: 700;
+}
+
+#user-games-period {
+    color: #24292e;
+    font-size: 1.3em;
+    font-weight: 500;
+}
+
+#username-total {
+    color: #24292e;
+    font-size: 1.6em;
+    font-weight: 700;
+}
+
+
+#user-games-refresh {
+    display: none;
+    font-weight: 500;
+    color: #24292e;
+    cursor: pointer;
+    background-color: whitesmoke;
+    border: 1px solid rgb(222, 222, 222);
+    border-radius: 5px;
+    padding: 5px;
+}
+
+#user-games-refresh:hover {
+    background-color: rgb(222, 222, 222);
+}
+
+#user-games-body {
+    margin-top: 20px;
+
+    background-color: whitesmoke;
+    border: 1px solid rgb(222, 222, 222);
+    border-radius: 5px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+.user-games-game {
+    display: inline-block;
+    width: 50px;
+    margin-bottom: 2px;
+    background-color: #24292e;
+    border-radius: 8px;
+    text-decoration: none;
+    line-height: 1.1em;
+    font-size: 0.7em;
+    font-weight: 500;
+    color:#e2e4e7;
+    padding-bottom: 3px;
+}
+.user-games-icon {
+    width: 50px;
+    border-radius: 8px;
+}
+
+/* no user */
+.no-user {
+    color: #24292e;
+    font-size:2em;
+    text-align: center;
+}

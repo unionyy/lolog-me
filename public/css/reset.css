@@ -1,0 +1,151 @@
+@media only screen and (max-width: 900px){
+    body {
+        margin: 0;
+    }
+    #title-main {
+        margin-top: 100px;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    #user-profile {
+        display:block;
+        background-color:white;
+        border: none;
+        padding: 0;
+    }
+
+    #user-profile-bio {
+        grid-column-start: 1;
+        grid-column-end: 3;
+        margin-left: 20px;
+    }
+
+    #user-profile-bio-img img{
+        height: 60px;
+        
+    }
+
+    #user-ranks {
+        display: grid;
+        grid-template-columns: 50% 50%;
+        background-color:whitesmoke;
+        border-radius: 5px;
+        border: 1px solid rgb(222, 222, 222);
+        padding: 20px;
+        margin-top: 15px;
+    }
+
+
+    .profile-rank img {
+        height: 100px;
+    }
+
+    /* GRAPH */
+
+    #user-graph-header {
+        display:block;
+        margin-left: 10px;
+        margin-right: 10px;
+        text-align: center;
+    }
+
+    #username-total {
+        align-self: center;
+    }
+
+    #graph-viewbox {
+        width: 840px;
+    }
+
+    .month {
+        font-size:1.2em;
+    }
+    
+    .wday {
+        display: none;
+    }
+    .wday-simple {
+        display: block;
+        font-size:1.2em;
+        fill:#40c463;
+    }
+
+
+}
+
+@media only screen and (max-width: 550px){
+
+    #title-search {
+        width: 100%;
+        grid-template-columns: auto 50px;
+    }
+
+    /* /user */
+    #user-main {
+        display: block;
+    }
+
+    #user-title {
+        display: block;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+
+    /****/
+
+    #user-profile {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+
+    #user-profile-bio-img img{
+        height: 60px;
+        
+    }
+
+    #user-profile-bio {
+        grid-column-start: 1;
+        grid-column-end: 3;
+    }
+
+    .profile-rank img {
+        height: 50px;
+    }
+
+    .text-success   {font-size: 0.9em;}
+    .text-warning   {font-size: 0.9em;}
+
+
+    .text-iron, .text-bronze, .text-silver, .text-gold, .text-platinum, .text-diamond,
+    .text-master, .text-grandmaster, .text-challenger, .text-unranked {
+        font-size: 1em;
+    }
+
+
+
+
+    /*********/
+    #username-total {font-size: 1.2em;}
+    #username-period {font-size: 1em;}
+
+    #type-check {
+        display:grid;
+        grid-template-columns: 6.67% 26.67% 6.67% 26.67% 6.67% 26.67%;
+        align-items:flex-end;
+        text-align: left;
+    }
+
+    /********/
+
+    #user-games-number {font-size: 1.2em;}
+    #user-games-period {font-size: 1em;}
+}
+
+@media only screen and (min-width: 1200px){
+    #user-content {
+        width: 1200px;
+        margin-left:auto;
+        margin-right:auto;
+    }
+}

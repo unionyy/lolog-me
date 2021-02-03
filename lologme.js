@@ -35,7 +35,16 @@ app.get('/user/:username', (req, res) => {
   var normName = NormalizeName(urlencode.decode(req.params.username));
   console.log(ip, normName)
 
-  riot.Search(normName, 'kr');
+  riot.Search(normName, 'kr').then(data=> {
+    if(data) {
+      res.send(template.HTMLuser(data));
+    } else {
+      res.send(template.HTMLnouser(normName));
+    }
+  }, err => {
+    console.log(err);
+    res.send('Error');
+  })
 });
 
 app.listen(port, () => {
