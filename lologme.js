@@ -30,6 +30,13 @@ app.post('/search', (req, res) => {
   res.redirect(`/user/${urlencode.encode(req.body.username)}`);
 });
 
+app.post('/fsearch', (req, res) => {
+  var normName = NormalizeName(urlencode.decode(req.body.username));
+  riot.Update(normName, 'kr').then(data => {
+    res.redirect(`/user/${normName}`);
+  })
+});
+
 app.get('/user/:username', (req, res) => {
   var ip = req.header('x-forwarded-for');
   var normName = NormalizeName(urlencode.decode(req.params.username));
