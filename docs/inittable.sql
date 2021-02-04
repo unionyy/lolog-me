@@ -41,5 +41,5 @@ CREATE TABLE games (
     queue_type  smallint    NOT NULL,
     lane_my     tinyint     NOT NULL,
 
-    CONSTRAINT pk_my_game PRIMARY KEY (id_my, game_id)
+    CONSTRAINT pk_my_game PRIMARY KEY (id_my, game_id DESC)
 );
