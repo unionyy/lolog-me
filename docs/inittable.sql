@@ -2,7 +2,7 @@ CREATE TABLE users (
     id_my           int         NOT NULL AUTO_INCREMENT,
     norm_name       varchar(50),
     platform_my     tinyint     NOT NULL,
-    update_time     timestamp  NOT NULL,
+    update_time     timestamp   NOT NULL,
     explore_idx     int         NOT NULL,
 
     account_id      char(56)    NOT NULL,
@@ -18,6 +18,7 @@ CREATE TABLE users (
     solo_lp         int         NOT NULL,
     solo_wins       int         NOT NULL,
     solo_losses     int         NOT NULL,
+    mini_prog       varchar(10),
 
     flex_tier       varchar(12) NOT NULL,
     flex_rank       varchar(5)  NOT NULL,
