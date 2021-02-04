@@ -1,7 +1,7 @@
 const TYPES = ['solo', 'flex', 'norm', 'aram', 'urf', 'ai'];
 const ETC = ['ofa', 'nbg', 'tut'];
 
-Change = function (_init) {
+Change = function (_init, __game_count) {
     // Get date
     var date = $('#user-games-refresh').attr('date');
     // Get types
@@ -122,21 +122,21 @@ Change = function (_init) {
 
         $(elem).css({ 'stroke': stroke, 'fill': color });
         if(_init) {
-            $(elem).attr('title', `${play}판, ${cdate}`);
+            $(elem).attr('title', `${play}${__game_count}, ${cdate}`);
         } else {
-            $(elem).tooltipster('content', `${play}판, ${cdate}`);
+            $(elem).tooltipster('content', `${play}${__game_count}, ${cdate}`);
         }
     });
-    $('#username-total').text(`${totalplay}판 `);
+    $('#username-total').text(`${totalplay}${__game_count} `);
     $('#username-period').text(`(${start}~${end})`);
 
     if(date === 'all') {
-        $('#user-games-number').text(` ${totalplay}판`);
+        $('#user-games-number').text(` ${totalplay}${__game_count}`);
         $('#user-games-period').text(` (${start}~${end})`);
         $('#user-games-refresh').css('display', 'none');
     } else {
         $('#user-games-refresh').css('display', 'inline');
-        $('#user-games-number').text(`${dateplay}판`);
+        $('#user-games-number').text(`${dateplay}${__game_count}`);
         $('#user-games-period').text(` (${date})`);
     }
 }
