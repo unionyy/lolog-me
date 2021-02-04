@@ -37,21 +37,27 @@ app.post('/fsearch', (req, res) => {
   })
 });
 
-app.get('/user/:username', (req, res) => {
+app.get('/user/:userName', (req, res) => {
   var ip = req.header('x-forwarded-for');
-  var normName = NormalizeName(urlencode.decode(req.params.username));
+  var normName = NormalizeName(urlencode.decode(req.params.userName));
   console.log(ip, normName)
 
   riot.Search(normName, 'kr').then(data=> {
-    if(data) {
-      res.send(template.HTMLuser(data));
-    } else {
+    if(!data) {
       res.send(template.HTMLnouser(normName));
+    } else if(data === 'ready') {
+      res.redirect(`/user/${urlencode.encode(normName)}`);
+    } else {
+      res.send(template.HTMLuser(data));
     }
   }, err => {
     console.log(err);
     res.send('Error');
   })
+});
+
+app.get('/match/:matchId', (req, res) => {
+  res.send('Sorry, Not Support Yet......');
 });
 
 app.listen(port, () => {
