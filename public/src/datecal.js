@@ -31,6 +31,7 @@ $('a.user-games-game').each((i, elem) => {
             "data-count-ai"   : 0, // 봇전
             "data-count-ofa"  : 0, // 
             "data-count-nbg"  : 0,
+            "data-count-tut"  : 0
         }
     }
     pDate[timeString]["data-count-total"]++;
@@ -41,4 +42,7 @@ $('a.user-games-game').each((i, elem) => {
 for(date in pDate) {
     $('rect#rect-' + date).attr(pDate[date]);
 }
+
+/** Remove future rect */
+
 

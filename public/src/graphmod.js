@@ -1,43 +1,68 @@
 const TYPES = ['solo', 'flex', 'norm', 'aram', 'urf', 'ai'];
+const ETC = ['ofa', 'nbg', 'tut'];
 
-Change = function () {
+Change = function (_init) {
     // Get date
     var date = $('#user-games-refresh').attr('date');
     // Get types
     var types = [];
+
+    /** Type Check */
     const $typecheck = $('#type-check');
     for(var elem of TYPES) {
         if($typecheck.find('#'+elem).prop('checked')) {
             types.push(elem);
-            $(`a.user-games-game[gametype='${elem}']`).css('display', 'inline-block');
-            if(date !== 'all') {
-               $(`a.user-games-game[gametype='${elem}'][date!='${date}']`).css('display', 'none');
-            }
-        } else {
-            $(`a.user-games-game[gametype='${elem}']`).css('display', 'none');
         }
     }
+
+    /** Add etc */
+    if($typecheck.find('#etc').prop('checked')) {
+        for (var elem of ETC) {
+            types.push(elem);
+        }
+    }
+
+    /** Clear Logs */
+    $(`a.user-games-game`).css('display', 'none');
+
+    /** Display Logs */
+    if(date === 'all') {
+        for (var elem of types) {
+            $(`a.user-games-game[gametype='${elem}']`).css('display', 'inline-block');
+        }
+    } else {
+        for (var elem of types) {
+            $(`a.user-games-game[gametype='${elem}'][date='${date}']`).css('display', 'inline-block');
+        }
+    }
+    
+
     var totalplay = 0;
     var dateplay = 0;
     var start = 0;
     var end = 0;
     $('rect.day').each(function (i, elem) {
         var play = 0;
-        for(type of types) {
-            var attrname = 'data-count-' + type;
-            play += Number($(elem).attr(attrname));
-        }
         var cdate = $(elem).attr('data-date');
-        if(cdate === date) {
-            dateplay = play;
-        }
-        totalplay += play;
-        if(play !== 0) {
-            if(start === 0) {
-                start = cdate;
+
+        if ($(elem).attr('data-count-total')) {
+            for(type of types) {
+                var attrname = 'data-count-' + type;
+                play += Number($(elem).attr(attrname));
             }
-            end = cdate;
+            
+            if(cdate === date) {
+                dateplay = play;
+            }
+            totalplay += play;
+            if(play !== 0) {
+                if(start === 0) {
+                    start = cdate;
+                }
+                end = cdate;
+            }
         }
+        
         var color;
         var stroke;
         // Set Color
@@ -96,8 +121,11 @@ Change = function () {
         }
 
         $(elem).css({ 'stroke': stroke, 'fill': color });
-        $(elem).tooltipster('content', `${play}판, ${cdate}`);
-        
+        if(_init) {
+            $(elem).attr('title', `${play}판, ${cdate}`);
+        } else {
+            $(elem).tooltipster('content', `${play}판, ${cdate}`);
+        }
     });
     $('#username-total').text(`${totalplay}판 `);
     $('#username-period').text(`(${start}~${end})`);
