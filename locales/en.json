@@ -42,5 +42,6 @@
 	"404_msg": "Page Not Found",
 	"icon_tut": "Tut",
 	"icon_etc": "etc",
-	"icon_clash": "Clash"
+	"icon_clash": "Clash",
+	"not_support_yet": "Sorry, Not Supported Yet..."
 }

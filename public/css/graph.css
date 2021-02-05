@@ -290,7 +290,8 @@ body {
 }
 
 /* no user */
-.no-user {
+#msg-text {
+    margin-top: 100px;
     color: #24292e;
     font-size:2em;
     text-align: center;

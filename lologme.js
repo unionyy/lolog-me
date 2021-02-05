@@ -81,7 +81,7 @@ app.get(`/:platform/user/:userName`, (req, res, next) => {
 
   riot.Search(normName, platform).then(data => {
     if (!data) {
-      res.send(template.HTMLnouser(normName, res.__, platform));
+      res.send(template.HTMLmsg(`"${req.params.userName}" ${res.__('user_not_found')}`, res.__, req.cookies['platform-lologme']));
     } else if (data === 'ready') {
       res.redirect(`/${platform}/user/${urlencode.encode(normName)}`);
     } else {
@@ -93,8 +93,14 @@ app.get(`/:platform/user/:userName`, (req, res, next) => {
   })
 });
 
-app.get(`/kr/match/:matchId`, (req, res) => {
-  res.send('Sorry, Not Support Yet......');
+app.get(`/:platform/match/:matchId`, (req, res) => {
+  var platform = urlencode.decode(req.params.platform);
+  
+  if(PLATFORM_MY[platform] === undefined) {
+    next();
+  }
+
+  res.send(template.HTMLmsg(res.__('not_support_yet'), res.__, req.cookies['platform-lologme']));
 });
 
 
@@ -106,7 +112,7 @@ app.use(function (err, req, res, next) {
   res.status(500).send('Something broke!')
 })
 app.use(function (req, res, next) {
-  res.status(404).send(template.HTML404(res.__, req.cookies['platform-lologme']))
+  res.status(404).send(template.HTMLmsg(res.__('404_msg'), res.__, req.cookies['platform-lologme']))
 })
 
 app.listen(port, () => {
