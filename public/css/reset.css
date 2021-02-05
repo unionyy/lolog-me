@@ -113,17 +113,11 @@
         height: 50px;
     }
 
-    .text-success   {font-size: 0.9em;}
-    .text-warning   {font-size: 0.9em;}
+    .text-wins, .text-losses   {font-size: 0.9em;}
 
-
-    .text-iron, .text-bronze, .text-silver, .text-gold, .text-platinum, .text-diamond,
-    .text-master, .text-grandmaster, .text-challenger, .text-unranked {
+    .text-tier {
         font-size: 1em;
     }
-
-
-
 
     /*********/
     #username-total {font-size: 1.2em;}

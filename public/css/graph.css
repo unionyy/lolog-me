@@ -45,7 +45,7 @@ body {
 /*******************************/
 #user-profile {
     display:grid;
-    grid-template-columns: 300px auto 460px;
+    grid-template-columns: 300px auto 520px;
 
     overflow:hidden;
     background-color:whitesmoke;
@@ -118,38 +118,37 @@ body {
     display:grid
 }
 
-.gg-sub-title {
+.text-rank-title {
     font-size: 0.8em;
     font-weight: 500;
     color:rgb(100, 100, 100);
 }
 
-.mt-1 {
+.text-ratio {
     font-size: 0.8em;
     font-weight: 500;
     color:rgb(100, 100, 100);
 }
 
-.text-success   {color:rgb(57, 174, 241);}
-.text-warning   {color:rgb(243, 111, 59);}
+.text-wins   {color:rgb(57, 174, 241);}
+.text-losses   {color:rgb(243, 111, 59);}
 .text-inactive  {color:#7c7c7c;}
 
-.text-iron, .text-bronze, .text-silver, .text-gold, .text-platinum, .text-diamond,
-.text-master, .text-grandmaster, .text-challenger, .text-unranked {
+.text-tier {
         font-size: 1.4em;
         font-weight: 900;
 }
 /* Tier Text Color */
-.text-iron          {color:#3d2a28;}
-.text-bronze        {color:#5c2e1d;}
-.text-silver        {color:#829094;}
-.text-gold          {color:#ecb938;}
-.text-platinum      {color:#0ec351;}
-.text-diamond       {color:#432ac7;}
-.text-master        {color:#ab14cc;}
-.text-grandmaster   {color:#fb2627;}
-.text-challenger    {color:rgb(57, 174, 241);}
-.text-unranked      {color:#7c7c7c;}
+.text-IRON          {color:#3d2a28;}
+.text-BRONZE        {color:#5c2e1d;}
+.text-SILVER        {color:#829094;}
+.text-GOLD          {color:#ecb938;}
+.text-PLATINUM      {color:#0ec351;}
+.text-DIAMOND       {color:#432ac7;}
+.text-MASTER        {color:#ab14cc;}
+.text-GRANDMASTER   {color:#fb2627;}
+.text-CHALLENGER    {color:rgb(57, 174, 241);}
+.text-Unranked      {color:#7c7c7c;}
 
 /*******************************/
 
