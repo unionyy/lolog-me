@@ -2,6 +2,16 @@ body {
     background-color: #24292e;
 }
 
+#title-toolbar {
+    display: grid;
+    grid-template-columns: auto 100px;
+    text-align: left;
+}
+
+#lang-select {
+    height: 25px;
+}
+
 #title-main {
     margin-top: 200px;
 }

@@ -87,9 +87,17 @@
     }
 
     #toolbar {
-        display: block;
+        grid-template-columns: auto;
         text-align: center;
         margin-bottom: 15px;
+    }
+
+    #toolbar-title {
+        margin-bottom: 25px;
+    }
+
+    #toolbar #lang-select {
+        display: none;
     }
 
     /****/

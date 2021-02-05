@@ -43,5 +43,7 @@
 	"icon_tut": "Tut",
 	"icon_etc": "etc",
 	"icon_clash": "Clash",
-	"not_support_yet": "Sorry, Not Supported Yet..."
+	"not_support_yet": "Sorry, Not Supported Yet...",
+	"lang_value": "en",
+	"lang_text": "English"
 }
