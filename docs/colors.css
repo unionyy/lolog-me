@@ -1,15 +1,34 @@
 #colorSamples {
+    color: #e2e4e7; /* play 0 stroke*/
+    color: #ebedf0; /* play 0 */
+    color: #9be9a8; /* play 1 */
+    color: #6dd686; /* play 2-3 */
+    color: #40c463; /* play 4-5 */
+    color: #38b259; /* play 6-8 */
+    color: #30a14e; /* play 9-11 */
+    color: #216e39; /* play 12-14 */
+    color: #e99b9b; /* play 15-19 */
+    color: #c44040; /* play 20-24 */
+    color: #a13030; /* play 25-29 */
+    color: #6e2121; /* play 30 ~ */
+    color: whitesmoke; /* template background */
+    color: #24292e; /* Github Dark*/
+    color: #ebedf0;
+}
+
+/* sub */
+#colorSamples {
     color: #ebedf0; /* play 0 */
     color: #e2e4e7; /* play 0 stroke*/
     color: #9be9a8; /* play 1-3 */
     color: #40c463; /* play 4-6 */
     color: #30a14e; /* play 7-9 */
     color: #216e39; /* play 10-14 */
-    color: #1e2a22; /* play 15-19 */
+    color: #1a5b2f; /* play 15-19 */
+    color: #134a25; /* play 15-19 */
     color: #88001b; /* play 20-25 */
     color: #ec1c24; /* play 25 ~ */
     color: whitesmoke; /* template background */
     color: #24292e; /* Github Dark*/
     color: #ebedf0;
-
 }

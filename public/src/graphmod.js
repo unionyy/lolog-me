@@ -64,7 +64,7 @@ Change = function (_init, __game_count) {
         }
         
         var color;
-        var stroke;
+        var stroke = 'none';
         // Set Color
         switch (play) {
             case 0:
@@ -72,51 +72,57 @@ Change = function (_init, __game_count) {
                 stroke = '#e2e4e7'
                 break;
             case 1:
+                color = '#9be9a8';
+                break;
             case 2:
             case 3:
-                color = '#9be9a8';
-                stroke = 'none';
+                color = '#6dd686';
                 break;
             case 4:
             case 5:
-            case 6:
                 color = '#40c463';
-                stroke = 'none';
                 break;
+            case 6:
+                
             
             case 7:
             case 8:
-            case 9:
-                color = '#30a14e';
-                stroke = 'none';
+                color = '#38b259';
                 break;
+            case 9:
+                
             case 10:
             case 11:
+                color = '#30a14e';
+                break;
             case 12:
             case 13:
             case 14:
                 color = '#216e39';
-                stroke = 'none';
                 break;
             case 15:
             case 16:
             case 17:
             case 18:
             case 19:
-                color = '#1e2a22';
-                stroke = 'none';
+                color = '#e99b9b';
                 break;
             case 20:
             case 21:
             case 22:
             case 23:
             case 24:
-                color = '#88001b';
-                stroke = 'none';
+                color = '#c44040';
+                break;
+            case 25:
+            case 26:
+            case 27:
+            case 28:
+            case 29:
+                color = '#a13030';
                 break;
             default:
-                color = '#ec1c24';
-                stroke = 'none';
+                color = '#6e2121';
                 break;
         }
 
