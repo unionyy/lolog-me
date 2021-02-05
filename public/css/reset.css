@@ -76,9 +76,9 @@
 
 @media only screen and (max-width: 550px){
 
-    #title-search {
+    #title-main #searchbox {
         width: 100%;
-        grid-template-columns: auto 50px;
+        grid-template-columns: 50px auto 50px;
     }
 
     /* /user */
@@ -86,7 +86,7 @@
         display: block;
     }
 
-    #user-title {
+    #toolbar {
         display: block;
         text-align: center;
         margin-bottom: 15px;

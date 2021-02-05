@@ -2,7 +2,7 @@ body {
     margin: 0px;
 }
 
-#user-main {
+#toolbar {
     background-color: #24292e;
     display: grid;
     grid-template-columns: auto 300px;
@@ -13,27 +13,27 @@ body {
     align-items: center;
 }
 
-#user-title {
+#toolbar-title {
     display: inline;
     margin: 0;
 }
 
-#user-title a {
+#toolbar-title a {
     color: white;
     text-decoration: none;
 }
 
-#user-search {
+#searchbox {
     display: grid;
-    grid-template-columns: auto 50px;
+    grid-template-columns: 50px auto 50px;
 }
 
-#user-search-box {
+#searchbox-box {
     width: 100%;
     height: 30px;
 }
 
-#user-search-button {
+#searchbox-button {
     width: 100%;
     height: 100%;
 }
