@@ -33,9 +33,11 @@
 	"icon_nbg": "Blitz",
 	"icon_urf": "URF",
 	"icon_ofa": "OFA",
+	"icon_ai": "AI",
 	"normal": "Normal",
 	"aram": "ARAM",
 	"ai": "AI",
 	"etc": "etc",
-	"icon_ai": "AI"
+	"user_not_found": "User Not Found",
+	"404_msg": "Page Not Found"
 }

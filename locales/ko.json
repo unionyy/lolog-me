@@ -33,8 +33,11 @@
 	"icon_nbg": "돌넥",
 	"icon_urf": "URF",
 	"icon_ofa": "단일",
+	"icon_ai": "AI대전",
 	"normal": "일반모드",
 	"aram": "칼바람",
 	"ai": "AI대전",
-	"etc": "기타"
+	"etc": "기타",
+	"user_not_found": "유저를 찾을 수 없습니다.",
+	"404_msg": "페이지를 찾을 수 없습니다."
 }

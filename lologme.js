@@ -1,3 +1,5 @@
+const { PLATFORM_MY } = require('./lib/constant');
+
 const express = require('express');
 const app = express();
 const port = 1029;
@@ -16,6 +18,7 @@ const i18n = new I18n({
 
 const template = require('./lib/template.js');
 const riot = require('./lib/riot.js');
+const { nextTick } = require('process');
 
 function NormalizeName(name) {
   var username = name;
@@ -48,7 +51,7 @@ app.get('/lang-en', function (req, res) {
 });
 
 app.post('/search', (req, res) => {
-  res.redirect(`/user/${urlencode.encode(req.body.username)}`);
+  res.redirect(`/user/${urlencode.encode(req.body.platform)}/${urlencode.encode(req.body.username)}`);
 });
 
 app.post('/fsearch', (req, res) => {
@@ -58,7 +61,13 @@ app.post('/fsearch', (req, res) => {
   })
 });
 
-app.get('/user/:userName', (req, res) => {
+app.get('/user/:platform/:userName', (req, res, next) => {
+  var platform = req.params.platform;
+
+  if(!PLATFORM_MY[platform]) {
+    next();
+  }
+
   var ip = req.header('x-forwarded-for');
   var normName = NormalizeName(urlencode.decode(req.params.userName));
   console.log(ip, normName)
@@ -80,6 +89,15 @@ app.get('/user/:userName', (req, res) => {
 app.get('/match/:matchId', (req, res) => {
   res.send('Sorry, Not Support Yet......');
 });
+
+//Error Handling
+app.use(function (err, req, res, next) {
+  console.error(err.stack)
+  res.status(500).send('Something broke!')
+})
+app.use(function (req, res, next) {
+  res.status(404).send(template.HTML404(res.__))
+})
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
