@@ -9,7 +9,18 @@ body {
 }
 
 #lang-select {
+    
+    background-color: #00000000;
+    color: white;
+    border:none;
     height: 25px;
+    margin-left: 10px;
+    text-align-last: right;
+}
+#lang-select option {
+    
+    background-color: #24292e;
+    color: white;
 }
 
 #title-main {
@@ -29,19 +40,50 @@ body {
 
 #searchbox {
     display: grid;
-    grid-template-columns: 50px 500px 50px;
-    width: 600px;
+    grid-template-columns: 80px 400px 80px;
+    width: 560px;
     align-self:flex-end;
     margin: auto;
 }
 
+#searchbox-platform {
+    appearance: none;
+    -moz-appearance: none; /* Firefox */ 
+    -webkit-appearance: none; /* Safari and Chrome */
+
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+
+    text-align-last: center;
+    font-size: 1.2em;
+    font-weight: 700;
+    background-color: white;
+    color:#24292e;
+}
+/* IE 기본 스타일 제거 */
+#searchbox-platform::-ms-expand{
+	display: none; /* IE 10, 11 */
+}
+
+#searchbox-platform option{
+    font-size: 0.83em;
+    color:#24292e;
+}
+
 #searchbox-box {
-    width: 100%;
-    height: 30px;
+    padding-left: 10px;
+    font-size: 1.2em;
+    font-weight: 700;
+    height: 40px;
 }
 
 #searchbox-button {
-    width: 100%;
-    height: 100%;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+
+    font-size: 1.2em;
+    font-weight: 700;
+    background-color: white;
+    color:#24292e;
 }
 

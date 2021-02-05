@@ -78,7 +78,29 @@
 
     #title-main #searchbox {
         width: 100%;
-        grid-template-columns: 50px auto 50px;
+        grid-template-columns: 60px auto 60px;
+    }
+    
+    #searchbox-platform {
+    
+        text-align-last: center;
+        font-size: 1em;
+    }
+    #searchbox-platform option{
+        font-size: 1em;
+        color:#24292e;
+    }
+    
+    #searchbox-box {
+        font-size: 1em;
+        font-weight: 700;
+    }
+    
+    #searchbox-button {
+        font-size: 1em;
+        font-weight: 700;
+        background-color: white;
+        color:#24292e;
     }
 
     /* /user */

@@ -25,23 +25,64 @@ body {
 
 #searchbox {
     display: grid;
-    grid-template-columns: 50px auto 50px;
+    grid-template-columns: 60px auto 60px;
+}
+
+#searchbox-platform {
+    appearance: none;
+    -moz-appearance: none; /* Firefox */ 
+    -webkit-appearance: none; /* Safari and Chrome */
+
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+
+    text-align-last: center;
+    font-weight: 700;
+    background-color: white;
+    color:#24292e;
+}
+/* IE 기본 스타일 제거 */
+#searchbox-platform::-ms-expand{
+	display: none; /* IE 10, 11 */
+}
+
+#searchbox-platform option{
+    color:#24292e;
 }
 
 #searchbox-box {
+    padding-left: 10px;
+    font-size: 1em;
+    font-weight: 700;
     width: 100%;
     height: 30px;
 }
 
 #searchbox-button {
-    width: 100%;
-    height: 100%;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+
+    font-size: 0.8em;
+    font-weight: 700;
+    background-color: white;
+    color:#24292e;
+
 }
 
 #lang-select {
+    background-color: #00000000;
+    color: white;
+    border:none;
     height: 80%;
     margin-left: 10px;
+    text-align-last: right;
 }
+#lang-select option {
+    font-size: 1em;
+    background-color: #24292e;
+    color: white;
+}
+
 
 #user-content {
     margin-top: 50px;
