@@ -37,6 +37,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('public'));
 
 app.get('/', (req, res) => {
+  console.log('Cookies: ', req.cookies)
+
+  // Cookies that have been signed
+  console.log('Signed Cookies: ', req.signedCookies)
   res.send(template.HTMLindex(res.__));
 });
 
@@ -50,32 +54,36 @@ app.get('/lang-en', function (req, res) {
   res.redirect('back');
 });
 
-app.post('/search', (req, res) => {
-  res.redirect(`/user/${urlencode.encode(req.body.platform)}/${urlencode.encode(req.body.username)}`);
+app.post(`/search`, (req, res) => {
+  res.redirect(`/${urlencode.encode(req.body.platform)}/user/${urlencode.encode(req.body.username)}`);
 });
 
-app.post('/fsearch', (req, res) => {
+app.post(`/fsearch`, (req, res) => {
   var normName = NormalizeName(urlencode.decode(req.body.username));
   riot.Update(normName, 'kr').then(data => {
     res.redirect(`/user/${normName}`);
   })
 });
 
-app.get('/user/:platform/:userName', (req, res, next) => {
-  var platform = req.params.platform;
 
-  if(!PLATFORM_MY[platform]) {
+app.get(`/:platform/user/:userName`, (req, res, next) => {
+  var platform = urlencode.decode(req.params.platform);
+  
+  if(PLATFORM_MY[platform] === undefined) {
     next();
   }
 
+  res.cookie('platform-lologme', platform);
+
   var ip = req.header('x-forwarded-for');
   var normName = NormalizeName(urlencode.decode(req.params.userName));
-  console.log(ip, normName)
 
-  riot.Search(normName, 'kr').then(data=> {
-    if(!data) {
+  console.log(platform, normName);
+
+  riot.Search(normName, platform).then(data => {
+    if (!data) {
       res.send(template.HTMLnouser(normName, res.__));
-    } else if(data === 'ready') {
+    } else if (data === 'ready') {
       res.redirect(`/user/${urlencode.encode(normName)}`);
     } else {
       res.send(template.HTMLuser(data, res.__));
@@ -86,9 +94,12 @@ app.get('/user/:platform/:userName', (req, res, next) => {
   })
 });
 
-app.get('/match/:matchId', (req, res) => {
+app.get(`/kr/match/:matchId`, (req, res) => {
   res.send('Sorry, Not Support Yet......');
 });
+
+
+
 
 //Error Handling
 app.use(function (err, req, res, next) {
