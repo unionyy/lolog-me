@@ -32,7 +32,7 @@ Change = function (_init, __game_count) {
         }
     } else {
         for (var elem of types) {
-            $(`a.user-games-game[gametype='${elem}'][date='${date}']`).css('display', 'inline-block');
+            $(`a.log-${date}[gametype='${elem}']`).css('display', 'inline-block');
         }
     }
     

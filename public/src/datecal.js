@@ -17,6 +17,7 @@ $('a.user-games-game').each((i, elem) => {
     var queueTypeText = $(elem).find('span.user-games-type').text();
 
     $(elem).attr('date', timeString);
+    $(elem).addClass('log-' + timeString);
     $(elem).find('span.user-games-date').text(timeString.slice(5));
     $(elem).attr('title', `${timeString}, ${queueTypeText}`);
 
@@ -47,5 +48,25 @@ for(date in pDate) {
 }
 
 /** Remove future rect */
+// -366
+var fakeTime = new Date(new Date() - 31622400000 - offset);
+var timeString = fakeTime.toISOString().slice(0, 10);
+$('rect#rect-' + timeString).css('display', 'none');
+$('a.log-' + timeString).attr('gameType', 'outofdate');
 
+// -367
+fakeTime = new Date(fakeTime - 86400000);
+timeString = fakeTime.toISOString().slice(0, 10);
+$('rect#rect-' + timeString).css('display', 'none');
+$('a.log-' + timeString).attr('gameType', 'outofdate');
+
+// +1
+fakeTime = new Date(new Date() - (- 86400000) - offset);
+timeString = fakeTime.toISOString().slice(0, 10);
+$('rect#rect-' + timeString).css('display', 'none');
+
+// +2
+fakeTime = new Date(fakeTime - (- 86400000));
+timeString = fakeTime.toISOString().slice(0, 10);
+$('rect#rect-' + timeString).css('display', 'none');
 
