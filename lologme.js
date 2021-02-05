@@ -37,11 +37,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('public'));
 
 app.get('/', (req, res) => {
-  console.log('Cookies: ', req.cookies)
-
-  // Cookies that have been signed
-  console.log('Signed Cookies: ', req.signedCookies)
-  res.send(template.HTMLindex(res.__));
+  res.send(template.HTMLindex(res.__, req.cookies['platform-lologme']));
 });
 
 app.get('/lang-ko', function (req, res) {
@@ -58,10 +54,13 @@ app.post(`/search`, (req, res) => {
   res.redirect(`/${urlencode.encode(req.body.platform)}/user/${urlencode.encode(req.body.username)}`);
 });
 
-app.post(`/fsearch`, (req, res) => {
+app.post(`/update`, (req, res) => {
   var normName = NormalizeName(urlencode.decode(req.body.username));
-  riot.Update(normName, 'kr').then(data => {
-    res.redirect(`/user/${normName}`);
+
+  var platform = urlencode.decode(req.body.platform);
+  platform = Object.keys(PLATFORM_MY)[platform];
+  riot.Update(normName, platform).then(data => {
+    res.redirect(`${urlencode.encode(platform)}/user/${normName}`);
   })
 });
 
@@ -82,11 +81,11 @@ app.get(`/:platform/user/:userName`, (req, res, next) => {
 
   riot.Search(normName, platform).then(data => {
     if (!data) {
-      res.send(template.HTMLnouser(normName, res.__));
+      res.send(template.HTMLnouser(normName, res.__, platform));
     } else if (data === 'ready') {
-      res.redirect(`/user/${urlencode.encode(normName)}`);
+      res.redirect(`/${platform}/user/${urlencode.encode(normName)}`);
     } else {
-      res.send(template.HTMLuser(data, res.__));
+      res.send(template.HTMLuser(data, res.__, platform));
     }
   }, err => {
     console.log(err);
@@ -107,7 +106,7 @@ app.use(function (err, req, res, next) {
   res.status(500).send('Something broke!')
 })
 app.use(function (req, res, next) {
-  res.status(404).send(template.HTML404(res.__))
+  res.status(404).send(template.HTML404(res.__, req.cookies['platform-lologme']))
 })
 
 app.listen(port, () => {
