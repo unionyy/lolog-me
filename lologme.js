@@ -2,7 +2,7 @@ const { PLATFORM_MY } = require('./lib/constant');
 
 const express = require('express');
 const app = express();
-const port = 1029;
+const port = 1028;
 
 const bodyParser = require('body-parser')
 const urlencode = require('urlencode');
