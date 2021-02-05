@@ -14,10 +14,11 @@ $('a.user-games-game').each((i, elem) => {
     var fakeTime = new Date(timestamp - offset);
     var timeString = fakeTime.toISOString().slice(0, 10);
     var queueType = $(elem).attr('gametype');
+    var queueTypeText = $(elem).find('span.user-games-type').text();
 
     $(elem).attr('date', timeString);
     $(elem).find('span.user-games-date').text(timeString.slice(5));
-    $(elem).attr('title', `${timeString}, ${queueType}`);
+    $(elem).attr('title', `${timeString}, ${queueTypeText}`);
 
     /** Update pDate */
     if(!pDate[timeString]) {
@@ -32,7 +33,8 @@ $('a.user-games-game').each((i, elem) => {
             "data-count-ofa"  : 0, // 
             "data-count-nbg"  : 0,
             "data-count-tut"  : 0,
-            "data-count-clash"  : 0
+            "data-count-clash"  : 0,
+            "data-count-etc"  : 0
         }
     }
     pDate[timeString]["data-count-total"]++;

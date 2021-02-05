@@ -40,7 +40,7 @@
 	"etc": "기타",
 	"user_not_found": "유저를 찾을 수 없습니다.",
 	"404_msg": "페이지를 찾을 수 없습니다.",
-	"icon_tut": "icon_tut",
-	"icon_undefined": "icon_undefined",
-	"icon_clash": "icon_clash"
+	"icon_tut": "튜토리얼",
+	"icon_etc": "기타",
+	"icon_clash": "격전"
 }

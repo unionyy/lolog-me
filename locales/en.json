@@ -39,5 +39,8 @@
 	"ai": "AI",
 	"etc": "etc",
 	"user_not_found": "User Not Found",
-	"404_msg": "Page Not Found"
+	"404_msg": "Page Not Found",
+	"icon_tut": "Tut",
+	"icon_etc": "etc",
+	"icon_clash": "Clash"
 }

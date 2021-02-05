@@ -1,5 +1,5 @@
 const TYPES = ['solo', 'flex', 'norm', 'aram', 'urf', 'ai'];
-const ETC = ['ofa', 'nbg', 'tut', 'clash'];
+const ETC = ['ofa', 'nbg', 'tut', 'clash', 'etc'];
 
 Change = function (_init, __game_count) {
     // Get date
