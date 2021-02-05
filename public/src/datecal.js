@@ -31,7 +31,8 @@ $('a.user-games-game').each((i, elem) => {
             "data-count-ai"   : 0, // 봇전
             "data-count-ofa"  : 0, // 
             "data-count-nbg"  : 0,
-            "data-count-tut"  : 0
+            "data-count-tut"  : 0,
+            "data-count-clash"  : 0
         }
     }
     pDate[timeString]["data-count-total"]++;
