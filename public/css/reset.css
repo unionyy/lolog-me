@@ -82,6 +82,10 @@
         width: 100%;
         grid-template-columns: 60px auto 60px;
     }
+
+    #toolbar #searchbox {
+        height: 40px;
+    }
     
     #searchbox-platform {
         font-size: 1em;
