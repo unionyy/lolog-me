@@ -96,7 +96,7 @@ body {
 /*******************************/
 #user-profile {
     display:grid;
-    grid-template-columns: 300px auto 520px;
+    grid-template-columns: auto 520px;
 
     overflow:hidden;
     background-color:whitesmoke;
@@ -123,23 +123,36 @@ body {
     
 }
 
-#user-profile-bio-name {
-    display:block;
-    width: 100%;
-    align-self: center;
-    text-align: left;
-    color: #24292e;
-    font-size: x-large;
-    font-weight: 900;
-    margin-left: 10px
-}
 #user-profile-bio-grid {
     display:grid;
+    grid-template-rows: 60px 60px;
+    align-items: center;
+    margin-left: 10px
+}
+
+#user-profile-name {
+    text-align: left;
+    color: #24292e;
+    font-size: 1.8em;
+    font-weight: 900;
 }
 
 #user-profile-refresh {
     display:inline-block;
     align-content: center;
+    height: 80%;
+}
+
+#update-button {
+    cursor: pointer;
+    background-color: #0366d6;
+    border-style: none;
+    width: 80px;
+    height: 80%;
+    border-radius: 5px;
+    
+    color: white;
+    font-size: 1em;
 }
 
 #user-ranks {
