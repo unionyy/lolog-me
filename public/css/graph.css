@@ -38,6 +38,7 @@ body {
     border-bottom-left-radius: 25px;
 
     text-align-last: center;
+    padding: 0;
     font-weight: 700;
     background-color: white;
     color:#24292e;
@@ -65,6 +66,7 @@ body {
     
     border-style: solid;
     border-width: 1px;
+    padding: 0;
 
     font-size: 1em;
     font-weight: 700;

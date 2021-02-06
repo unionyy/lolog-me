@@ -54,6 +54,7 @@ body {
     border-top-left-radius: 25px;
     border-bottom-left-radius: 25px;
 
+    padding: 0;
     text-align-last: center;
     font-size: 1.2em;
     font-weight: 700;
@@ -85,6 +86,7 @@ body {
     border-style: solid;
     border-width: 1px;
 
+    padding: 0;
     font-size: 1.2em;
     font-weight: 700;
     background-color: white;
