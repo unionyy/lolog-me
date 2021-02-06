@@ -3,7 +3,6 @@
         margin: 0;
     }
     #title-main {
-        margin-top: 100px;
         margin-left: 10px;
         margin-right: 10px;
     }
@@ -75,6 +74,9 @@
 }
 
 @media only screen and (max-width: 550px){
+    #title-main {
+        margin-top: 20%;
+    }
 
     #title-main #searchbox {
         width: 100%;
