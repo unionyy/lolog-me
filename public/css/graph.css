@@ -323,6 +323,11 @@ body {
     background-color: rgb(222, 222, 222);
 }
 
+.fa {
+    color: #0366d6;
+    font-size: 1.6em;
+}
+
 #user-games-body {
     margin-top: 20px;
 
