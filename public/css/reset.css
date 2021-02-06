@@ -82,13 +82,10 @@
     }
     
     #searchbox-platform {
-    
-        text-align-last: center;
         font-size: 1em;
     }
     #searchbox-platform option{
         font-size: 1em;
-        color:#24292e;
     }
     
     #searchbox-box {

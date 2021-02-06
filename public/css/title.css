@@ -42,8 +42,8 @@ body {
     display: grid;
     grid-template-columns: 80px 400px 80px;
     width: 560px;
-    align-self:flex-end;
     margin: auto;
+    height: 50px;
 }
 
 #searchbox-platform {
@@ -51,8 +51,8 @@ body {
     -moz-appearance: none; /* Firefox */ 
     -webkit-appearance: none; /* Safari and Chrome */
 
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
 
     text-align-last: center;
     font-size: 1.2em;
@@ -71,15 +71,19 @@ body {
 }
 
 #searchbox-box {
+    box-sizing: border-box;
+    width:100%;
     padding-left: 10px;
     font-size: 1.2em;
     font-weight: 700;
-    height: 40px;
 }
 
 #searchbox-button {
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    
+    border-style: solid;
+    border-width: 1px;
 
     font-size: 1.2em;
     font-weight: 700;
