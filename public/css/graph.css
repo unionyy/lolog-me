@@ -1,5 +1,14 @@
+html {
+    height: 100%;
+}
+
 body {
-    margin: 0px;
+    height: 100%;
+    margin:0;
+}
+
+#wrapper {
+    min-height: 100%;
 }
 
 #toolbar {
@@ -91,6 +100,8 @@ body {
 
 #user-content {
     margin-top: 50px;
+    padding-bottom: 50px;
+    min-height: 90%;
 }
 
 /*******************************/
@@ -362,4 +373,16 @@ body {
     color: #24292e;
     font-size:2em;
     text-align: center;
+}
+
+/* Style the footer */
+#footer {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+    color: #24292e;
+
+
+    width:100%;
+    margin: 0;
 }

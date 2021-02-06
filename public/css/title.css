@@ -1,5 +1,15 @@
+html {
+    height: 100%;
+}
+
 body {
     background-color: #24292e;
+    height: 100%;
+    margin:0;
+}
+
+#wrapper {
+    min-height: 100%;
 }
 
 #title-toolbar {
@@ -92,4 +102,19 @@ body {
     background-color: white;
     color:#24292e;
 }
+
+/* Style the footer */
+#footer {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+    color: white;
+
+    position:absolute;
+    bottom:0;
+
+    width:100%;
+    margin: 0;
+  }
+  
 
