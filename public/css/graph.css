@@ -139,8 +139,6 @@ body {
 
 #user-profile-refresh {
     display:inline-block;
-    align-content: center;
-    height: 80%;
 }
 
 #update-button {
@@ -148,7 +146,7 @@ body {
     background-color: #0366d6;
     border-style: none;
     width: 80px;
-    height: 80%;
+    height: 40px;
     border-radius: 5px;
     
     color: white;

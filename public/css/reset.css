@@ -15,14 +15,24 @@
     }
 
     #user-profile-bio {
-        grid-column-start: 1;
-        grid-column-end: 3;
         margin-left: 20px;
+        margin-right: 20px;
+        width: calc(100% - 40px);
     }
 
     #user-profile-bio-img img{
         height: 60px;
         
+    }
+
+    #user-profile-bio-grid {
+        grid-template-columns: auto 80px;
+        grid-template-rows: auto;
+        width: 100%;
+    }
+
+    #user-profile-name {
+        font-size: 1.4em;
     }
 
     #user-ranks {
@@ -115,6 +125,8 @@
         grid-template-columns: auto;
         text-align: center;
         margin-bottom: 15px;
+        padding-left: 10px;
+        padding-right: 10px;
     }
 
     #toolbar-title {
