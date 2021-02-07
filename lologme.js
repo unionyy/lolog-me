@@ -74,7 +74,7 @@ app.get(`/:platform/user/:userName`, (req, res, next) => {
 
   res.cookie('platform-lologme', platform);
 
-  var ip = req.header('x-forwarded-for');
+  // var ip = req.header('x-forwarded-for');
   var normName = NormalizeName(urlencode.decode(req.params.userName));
 
   console.log(platform, normName);
@@ -91,6 +91,32 @@ app.get(`/:platform/user/:userName`, (req, res, next) => {
     console.log(err);
     res.send('Error');
   })
+});
+
+app.get(`/:platform/user/:userName/year/:date`, (req, res, next) => {
+  var platform = urlencode.decode(req.params.platform);
+  var date = urlencode.decode(req.params.date);
+  
+  // Verify
+  if(PLATFORM_MY[platform] === undefined) {
+    next();
+  }
+
+  var normName = NormalizeName(urlencode.decode(req.params.userName));
+
+  var end = new Date(2019, 0, 1);
+  var begin = new Date(2019, 11, 31, 23, 59, 59, 999);
+
+  riot.SetDate(normName, platform, begin, end).then(data => {
+    if (!data) {
+      res.redirect(`/${platform}/user/${urlencode.encode(normName)}`);
+    } else {
+      res.send(template.HTMLuser(data, res.__, platform, begin, end));
+    }
+  }, err => {
+    console.log(err);
+    res.send('Error');
+  });
 });
 
 app.get(`/:platform/match/:matchId`, (req, res) => {
