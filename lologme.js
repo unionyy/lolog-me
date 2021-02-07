@@ -106,12 +106,13 @@ app.get(`/:platform/user/:userName/year/:date`, (req, res, next) => {
 
   var end = new Date(2019, 0, 1);
   var begin = new Date(2019, 11, 31, 23, 59, 59, 999);
+  var offset = new Date().getTimezoneOffset() * 60000;
 
   riot.SetDate(normName, platform, begin, end).then(data => {
     if (!data) {
       res.redirect(`/${platform}/user/${urlencode.encode(normName)}`);
     } else {
-      res.send(template.HTMLuser(data, res.__, platform, begin, end));
+      res.send(template.HTMLuser(data, res.__, platform, begin, end, offset));
     }
   }, err => {
     console.log(err);

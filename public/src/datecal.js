@@ -1,12 +1,5 @@
 var offset = new Date().getTimezoneOffset() * 60000;
 
-/** Udpate period */
-var period = $('span#user-games-period').text().split('~');
-var start = (new Date(period[0] * 1000 - offset)).toISOString().slice(0, 10);
-var end = (new Date(period[1] * 1000 - offset)).toISOString().slice(0, 10);
-
-$('span#user-games-period').text(`(${start}~${end})`);
-
 /** Update Log & Make pDate for graph*/
 var pDate = [];
 $('a.user-games-game').each((i, elem) => {
@@ -54,19 +47,24 @@ var timeString = fakeTime.toISOString().slice(0, 10);
 $('rect#rect-' + timeString).css('display', 'none');
 $('a.log-' + timeString).attr('gameType', 'outofdate');
 
-// -367
-fakeTime = new Date(fakeTime - 86400000);
-timeString = fakeTime.toISOString().slice(0, 10);
-$('rect#rect-' + timeString).css('display', 'none');
-$('a.log-' + timeString).attr('gameType', 'outofdate');
-
 // +1
 fakeTime = new Date(new Date() - (- 86400000) - offset);
 timeString = fakeTime.toISOString().slice(0, 10);
 $('rect#rect-' + timeString).css('display', 'none');
 
-// +2
-fakeTime = new Date(fakeTime - (- 86400000));
-timeString = fakeTime.toISOString().slice(0, 10);
-$('rect#rect-' + timeString).css('display', 'none');
 
+/** Udpate period */
+var period = $('span#username-period').text();
+var end;
+var begin;
+if(period === '???') {
+    end = (new Date(new Date() - 31536000000 - offset)).toISOString().slice(0, 10);
+    begin = (new Date(new Date() - offset)).toISOString().slice(0, 10);
+} else {
+    period = period.split('~');
+    end = (new Date(period[0] * 1000)).toISOString().slice(0, 10);
+    begin = (new Date(period[1] * 1000)).toISOString().slice(0, 10);
+}
+
+$('span#username-period').text(`(${end}~${begin})`);
+$('span#user-games-period').text(`(${end}~${begin})`);

@@ -39,8 +39,6 @@ Change = function (_init, __game_count) {
 
     var totalplay = 0;
     var dateplay = 0;
-    var start = 0;
-    var end = 0;
     $('rect.day').each(function (i, elem) {
         var play = 0;
         var cdate = $(elem).attr('data-date');
@@ -55,12 +53,6 @@ Change = function (_init, __game_count) {
                 dateplay = play;
             }
             totalplay += play;
-            if(play !== 0) {
-                if(start === 0) {
-                    start = cdate;
-                }
-                end = cdate;
-            }
         }
         
         var color;
@@ -134,11 +126,10 @@ Change = function (_init, __game_count) {
         }
     });
     $('#username-total').text(`${totalplay}${__game_count} `);
-    $('#username-period').text(`(${start}~${end})`);
 
     if(date === 'all') {
         $('#user-games-number').text(` ${totalplay}${__game_count}`);
-        $('#user-games-period').text(` (${start}~${end})`);
+        $('#user-games-period').text($('#username-period').text());
         $('#user-games-refresh').css('display', 'none');
     } else {
         $('#user-games-refresh').css('display', 'inline');
