@@ -3,3 +3,5 @@
 * Process 승급전
 * Show Match
 * Multi-Search
+* Custom search
+* Update beginIndex problem

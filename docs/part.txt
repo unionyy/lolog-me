@@ -1,0 +1,6 @@
+lologme: date or default
+riot:
+graphgen:
+loggen:
+datecal:
+graphmod:
