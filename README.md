@@ -5,3 +5,4 @@
 * Multi-Search
 * Custom search
 * Update beginIndex problem
+* Champion count
