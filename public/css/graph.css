@@ -267,6 +267,7 @@ body {
 
     overflow:auto;
     direction: rtl;
+    text-align: center;
 }
 
 /* svg icon have to DISPLAY!!! */

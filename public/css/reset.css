@@ -61,7 +61,8 @@
     }
 
     #graph-viewbox {
-        width: 840px;
+        height: 143px;
+        width: auto;
     }
 
     .month {

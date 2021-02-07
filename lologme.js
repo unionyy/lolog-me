@@ -104,8 +104,8 @@ app.get(`/:platform/user/:userName/year/:date`, (req, res, next) => {
 
   var normName = NormalizeName(urlencode.decode(req.params.userName));
 
-  var end = new Date(2019, 0, 1);
-  var begin = new Date(2019, 11, 31, 23, 59, 59, 999);
+  var end = new Date(2020, 0, 1);
+  var begin = new Date(2020, 3, 31, 23, 59, 59, 999);
   var offset = new Date().getTimezoneOffset() * 60000;
 
   riot.SetDate(normName, platform, begin, end).then(data => {
