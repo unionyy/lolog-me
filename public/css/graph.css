@@ -27,6 +27,10 @@ body {
     margin: 0;
 }
 
+#title-logo {
+    width: 200px;
+}
+
 #toolbar-title a {
     color: white;
     text-decoration: none;
