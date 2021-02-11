@@ -22,17 +22,14 @@ body {
     align-items: center;
 }
 
-#toolbar-logo {
-    width: 150px;
-    
+#toolbar-logo a {
+    display: inline-block;
+    vertical-align: top;
+    line-height: 0;
 }
 
-#toolbar a {
+#toolbar-logo img {
     width: 150px;
-    height: 31.818px;
-    align-content: center;
-    display: inline;
-    margin: 0;
 }
 
 #searchbox {

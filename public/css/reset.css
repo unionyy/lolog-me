@@ -86,15 +86,19 @@
         margin-top: 20%;
     }
 
+    #title-title img {
+        width: 100%;
+    }
+
     #title-main #searchbox {
         width: 100%;
         grid-template-columns: 60px auto 60px;
     }
 
-    #title-title img {
-        width: 100%;
-    }
 
+    #toolbar-logo {
+        margin: 15px;
+    }
     #toolbar #searchbox {
         height: 40px;
     }
