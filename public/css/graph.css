@@ -22,18 +22,17 @@ body {
     align-items: center;
 }
 
-#toolbar-title {
+#toolbar-logo {
+    width: 150px;
+    
+}
+
+#toolbar a {
+    width: 150px;
+    height: 31.818px;
+    align-content: center;
     display: inline;
     margin: 0;
-}
-
-#title-logo {
-    width: 200px;
-}
-
-#toolbar-title a {
-    color: white;
-    text-decoration: none;
 }
 
 #searchbox {

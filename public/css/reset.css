@@ -91,6 +91,10 @@
         grid-template-columns: 60px auto 60px;
     }
 
+    #title-title img {
+        width: 100%;
+    }
+
     #toolbar #searchbox {
         height: 40px;
     }

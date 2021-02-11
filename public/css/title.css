@@ -39,13 +39,8 @@ body {
 
 #title-title {
     text-align: center;
-    font-size:4em;
+    margin: 50px;
     
-}
-
-#title-title a {
-    color: white;
-    text-decoration: none;
 }
 
 #searchbox {
