@@ -79,7 +79,7 @@ app.get(`/:platform/user/:userName`, (req, res, next) => {
 
   console.log(platform, normName);
 
-  riot.Search(normName, platform).then(data => {
+  riot.SearchCustom(normName, platform).then(data => {
     if (!data) {
       res.send(template.HTMLmsg(`"${req.params.userName}" ${res.__('user_not_found')}`, res.__, req.cookies['platform-lologme']));
     } else if (data === 'ready') {
