@@ -76,7 +76,12 @@ app.get(`/update`, (req, res) => {
 
 app.get(`/:platform/user/:userName`, (req, res, next) => {
   var platform = urlencode.decode(req.params.platform);
+  var begin = req.query.begin;
+  var end = req.query.end;
+  var offset = req.query.offset;
   
+  console.log(begin, end);
+
   if(PLATFORM_MY[platform] === undefined) {
     next();
   }
@@ -88,11 +93,11 @@ app.get(`/:platform/user/:userName`, (req, res, next) => {
 
   console.log(platform, normName);
 
-  riot.SearchCustom(normName, platform).then(data => {
+  riot.SearchCustom(normName, platform, begin, end).then(data => {
     if (!data) {
       res.send(template.HTMLmsg(`"${req.params.userName}" ${res.__('user_not_found')}`, res.__, req.cookies['platform-lologme']));
     } else {
-      res.send(template.HTMLuser(data, res.__, platform));
+      res.send(template.HTMLuser(data, res.__, platform, begin, end, offset));
     }
   }, err => {
     console.log(err);
