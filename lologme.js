@@ -50,17 +50,26 @@ app.get('/lang-en', function (req, res) {
   res.redirect('back');
 });
 
-app.post(`/search`, (req, res) => {
-  res.redirect(`/${urlencode.encode(req.body.platform)}/user/${urlencode.encode(req.body.username)}`);
+app.get(`/search`, (req, res) => {
+  //res.redirect(`/${urlencode.encode(req.body.platform)}/user/${urlencode.encode(req.body.username)}`);
+  res.redirect(`/${req.query.platform}/user/${req.query.username}`);
 });
 
-app.post(`/update`, (req, res) => {
-  var normName = NormalizeName(urlencode.decode(req.body.username));
+app.get(`/update`, (req, res) => {
+  // var normName = NormalizeName(urlencode.decode(req.body.username));
 
-  var platform = urlencode.decode(req.body.platform);
+  // var platform = urlencode.decode(req.body.platform);
+  // platform = Object.keys(PLATFORM_MY)[platform];
+  // riot.Update(normName, platform).then(data => {
+  //   res.redirect(`${urlencode.encode(platform)}/user/${normName}`);
+  // })
+
+  var normName = NormalizeName(req.query.username);
+
+  var platform = req.query.platform;
   platform = Object.keys(PLATFORM_MY)[platform];
   riot.Update(normName, platform).then(data => {
-    res.redirect(`${urlencode.encode(platform)}/user/${normName}`);
+    res.redirect(`${platform}/user/${normName}`);
   })
 });
 
@@ -82,8 +91,6 @@ app.get(`/:platform/user/:userName`, (req, res, next) => {
   riot.SearchCustom(normName, platform).then(data => {
     if (!data) {
       res.send(template.HTMLmsg(`"${req.params.userName}" ${res.__('user_not_found')}`, res.__, req.cookies['platform-lologme']));
-    } else if (data === 'ready') {
-      res.redirect(`/${platform}/user/${urlencode.encode(normName)}`);
     } else {
       res.send(template.HTMLuser(data, res.__, platform));
     }
