@@ -68,3 +68,9 @@ if(period === '???') {
 
 $('span#username-period').text(`(${end}~${begin})`);
 $('span#user-games-period').text(`(${end}~${begin})`);
+
+/** Period Selector Setting */
+$('#period-selector-begin').attr('value', begin);
+$('#period-selector-end').attr('value', end);
+$('#period-selector-begin').attr('max', (new Date(new Date() - offset)).toISOString().slice(0, 10));
+$('#period-selector-end').attr('max', (new Date(new Date() - offset)).toISOString().slice(0, 10));
