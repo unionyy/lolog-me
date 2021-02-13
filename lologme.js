@@ -73,13 +73,13 @@ app.get(`/update`, (req, res) => {
   })
 });
 
-
 app.get(`/:platform/user/:userName`, (req, res, next) => {
   var platform = urlencode.decode(req.params.platform);
   var begin = req.query.begin;
   var end = req.query.end;
 
 
+  // Varify query
   if(PLATFORM_MY[platform] === undefined) {
     next();
   }
@@ -103,33 +103,6 @@ app.get(`/:platform/user/:userName`, (req, res, next) => {
   })
 });
 
-app.get(`/:platform/user/:userName/year/:date`, (req, res, next) => {
-  var platform = urlencode.decode(req.params.platform);
-  var date = urlencode.decode(req.params.date);
-  
-  // Verify
-  if(PLATFORM_MY[platform] === undefined) {
-    next();
-  }
-
-  var normName = NormalizeName(urlencode.decode(req.params.userName));
-
-  var end = new Date(2020, 0, 1);
-  var begin = new Date(2020, 3, 31, 23, 59, 59, 999);
-  var offset = new Date().getTimezoneOffset() * 60000;
-
-  riot.SetDate(normName, platform, begin, end).then(data => {
-    if (!data) {
-      res.redirect(`/${platform}/user/${urlencode.encode(normName)}`);
-    } else {
-      res.send(template.HTMLuser(data, res.__, platform, begin, end, offset));
-    }
-  }, err => {
-    console.log(err);
-    res.send('Error');
-  });
-});
-
 app.get(`/:platform/match/:matchId`, (req, res) => {
   var platform = urlencode.decode(req.params.platform);
   
@@ -139,9 +112,6 @@ app.get(`/:platform/match/:matchId`, (req, res) => {
 
   res.send(template.HTMLmsg(res.__('not_support_yet'), res.__, req.cookies['platform-lologme']));
 });
-
-
-
 
 //Error Handling
 app.use(function (err, req, res, next) {
