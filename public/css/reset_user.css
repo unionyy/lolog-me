@@ -1,9 +1,4 @@
 @media only screen and (max-width: 900px){
-    #title-main {
-        margin-left: 10px;
-        margin-right: 10px;
-    }
-
     #user-profile {
         display:block;
         background-color:white;
@@ -82,69 +77,6 @@
 }
 
 @media only screen and (max-width: 550px){
-    #title-main {
-        margin-top: 20%;
-    }
-
-    #title-title img {
-        width: 100%;
-    }
-
-    #title-main #searchbox {
-        width: 100%;
-        grid-template-columns: 60px auto 60px;
-    }
-
-
-    #toolbar-logo {
-        margin: 15px;
-    }
-    #toolbar #searchbox {
-        height: 40px;
-    }
-    
-    #searchbox-platform {
-        font-size: 1em;
-    }
-    #searchbox-platform option{
-        font-size: 1em;
-    }
-    
-    #searchbox-box {
-        font-size: 1em;
-        font-weight: 700;
-    }
-    
-    #searchbox-button {
-        font-size: 1em;
-        font-weight: 700;
-        background-color: white;
-        color:#24292e;
-    }
-
-    /* /user */
-    #user-main {
-        display: block;
-    }
-
-    #toolbar {
-        grid-template-columns: auto;
-        text-align: center;
-        margin-bottom: 15px;
-        padding-left: 10px;
-        padding-right: 10px;
-    }
-
-    #toolbar-title {
-        margin-bottom: 25px;
-    }
-
-    #toolbar #lang-select {
-        display: none;
-    }
-
-    /****/
-
     #user-profile {
         margin-left: 0px;
         margin-right: 0px;
@@ -185,12 +117,4 @@
 
     #user-games-number {font-size: 1.2em;}
     #user-games-period {font-size: 1em;}
-}
-
-@media only screen and (min-width: 1200px){
-    #user-content {
-        width: 1200px;
-        margin-left:auto;
-        margin-right:auto;
-    }
 }

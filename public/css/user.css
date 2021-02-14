@@ -1,109 +1,3 @@
-html {
-    height: 100%;
-}
-
-body {
-    height: 100%;
-    margin:0;
-}
-
-#wrapper {
-    min-height: 100%;
-}
-
-#toolbar {
-    background-color: #24292e;
-    display: grid;
-    grid-template-columns: auto 300px 80px;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    padding-left: 40px;
-    padding-right: 40px;
-    align-items: center;
-}
-
-#toolbar-logo a {
-    display: inline-block;
-    vertical-align: top;
-    line-height: 0;
-}
-
-#toolbar-logo img {
-    width: 150px;
-}
-
-#searchbox {
-    display: grid;
-    grid-template-columns: 60px auto 60px;
-    height: 30px;
-}
-
-#searchbox-platform {
-    appearance: none;
-    -moz-appearance: none; /* Firefox */ 
-    -webkit-appearance: none; /* Safari and Chrome */
-
-    border-top-left-radius: 25px;
-    border-bottom-left-radius: 25px;
-
-    text-align-last: center;
-    padding: 0;
-    font-weight: 700;
-    background-color: white;
-    color:#24292e;
-}
-/* IE 기본 스타일 제거 */
-#searchbox-platform::-ms-expand{
-	display: none; /* IE 10, 11 */
-}
-
-#searchbox-platform option{
-    color:#24292e;
-}
-
-#searchbox-box {
-    box-sizing: border-box;
-    width:100%;
-    padding-left: 10px;
-    font-size: 1em;
-    font-weight: 700;
-}
-
-#searchbox-button {
-    border-top-right-radius: 25px;
-    border-bottom-right-radius: 25px;
-    
-    border-style: solid;
-    border-width: 1px;
-    padding: 0;
-
-    font-size: 1em;
-    font-weight: 700;
-    background-color: white;
-    color:#24292e;
-}
-
-#lang-select {
-    background-color: #00000000;
-    color: white;
-    border:none;
-    height: 80%;
-    margin-left: 10px;
-    text-align-last: right;
-}
-#lang-select option {
-    font-size: 1em;
-    background-color: #24292e;
-    color: white;
-}
-
-
-#user-content {
-    margin-top: 50px;
-    padding-bottom: 50px;
-    min-height: 90%;
-}
-
 /*******************************/
 #user-profile {
     display:grid;
@@ -335,9 +229,10 @@ body {
     background-color: rgb(222, 222, 222);
 }
 
-.fa {
+.fa-caret-down, .fa-caret-up {
     color: #0366d6;
     font-size: 1.6em;
+    cursor: pointer;
 }
 
 #user-games-body {
@@ -366,24 +261,4 @@ body {
 .user-games-icon {
     width: 50px;
     border-radius: 8px;
-}
-
-/* no user */
-#msg-text {
-    margin-top: 100px;
-    color: #24292e;
-    font-size:2em;
-    text-align: center;
-}
-
-/* Style the footer */
-#footer {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    text-align: center;
-    color: #24292e;
-
-
-    width:100%;
-    margin: 0;
 }

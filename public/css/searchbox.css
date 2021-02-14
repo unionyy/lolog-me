@@ -1,0 +1,42 @@
+#searchbox-platform {
+    appearance: none;
+    -moz-appearance: none; /* Firefox */ 
+    -webkit-appearance: none; /* Safari and Chrome */
+
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+
+    padding: 0;
+    text-align-last: center;
+    font-weight: 700;
+    background-color: white;
+    color:#24292e;
+}
+/* IE 기본 스타일 제거 */
+#searchbox-platform::-ms-expand{
+	display: none; /* IE 10, 11 */
+}
+
+#searchbox-platform option{
+    color:#24292e;
+}
+
+#searchbox-box {
+    box-sizing: border-box;
+    width:100%;
+    padding-left: 10px;
+    font-weight: 700;
+}
+
+#searchbox-button {
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    
+    border-style: solid;
+    border-width: 1px;
+    padding: 0;
+
+    font-weight: 700;
+    background-color: white;
+    color:#24292e;
+}
