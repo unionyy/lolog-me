@@ -1,12 +1,16 @@
 /*******************************/
+.in-box {
+    background-color: whitesmoke;
+    border: 1px solid rgb(222, 222, 222);
+    border-radius: 5px;
+}
+
 #user-profile {
     display:grid;
     grid-template-columns: auto 520px;
 
     overflow:hidden;
-    background-color:whitesmoke;
-    border-radius: 5px;
-    border: 1px solid rgb(222, 222, 222);
+
     padding: 30px;
     margin: 20px;
     margin-left: 0px;
@@ -117,6 +121,34 @@
 .text-CHALLENGER    {color:rgb(57, 174, 241);}
 .text-Unranked      {color:#7c7c7c;}
 
+#period-selector {
+    text-align: right;
+    font-size: 1.4em;
+    font-weight: 700;
+    color: #24292e;
+}
+
+#period-selector-end, #period-selector-begin {
+    font-size: 1em;
+    font-weight: 700;
+    color: #24292e;
+}
+
+#period-button {
+    font-size: 1em;
+
+    font-weight: 500;
+    color: #24292e;
+    cursor: pointer;
+    background-color: whitesmoke;
+    border: 1px solid rgb(222, 222, 222);
+    border-radius: 5px;
+}
+
+#period-button:hover {
+    background-color: rgb(222, 222, 222);
+}
+
 /*******************************/
 
 #user-graph {
@@ -127,7 +159,7 @@
     margin-left: 30px;
 
     display:grid;
-    grid-template-columns: 360px auto 510px;
+    grid-template-columns: 360px auto 570px;
 
 
 }
@@ -153,9 +185,6 @@
 #user-graph-svg {
     margin-top: 20px;
     
-    background-color: whitesmoke;
-    border: 1px solid rgb(222, 222, 222);
-    border-radius: 5px;
     padding-top: 10px;
     padding-bottom: 15px;
 
@@ -238,9 +267,6 @@
 #user-games-body {
     margin-top: 20px;
 
-    background-color: whitesmoke;
-    border: 1px solid rgb(222, 222, 222);
-    border-radius: 5px;
     padding-top: 30px;
     padding-bottom: 30px;
 }
