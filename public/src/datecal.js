@@ -28,6 +28,7 @@ $('a.user-games-game').each((i, elem) => {
             "data-count-nbg"  : 0,
             "data-count-tut"  : 0,
             "data-count-clash"  : 0,
+            "data-count-poro"  : 0,
             "data-count-etc"  : 0
         }
     }
