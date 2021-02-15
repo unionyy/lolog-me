@@ -51,5 +51,6 @@
 	"title_main": "LoL Graph - LoLog.me",
 	"description_main": "League of Legends History Graph, Summoner Information",
 	"keywords_main": "lol lolgraph lolog leagueoflegends histroygraph",
-	"description_user": ", Recent 1year League of Legends Play Graph"
+	"description_user": ", Recent 1year League of Legends Play Graph",
+	"show_on_riot": "Show on Riot Official Page"
 }

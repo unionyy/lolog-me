@@ -121,7 +121,7 @@ app.get(`/:platform/match/:matchId`, (req, res) => {
     next();
   }
 
-  res.send(template.HTMLmsg(res.__('not_support_yet'), res.__, req.cookies['platform-lologme']));
+  res.send(template.HTMLmatch(req.params.matchId, res.__, platform));
 });
 
 //Error Handling
