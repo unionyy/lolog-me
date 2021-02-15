@@ -46,5 +46,9 @@
 	"not_support_yet": "Sorry, Not Supported Yet...",
 	"lang_value": "en",
 	"lang_text": "English",
-	"rate_limit": "Too Many Requests"
+	"rate_limit": "Too Many Requests",
+	"title_main": "LoL Graph - LoLog.me",
+	"description_main": "League of Legends History Graph, Summoner Information",
+	"keywords_main": "lol lolgraph lolog leagueoflegends histroygraph",
+	"description_user": ", Recent 1year League of Legends Play Graph"
 }
