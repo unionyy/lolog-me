@@ -7,7 +7,8 @@ const port = 1028;
 const bodyParser = require('body-parser')
 const urlencode = require('urlencode');
 const sanitizedHtml = require('sanitize-html');
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
+const rateLimit = require("express-rate-limit");
 const path = require('path')
 const { I18n } = require('i18n')
 const i18n = new I18n({
@@ -15,6 +16,13 @@ const i18n = new I18n({
   cookie: 'lang-lologme',
   directory: path.join(__dirname, 'locales')
 })
+
+const apiLimiter = rateLimit({
+  windowMs: 5 * 1000, // 10 sec
+  max: 5,
+  message:
+    "요청이 너무 많습니다. 잠시 뒤에 다시 시도하세요."
+});
 
 const template = require('./lib/template.js');
 const riot = require('./lib/riot.js');
@@ -31,6 +39,7 @@ function NormalizeName(name) {
 
 app.use(cookieParser());
 app.use(i18n.init);
+app.use("/:platform/user/", apiLimiter);
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
