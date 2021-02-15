@@ -17,13 +17,6 @@ const i18n = new I18n({
   directory: path.join(__dirname, 'locales')
 })
 
-const apiLimiter = rateLimit({
-  windowMs: 5 * 1000, // 10 sec
-  max: 5,
-  message:
-    "요청이 너무 많습니다. 잠시 뒤에 다시 시도하세요."
-});
-
 const template = require('./lib/template.js');
 const riot = require('./lib/riot.js');
 const { nextTick } = require('process');
@@ -39,7 +32,6 @@ function NormalizeName(name) {
 
 app.use(cookieParser());
 app.use(i18n.init);
-app.use("/:platform/user/", apiLimiter);
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -82,7 +74,17 @@ app.get(`/update`, (req, res) => {
   })
 });
 
-app.get(`/:platform/user/:userName`, (req, res, next) => {
+const apiLimiter = rateLimit({
+  windowMs: 5 * 1000,
+  max: 3,
+  handler: function  (req, res, next) {
+    /** empty */
+  },
+  onLimitReached: function (req, res, options) {
+    res.status(options.statusCode).send(template.HTMLmsg(res.__('rate_limit'), res.__, req.cookies['platform-lologme']));
+  }
+});
+app.get(`/:platform/user/:userName`,apiLimiter, (req, res, next) => {
   var platform = urlencode.decode(req.params.platform);
   var begin = req.query.begin;
   var end = req.query.end;

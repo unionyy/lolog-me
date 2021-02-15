@@ -45,5 +45,6 @@
 	"icon_clash": "격전",
 	"not_support_yet": "아직 지원하지 않는 기능입니다... ㅠ",
 	"lang_value": "ko",
-	"lang_text": "한국어"
+	"lang_text": "한국어",
+	"rate_limit": "요청이 너무 많습니다. 잠시 후에 다시 시도해주세요."
 }

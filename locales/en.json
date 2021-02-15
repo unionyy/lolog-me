@@ -45,5 +45,6 @@
 	"icon_clash": "Clash",
 	"not_support_yet": "Sorry, Not Supported Yet...",
 	"lang_value": "en",
-	"lang_text": "English"
+	"lang_text": "English",
+	"rate_limit": "Too Many Requests"
 }
