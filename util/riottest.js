@@ -25,9 +25,13 @@ var totalGolds = [];
 var currentGolds = [];
 var index = [];
 riotApi.SummonerV4.byName('hideonbush', 'kr').then(data => {
+    console.log(data);
     riotApi.GeneralReq.Query('/lol/match/v4/matchlists/by-account/', data.json.accountId, {beginIndex: 1100}, 'kr').then(rev => {
         var matches = rev.json.matches
-
+        
+        // riotApi.GeneralReq.Query('/lol/match/v4/matches/', matches[20].gameId, {}, 'kr').then(rrev => {
+        //     console.log(rrev.json.participants[7].timeline);
+        // })
         riotApi.GeneralReq.Query('/lol/match/v4/timelines/by-match/', matches[20].gameId, {}, 'kr').then(rrev => {
             for(i in rrev.json.frames) {
                 var elem = rrev.json.frames[i];
@@ -36,7 +40,7 @@ riotApi.SummonerV4.byName('hideonbush', 'kr').then(data => {
                 currentGolds.push(elem.participantFrames['5'].currentGold);
             }
 
-            console.log(totalGolds, currentGolds, index)
+            console.log(rrev.json.frames[10].participantFrames['4'])
         })
     })
 });

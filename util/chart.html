@@ -3,7 +3,8 @@
     <head>
         <title>차트테스트</title>
         <meta charset="utf-8">
-        <script src="https://cdn.jsdelivr.net/npm/frappe-charts@1.2.4/dist/frappe-charts.min.iife.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/frappe-charts@1.5.6/dist/frappe-charts.min.iife.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
         <style>
             #chart {
@@ -13,7 +14,7 @@
         
     </head>
     <body>
-        <div id="chart"></div>
+        <div id="chart" style="width: 800px; height: 400px;"></div>
         <script>
             const data = {
                 labels: [
@@ -105,9 +106,14 @@
                 //colors: ['#7cd6fd', '#743ee2', ],
                 lineOptions: {
                     hideDots: 1, // default: 0
-                    regionFill: 1 // default: 0
+                    regionFill: 1, // default: 0
                 },
             })
+
+            function Hide() {
+                $('.dataset-3').attr('display', 'none');
+            }
         </script>
+        <button onclick="Hide()">button</button>
     </body>
 </html>
