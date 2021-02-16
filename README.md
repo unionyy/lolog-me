@@ -8,3 +8,4 @@
 * Champion count
 * Await gamesearch
 * Avoid Same requests
+* Multi Insert DB
