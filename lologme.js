@@ -114,15 +114,15 @@ app.get(`/:platform/user/:userName`,apiLimiter, (req, res, next) => {
   })
 });
 
-app.get(`/:platform/match/:matchId`, (req, res) => {
-  var platform = urlencode.decode(req.params.platform);
+// app.get(`/:platform/match/:matchId`, (req, res) => {
+//   var platform = urlencode.decode(req.params.platform);
   
-  if(PLATFORM_MY[platform] === undefined) {
-    next();
-  }
+//   if(PLATFORM_MY[platform] === undefined) {
+//     next();
+//   }
 
-  res.send(template.HTMLmatch(req.params.matchId, res.__, platform));
-});
+//   res.send(template.HTMLmatch(req.params.matchId, res.__, platform));
+// });
 
 //Error Handling
 app.use(function (err, req, res, next) {
