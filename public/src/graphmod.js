@@ -143,6 +143,14 @@ Change = function (_init, __game_count) {
 
 function UpdateChart(__game_count) {
     var champs = {};
+    var lanes = {
+        NONE: 0,
+        TOP: 0,
+        JUNGLE: 0,
+        MIDDLE: 0,
+        BOTTOM: 0,
+        SUPPORT: 0
+    }
     $(`a.user-games-game[style="display: inline-block;"]`).each((i, elem) => {
         var id = $(elem).attr('champid');
         if(!champs[id]) {
@@ -150,6 +158,9 @@ function UpdateChart(__game_count) {
         } else {
             champs[id]++;
         }
+
+        var lane = $(elem).attr('lane');
+        lanes[lane]++;
     });
 
     var labels = [];
@@ -178,9 +189,33 @@ function UpdateChart(__game_count) {
             formatTooltipX: d => d,
             formatTooltipY: d => d + __game_count,
         },
-        
-        
     })
 
-    //$('#charts-champ').text(`${champStr}`);
+    var labelsLane = [];
+    var valuesLane = [];
+    for(elem in lanes) {
+        labelsLane.push(elem);
+        valuesLane.push(lanes[elem]);
+    }
+
+    const dataLane = {
+        labels: labelsLane,
+        datasets: [
+            {
+                values: valuesLane
+            }
+        ]
+    }
+
+    const chartLane = new frappe.Chart("#charts-lane", {
+        title: "Lane",
+        data: dataLane,
+        type: 'donut',
+        height: 300,
+        maxSlices: 12,
+        tooltipOptions: {
+            formatTooltipX: d => d,
+            formatTooltipY: d => d + __game_count,
+        },
+    })
 }
