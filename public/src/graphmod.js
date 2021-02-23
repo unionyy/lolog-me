@@ -144,12 +144,12 @@ Change = function (_init, __game_count) {
 function UpdateChart(__game_count) {
     var champs = {};
     var lanes = {
-        NONE: 0,
         TOP: 0,
         JUNGLE: 0,
         MIDDLE: 0,
         BOTTOM: 0,
-        SUPPORT: 0
+        SUPPORT: 0,
+        NONE: 0
     }
     $(`a.user-games-game[style="display: inline-block;"]`).each((i, elem) => {
         var id = $(elem).attr('champid');
