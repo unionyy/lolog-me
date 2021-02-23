@@ -37,7 +37,7 @@ Change = function (_init, __game_count) {
     }
 
     /** Update Charts */
-    UpdateChart();
+    UpdateChart(__game_count);
     
 
     var totalplay = 0;
@@ -141,7 +141,7 @@ Change = function (_init, __game_count) {
     }
 }
 
-function UpdateChart() {
+function UpdateChart(__game_count) {
     var champs = {};
     $(`a.user-games-game[style="display: inline-block;"]`).each((i, elem) => {
         var id = $(elem).attr('champid');
@@ -152,13 +152,35 @@ function UpdateChart() {
         }
     });
 
-    var champStr = '';
-
+    var labels = [];
+    var values = [];
     for(elem in champs) {
-        champStr += elem + ': ';
-        champStr += champs[elem];
-        champStr += '\n';
+        labels.push(elem);
+        values.push(champs[elem]);
     }
 
-    $('#charts-champ').text(`${champStr}`);
+    const data = {
+        labels: labels,
+        datasets: [
+            {
+                values: values
+            }
+        ]
+    }
+
+    const chart = new frappe.Chart("#charts-champ", {
+        title: "Champ",
+        data: data,
+        type: 'donut',
+        height: 300,
+        maxSlices: 12,
+        tooltipOptions: {
+            formatTooltipX: d => d,
+            formatTooltipY: d => d + __game_count,
+        },
+        
+        
+    })
+
+    //$('#charts-champ').text(`${champStr}`);
 }
