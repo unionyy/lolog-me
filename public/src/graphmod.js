@@ -149,6 +149,7 @@ function UpdateChart(__game_count) {
         MIDDLE: 0,
         BOTTOM: 0,
         SUPPORT: 0,
+        UNKNOWN: 0,
         NONE: 0
     }
     $(`a.user-games-game[style="display: inline-block;"]`).each((i, elem) => {
