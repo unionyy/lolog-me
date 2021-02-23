@@ -35,6 +35,9 @@ Change = function (_init, __game_count) {
             $(`a.log-${date}[gametype='${elem}']`).css('display', 'inline-block');
         }
     }
+
+    /** Update Charts */
+    UpdateChart();
     
 
     var totalplay = 0;
@@ -136,4 +139,26 @@ Change = function (_init, __game_count) {
         $('#user-games-number').text(`${dateplay}${__game_count}`);
         $('#user-games-period').text(` (${date})`);
     }
+}
+
+function UpdateChart() {
+    var champs = {};
+    $(`a.user-games-game[style="display: inline-block;"]`).each((i, elem) => {
+        var id = $(elem).attr('champid');
+        if(!champs[id]) {
+            champs[id] = 1;
+        } else {
+            champs[id]++;
+        }
+    });
+
+    var champStr = '';
+
+    for(elem in champs) {
+        champStr += elem + ': ';
+        champStr += champs[elem];
+        champStr += '\n';
+    }
+
+    $('#charts-champ').text(`${champStr}`);
 }
