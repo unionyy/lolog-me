@@ -5,7 +5,7 @@
         <meta charset="utf-8">
         <script src="https://cdn.jsdelivr.net/npm/frappe-charts@1.5.6/dist/frappe-charts.min.iife.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4"></script>
         <style>
             #chart {
                 width: 1000px;
@@ -14,48 +14,75 @@
         
     </head>
     <body>
-        <div id="chart" style="width: 800px; height: 400px;"></div>
+        <canvas id="myChart"></canvas>
+        <!-- <div id="chart" style="width: 800px; height: 400px;"></div> -->
         <script>
-            const data = {
-                labels: [
-                        '0min',  '1min',  '2min',  '3min',
-                        '4min',  '5min',  '6min',  '7min',
-                        '8min',  '9min',  '10min', '11min',
-                        '12min', '13min', '14min', '15min',
-                        '16min', '17min', '18min', '19min',
-                        '20min', '21min', '22min', '23min',
-                        '24min', '25min', '26min', '27min',
-                        '28min', '29min', '30min', '31min',
-                        '32min', '33min'
-                        ],
-                datasets: [
-                    {
-                        name: "Current Gold1",
-                        values: [
-                                500,    0,   21, 199,  564,  275, 510,
-                                340,  671,  549, 868,   66,   78, 410,
-                                701,  971,  231, 646,  811, 1241,  99,
-                                146,  712,  140, 485,  483,  711, 237,
-                                410, 1089, 1460, 875, 1171,  673
-                                ]
-                    }
-                ]
-            }
+            // const data = {
+            //     labels: [
+            //             '0min',  '1min',  '2min',  '3min',
+            //             '4min',  '5min',  '6min',  '7min',
+            //             '8min',  '9min',  '10min', '11min',
+            //             '12min', '13min', '14min', '15min',
+            //             '16min', '17min', '18min', '19min',
+            //             '20min', '21min', '22min', '23min',
+            //             '24min', '25min', '26min', '27min',
+            //             '28min', '29min', '30min', '31min',
+            //             '32min', '33min'
+            //             ],
+            //     datasets: [
+            //         {
+            //             name: "Current Gold1",
+            //             values: [
+            //                     500,    0,   21, 199,  564,  275, 510,
+            //                     340,  671,  549, 868,   66,   78, 410,
+            //                     701,  971,  231, 646,  811, 1241,  99,
+            //                     146,  712,  140, 485,  483,  711, 237,
+            //                     410, 1089, 1460, 875, 1171,  673
+            //                     ]
+            //         }
+            //     ]
+            // }
 
-            const chart = new frappe.Chart("#chart", {  // or a DOM element,
-                                                        // new Chart() in case of ES6 module with above usage
-                title: "Gold",
-                data: data,
-                type: 'donut', // or 'bar', 'line', 'scatter', 'pie', 'percentage'
-                height: 250,
-                maxSlices: 7,
-                //colors: ['#7cd6fd', '#743ee2', ],
-            })
+            // const chart = new frappe.Chart("#chart", {  // or a DOM element,
+            //                                             // new Chart() in case of ES6 module with above usage
+            //     title: "Gold",
+            //     data: data,
+            //     type: 'donut', // or 'bar', 'line', 'scatter', 'pie', 'percentage'
+            //     height: 250,
+            //     maxSlices: 7,
+            //     //colors: ['#7cd6fd', '#743ee2', ],
+            // })
 
-            function Hide() {
-                $('.dataset-3').attr('display', 'none');
-            }
+            // function Hide() {
+            //     $('.dataset-3').attr('display', 'none');
+            // }
+
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var chart = new Chart(ctx, {
+                // The type of chart we want to create
+                type: 'doughnut',
+
+                // The data for our dataset
+                data: {
+                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                    datasets: [{
+                        label: 'My First dataset',
+                        // backgroundColor: 'rgb(255, 99, 132)',
+                        // borderColor: 'rgb(255, 99, 132)',
+                        data: [0, 10, 5, 2, 20, 30, 45],
+                        backgroundColor: [
+                            pattern.draw('square', '#ff6384'),
+                            pattern.draw('circle', '#36a2eb'),
+                            pattern.draw('diamond', '#cc65fe'),
+                            pattern.draw('triangle', '#ffce56')
+                        ]
+                    }]
+                },
+
+                // Configuration options go here
+                options: {}
+            });
         </script>
-        <button onclick="Hide()">button</button>
+        <!-- <button onclick="Hide()">button</button> -->
     </body>
 </html>
