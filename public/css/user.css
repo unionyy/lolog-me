@@ -214,6 +214,16 @@
 }
 
 /* Games */
+#charts {
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+#charts-lane {
+}
+#charts-champ {
+}
+
 #user-games {
     margin-top: 50px;
 
