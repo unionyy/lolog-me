@@ -72,8 +72,6 @@
         font-size:1.2em;
         fill:#40c463;
     }
-
-
 }
 
 @media only screen and (max-width: 550px){
@@ -114,6 +112,11 @@
     }
 
     /********/
+
+    #charts {
+        grid-template-columns: 300px 300px;
+        overflow:auto;
+    }
 
     #user-games-number {font-size: 1.2em;}
     #user-games-period {font-size: 1em;}

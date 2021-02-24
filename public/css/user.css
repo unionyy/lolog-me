@@ -218,6 +218,11 @@
     display: grid;
     grid-template-columns: 50% 50%;
     height: 300px;
+    text-align: center;
+}
+
+#charts-champ, #charts-lane {
+    margin: auto
 }
 
 #user-games {

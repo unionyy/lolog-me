@@ -188,9 +188,16 @@ function UpdatePositionChart(__game_count) {
         var data = google.visualization.arrayToDataTable(positionTable);
 
         var options = {
-          //title: 'Position',
-          pieHole: 0.5,
-          sliceVisibilityThreshold: 0.01
+            pieHole: 0.41,
+            chartArea: {
+                width: 200,
+                height: 200
+            },
+            width: 300,
+            height: 300,
+            pieSliceText: 'label',
+            legend: 'none',
+            sliceVisibilityThreshold: 0.01
         };
 
         var chart = new google.visualization.PieChart(document.getElementById('charts-lane'));
@@ -237,8 +244,15 @@ function UpdateChampChart(__game_count) {
         var data = google.visualization.arrayToDataTable(champTable);
 
         var options = {
-          //title: 'Position',
-          pieHole: 0.5,
+            pieHole: 0.41,
+            chartArea: {
+              width: 200,
+              height: 200
+            },
+            width: 300,
+            height: 300,
+            pieSliceText: 'label',
+            legend: 'none',
           sliceVisibilityThreshold: 0.01
         };
 
