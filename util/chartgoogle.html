@@ -27,6 +27,14 @@
         var chart = new google.visualization.PieChart(document.getElementById('piechart'));
 
         chart.draw(data, options);
+
+        // Every time the table fires the "select" event, it should call your
+        // selectHandler() function.
+        google.visualization.events.addListener(chart, 'select', selectHandler);
+
+        function selectHandler(e) {
+          console.log(data.getValue(chart.getSelection()[0].row, 0));
+        }
       }
     </script>
         
