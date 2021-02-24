@@ -1,12 +1,32 @@
 const TYPES = ['solo', 'flex', 'norm', 'aram', 'urf', 'ai'];
 const ETC = ['ofa', 'nbg', 'tut', 'clash', 'poro', 'etc'];
 
-Change = function (_init, __game_count) {
-    // Get date
-    var date = $('#user-games-refresh').attr('date');
-    // Get types
-    var types = [];
+UpdateLog = function (_types, _date, _position, _champion) {
+    /** Clear Logs */
+    $(`a.user-games-game`).css('display', 'none');
 
+    var queryStr ='';
+    if(_position !== 'ALL') {
+        queryStr += `[lane='${_position}']`
+    }
+    if(_champion !== 'ALL') {
+        queryStr += `[champid='${_champion}']`
+    }
+
+    /** Display Logs */
+    if(_date === 'all') {
+        for (var elem of _types) {
+            $(`a.user-games-game[gametype='${elem}']${queryStr}`).css('display', 'inline-block');
+        }
+    } else {
+        for (var elem of _types) {
+            $(`a.log-${_date}[gametype='${elem}']${queryStr}`).css('display', 'inline-block');
+        }
+    }
+}
+
+GetTypes = function() {
+    var types = [];
     /** Type Check */
     const $typecheck = $('#type-check');
     for(var elem of TYPES) {
@@ -22,22 +42,21 @@ Change = function (_init, __game_count) {
         }
     }
 
-    /** Clear Logs */
-    $(`a.user-games-game`).css('display', 'none');
+    return types
+}
 
-    /** Display Logs */
-    if(date === 'all') {
-        for (var elem of types) {
-            $(`a.user-games-game[gametype='${elem}']`).css('display', 'inline-block');
-        }
-    } else {
-        for (var elem of types) {
-            $(`a.log-${date}[gametype='${elem}']`).css('display', 'inline-block');
-        }
-    }
+Change = function (_init, __game_count) {
+    // Get date
+    var date = $('#user-games-refresh').attr('date');
+    // Get types
+    var types = GetTypes();
+
+    /** Update Logs */
+    UpdateLog(types, date, 'ALL', 'ALL');
 
     /** Update Charts */
-    UpdateChart(__game_count);
+    UpdatePositionChart(__game_count);
+    UpdateChampChart(__game_count);
     
 
     var totalplay = 0;
@@ -141,9 +160,8 @@ Change = function (_init, __game_count) {
     }
 }
 
-function UpdateChart(__game_count) {
-    var champs = {};
-    var lanes = {
+function UpdatePositionChart(__game_count) {
+    var positions = {
         TOP: 0,
         JUNGLE: 0,
         MIDDLE: 0,
@@ -153,15 +171,55 @@ function UpdateChart(__game_count) {
         NONE: 0
     }
     $(`a.user-games-game[style="display: inline-block;"]`).each((i, elem) => {
+        var position = $(elem).attr('lane');
+        positions[position]++;
+    });
+
+    var positionTable = [['Position', __game_count]];
+    for(elem in positions) {
+        positionTable.push([elem, positions[elem]]);
+    }
+
+    google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+
+        var data = google.visualization.arrayToDataTable(positionTable);
+
+        var options = {
+          //title: 'Position',
+          pieHole: 0.5,
+          sliceVisibilityThreshold: 0.01
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('charts-lane'));
+        
+        chart.draw(data, options);
+
+        google.visualization.events.addListener(chart, 'select', selectHandler);
+
+        function selectHandler(e) {
+          var position = 'ALL';
+          if(chart.getSelection()[0]) {
+            position = data.getValue(chart.getSelection()[0].row, 0);
+          }
+          UpdateLog(GetTypes(), $('#user-games-refresh').attr('date'),
+            position, 'ALL');
+          UpdateChampChart(__game_count);
+        }
+      }
+}
+
+function UpdateChampChart(__game_count) {
+    var champs = {};
+    $(`a.user-games-game[style="display: inline-block;"]`).each((i, elem) => {
         var id = $(elem).attr('champid');
         if(!champs[id]) {
             champs[id] = 1;
         } else {
             champs[id]++;
         }
-
-        var lane = $(elem).attr('lane');
-        lanes[lane]++;
     });
 
     var champTable = [['Champion', __game_count]];
@@ -172,18 +230,11 @@ function UpdateChart(__game_count) {
         return b[1] - a[1];
     })
 
-    var positionTable = [['Position', __game_count]];
-    for(elem in lanes) {
-        positionTable.push([elem, lanes[elem]]);
-    }
-
     google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChart);
+    google.charts.setOnLoadCallback(drawChart);
 
-      function drawChart() {
-
-        var data = google.visualization.arrayToDataTable(positionTable);
-        var dataC = google.visualization.arrayToDataTable(champTable);
+    function drawChart() {
+        var data = google.visualization.arrayToDataTable(champTable);
 
         var options = {
           //title: 'Position',
@@ -191,10 +242,19 @@ function UpdateChart(__game_count) {
           sliceVisibilityThreshold: 0.01
         };
 
-        var chart = new google.visualization.PieChart(document.getElementById('charts-lane'));
-        var chartC = new google.visualization.PieChart(document.getElementById('charts-champ'));
+        var chart = new google.visualization.PieChart(document.getElementById('charts-champ'));
 
         chart.draw(data, options);
-        chartC.draw(dataC, options);
+
+        google.visualization.events.addListener(chart, 'select', selectHandler);
+
+        function selectHandler(e) {
+          var champ = 'ALL';
+          if(chart.getSelection()[0]) {
+            champ = data.getValue(chart.getSelection()[0].row, 0);
+          }
+          UpdateLog(GetTypes(), $('#user-games-refresh').attr('date'),
+            'ALL', champ);
+        }
       }
 }
