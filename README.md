@@ -4,6 +4,7 @@
 * Show Match
 * Show Recent or Log
 * Image Inside a Chart
+* Chart for mobile
 
 
 * Multi-Search => ok
