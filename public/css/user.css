@@ -215,6 +215,7 @@
 
 /* Games */
 #charts {
+    margin-top: 30px;
     display: grid;
     grid-template-columns: 50% 50%;
     height: 300px;

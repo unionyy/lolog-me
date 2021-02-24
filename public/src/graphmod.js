@@ -190,14 +190,15 @@ function UpdatePositionChart(__game_count) {
         var options = {
             pieHole: 0.41,
             chartArea: {
-                width: 200,
-                height: 200
+                width: 180,
+                height: 180
             },
             width: 300,
             height: 300,
             pieSliceText: 'label',
             legend: 'none',
-            sliceVisibilityThreshold: 0.01
+            sliceVisibilityThreshold: 0.01,
+            backgroundColor: 'whitesmoke'
         };
 
         var chart = new google.visualization.PieChart(document.getElementById('charts-lane'));
@@ -246,14 +247,15 @@ function UpdateChampChart(__game_count) {
         var options = {
             pieHole: 0.41,
             chartArea: {
-              width: 200,
-              height: 200
+              width: 180,
+              height: 180
             },
             width: 300,
             height: 300,
             pieSliceText: 'label',
             legend: 'none',
-          sliceVisibilityThreshold: 0.01
+          sliceVisibilityThreshold: 0.01,
+          backgroundColor: 'whitesmoke'
         };
 
         var chart = new google.visualization.PieChart(document.getElementById('charts-champ'));
