@@ -188,7 +188,7 @@ function UpdatePositionChart(__game_count) {
         var data = google.visualization.arrayToDataTable(positionTable);
 
         var options = {
-            pieHole: 0.41,
+            pieHole: 0.45,
             chartArea: {
                 width: 180,
                 height: 180
@@ -236,7 +236,13 @@ function UpdateChampChart(__game_count) {
     }
     champTable = champTable.sort((a, b) => {
         return b[1] - a[1];
-    })
+    });
+    if(champTable[1]) {
+        var imgSrc = $('#charts-champ-img').attr('srcuri');
+        imgSrc += `/img/champion/${champTable[1][0]}.png`;
+        $('#charts-champ-img').attr('src', imgSrc);
+    }
+    
 
     google.charts.load('current', {'packages':['corechart']});
     google.charts.setOnLoadCallback(drawChart);
@@ -245,7 +251,7 @@ function UpdateChampChart(__game_count) {
         var data = google.visualization.arrayToDataTable(champTable);
 
         var options = {
-            pieHole: 0.41,
+            pieHole: 0.45,
             chartArea: {
               width: 180,
               height: 180

@@ -222,8 +222,18 @@
     text-align: center;
 }
 
-#charts-champ, #charts-lane {
-    margin: auto
+#charts-champ-wrapper, #charts-lane-wrapper {
+    position: relative;
+    margin: auto;
+}
+
+#charts-champ-img {
+    position: absolute;
+    top: 110px;
+    left:110px;
+    height: 80px;
+    width: 80px;
+    border-radius: 40px;
 }
 
 #user-games {
