@@ -164,59 +164,37 @@ function UpdateChart(__game_count) {
         lanes[lane]++;
     });
 
-    var labels = [];
-    var values = [];
+    var champTable = [['Champion', __game_count]];
     for(elem in champs) {
-        labels.push(elem);
-        values.push(champs[elem]);
+        champTable.push([elem, champs[elem]]);
     }
-
-    const data = {
-        labels: labels,
-        datasets: [
-            {
-                values: values
-            }
-        ]
-    }
-
-    const chart = new frappe.Chart("#charts-champ", {
-        title: "Champ",
-        data: data,
-        type: 'donut',
-        height: 300,
-        maxSlices: 12,
-        tooltipOptions: {
-            formatTooltipX: d => d,
-            formatTooltipY: d => d + __game_count,
-        },
+    champTable = champTable.sort((a, b) => {
+        return b[1] - a[1];
     })
 
-    var labelsLane = [];
-    var valuesLane = [];
+    var positionTable = [['Position', __game_count]];
     for(elem in lanes) {
-        labelsLane.push(elem);
-        valuesLane.push(lanes[elem]);
+        positionTable.push([elem, lanes[elem]]);
     }
 
-    const dataLane = {
-        labels: labelsLane,
-        datasets: [
-            {
-                values: valuesLane
-            }
-        ]
-    }
+    google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
 
-    const chartLane = new frappe.Chart("#charts-lane", {
-        title: "Lane",
-        data: dataLane,
-        type: 'donut',
-        height: 300,
-        maxSlices: 12,
-        tooltipOptions: {
-            formatTooltipX: d => d,
-            formatTooltipY: d => d + __game_count,
-        },
-    })
+      function drawChart() {
+
+        var data = google.visualization.arrayToDataTable(positionTable);
+        var dataC = google.visualization.arrayToDataTable(champTable);
+
+        var options = {
+          //title: 'Position',
+          pieHole: 0.5,
+          sliceVisibilityThreshold: 0.01
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('charts-lane'));
+        var chartC = new google.visualization.PieChart(document.getElementById('charts-champ'));
+
+        chart.draw(data, options);
+        chartC.draw(dataC, options);
+      }
 }
