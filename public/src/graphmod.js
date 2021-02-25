@@ -1,6 +1,25 @@
 const TYPES = ['solo', 'flex', 'norm', 'aram', 'urf', 'ai'];
 const ETC = ['ofa', 'nbg', 'tut', 'clash', 'poro', 'etc'];
 
+const chartOptions = {
+    pieHole: 0.45,
+    chartArea: {
+      width: 400,
+      height: 180
+    },
+    width: 400,
+    height: 200,
+    pieSliceText: 'value',
+    legend: 'labeled',
+    sliceVisibilityThreshold: 0.01,
+    backgroundColor: 'whitesmoke',
+    colors:['#38b259','#9be9a8'],
+    tooltip: {
+        ignoreBounds: true,
+        isHtml: true
+    }
+};
+
 UpdateLog = function (_types, _date, _position, _champion) {
     /** Clear Logs */
     $(`a.user-games-game`).css('display', 'none');
@@ -195,24 +214,9 @@ function UpdatePositionChart(__game_count) {
 
         var data = google.visualization.arrayToDataTable(positionTable);
 
-        var options = {
-            pieHole: 0.45,
-            chartArea: {
-                width: 180,
-                height: 180
-            },
-            width: 300,
-            height: 300,
-            pieSliceText: 'label',
-            legend: 'none',
-            sliceVisibilityThreshold: 0.01,
-            backgroundColor: 'whitesmoke',
-            colors:['#38b259','#9be9a8']
-        };
-
         var chart = new google.visualization.PieChart(document.getElementById('charts-lane'));
         
-        chart.draw(data, options);
+        chart.draw(data, chartOptions);
 
         google.visualization.events.addListener(chart, 'select', selectHandler);
 
@@ -241,22 +245,25 @@ function UpdateChampChart(__game_count) {
     $(`a.user-games-game[style="display: inline-block;"]`).each((i, elem) => {
         var id = $(elem).attr('champid');
         if(!champs[id]) {
-            champs[id] = 1;
+            champs[id] = {
+                count: 1,
+                name: $(elem).attr('champname')
+            };
         } else {
-            champs[id]++;
+            champs[id].count++;
         }
     });
 
-    var champTable = [['Champion', __game_count]];
+    var champTable = [['Champion', __game_count, 'id']];
     for(elem in champs) {
-        champTable.push([elem, champs[elem]]);
+        champTable.push([champs[elem].name, champs[elem].count, elem]);
     }
     champTable = champTable.sort((a, b) => {
         return b[1] - a[1];
     });
     if(champTable[1]) {
         var imgSrc = $('#charts-champ-img').attr('srcuri');
-        imgSrc += `/img/champion/${champTable[1][0]}.png`;
+        imgSrc += `/img/champion/${champTable[1][2]}.png`;
         $('#charts-champ-img').attr('src', imgSrc);
     }
     
@@ -267,38 +274,23 @@ function UpdateChampChart(__game_count) {
     function drawChart() {
         var data = google.visualization.arrayToDataTable(champTable);
 
-        var options = {
-            pieHole: 0.45,
-            chartArea: {
-              width: 180,
-              height: 180
-            },
-            width: 300,
-            height: 300,
-            pieSliceText: 'label',
-            legend: 'none',
-          sliceVisibilityThreshold: 0.01,
-          backgroundColor: 'whitesmoke',
-          colors:['#38b259','#9be9a8']
-        };
-
         var chart = new google.visualization.PieChart(document.getElementById('charts-champ'));
 
-        chart.draw(data, options);
+        chart.draw(data, chartOptions);
 
         google.visualization.events.addListener(chart, 'select', selectHandler);
 
         function selectHandler(e) {
           var champ = 'ALL';
           if(chart.getSelection()[0]) {
-            champ = data.getValue(chart.getSelection()[0].row, 0);
+            champ = data.getValue(chart.getSelection()[0].row, 2);
             var imgSrc = $('#charts-champ-img').attr('srcuri');
             imgSrc += `/img/champion/${champ}.png`;
             $('#charts-champ-img').attr('src', imgSrc);
           } else {
             if(champTable[1]) {
                 var imgSrc = $('#charts-champ-img').attr('srcuri');
-                imgSrc += `/img/champion/${champTable[1][0]}.png`;
+                imgSrc += `/img/champion/${champTable[1][2]}.png`;
                 $('#charts-champ-img').attr('src', imgSrc);
             }
           }
