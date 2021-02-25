@@ -75,8 +75,8 @@ app.get(`/update`, (req, res) => {
 });
 
 const apiLimiter = rateLimit({
-  windowMs: 5 * 1000,
-  max: 3,
+  windowMs: 10 * 1000,
+  max: 10,
   handler: function  (req, res, next) {
     /** empty */
   },
