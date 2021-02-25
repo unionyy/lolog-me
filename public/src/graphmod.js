@@ -1,6 +1,13 @@
 const TYPES = ['solo', 'flex', 'norm', 'aram', 'urf', 'ai'];
 const ETC = ['ofa', 'nbg', 'tut', 'clash', 'poro', 'etc'];
 
+var typesG;
+var dateG;
+var positionG;
+var championG;
+
+var gameCount;
+
 const chartOptions = {
     pieHole: 0.45,
     chartArea: {
@@ -21,6 +28,16 @@ const chartOptions = {
 };
 
 UpdateLog = function (_types, _date, _position, _champion) {
+    /** Set / Get Global Variable */
+    if(_types === 'NOT') _types = typesG;
+    else typesG = _types;
+    if(_date === 'NOT') _date = dateG;
+    else dateG = _date;
+    if(_position === 'NOT') _position = positionG;
+    else positionG = _position;
+    if(_champion === 'NOT') _champion = championG;
+    else championG = _champion;
+
     /** Clear Logs */
     $(`a.user-games-game`).css('display', 'none');
 
@@ -33,14 +50,25 @@ UpdateLog = function (_types, _date, _position, _champion) {
     }
 
     /** Display Logs */
+    var count = 0;
     if(_date === 'all') {
         for (var elem of _types) {
+            count += $(`a.user-games-game[gametype='${elem}']${queryStr}`).length;
             $(`a.user-games-game[gametype='${elem}']${queryStr}`).css('display', 'inline-block');
         }
     } else {
         for (var elem of _types) {
+            count += $(`a.log-${_date}[gametype='${elem}']${queryStr}`).length
             $(`a.log-${_date}[gametype='${elem}']${queryStr}`).css('display', 'inline-block');
         }
+    }
+
+    /** Print Count */
+    $('#user-games-number').text(` ${count}${gameCount}`);
+    if (_date === 'all' && _position === 'ALL' && _champion === 'ALL') {
+        $('#user-games-refresh').css('display', 'none');
+    } else {
+        $('#user-games-refresh').css('display', 'inline');
     }
 }
 
@@ -65,6 +93,7 @@ GetTypes = function() {
 }
 
 Change = function (_init, __game_count) {
+    gameCount = __game_count;
     // Get date
     var date = $('#user-games-refresh').attr('date');
     // Get types
@@ -168,15 +197,15 @@ Change = function (_init, __game_count) {
     });
     $('#username-total').text(`${totalplay}${__game_count} `);
 
-    if(date === 'all') {
-        $('#user-games-number').text(` ${totalplay}${__game_count}`);
-        $('#user-games-period').text($('#username-period').text());
-        $('#user-games-refresh').css('display', 'none');
-    } else {
-        $('#user-games-refresh').css('display', 'inline');
-        $('#user-games-number').text(`${dateplay}${__game_count}`);
-        $('#user-games-period').text(` (${date})`);
-    }
+    // if(date === 'all') {
+    //     $('#user-games-number').text(` ${totalplay}${__game_count}`);
+    //     $('#user-games-period').text($('#username-period').text());
+    //     $('#user-games-refresh').css('display', 'none');
+    // } else {
+    //     $('#user-games-refresh').css('display', 'inline');
+    //     $('#user-games-number').text(`${dateplay}${__game_count}`);
+    //     $('#user-games-period').text(` (${date})`);
+    // }
 }
 
 function UpdatePositionChart(__game_count) {
@@ -232,7 +261,7 @@ function UpdatePositionChart(__game_count) {
                     $('#charts-lane-img').attr('src', imgSrc);
                 }
             }
-            UpdateLog(GetTypes(), $('#user-games-refresh').attr('date'),
+            UpdateLog('NOT', 'NOT',
                 position, 'ALL');
             UpdateChampChart(__game_count);
         }
@@ -294,8 +323,8 @@ function UpdateChampChart(__game_count) {
                 $('#charts-champ-img').attr('src', imgSrc);
             }
           }
-          UpdateLog(GetTypes(), $('#user-games-refresh').attr('date'),
-            'ALL', champ);
+          UpdateLog('NOT', 'NOT',
+            'NOT', champ);
         }
       }
 }
