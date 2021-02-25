@@ -206,7 +206,8 @@ function UpdatePositionChart(__game_count) {
             pieSliceText: 'label',
             legend: 'none',
             sliceVisibilityThreshold: 0.01,
-            backgroundColor: 'whitesmoke'
+            backgroundColor: 'whitesmoke',
+            colors:['#38b259','#9be9a8']
         };
 
         var chart = new google.visualization.PieChart(document.getElementById('charts-lane'));
@@ -277,7 +278,8 @@ function UpdateChampChart(__game_count) {
             pieSliceText: 'label',
             legend: 'none',
           sliceVisibilityThreshold: 0.01,
-          backgroundColor: 'whitesmoke'
+          backgroundColor: 'whitesmoke',
+          colors:['#38b259','#9be9a8']
         };
 
         var chart = new google.visualization.PieChart(document.getElementById('charts-champ'));
