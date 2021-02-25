@@ -231,10 +231,7 @@ function UpdatePositionChart(__game_count) {
     positionTable = positionTable.sort((a, b) => {
         return b[1] - a[1];
     });
-    if(positionTable[1] && positionTable[1][1] !== 0) {
-        var imgSrc = `/icon/Position_${positionTable[1][0]}.png`;
-        $('#charts-lane-img').attr('src', imgSrc);
-    }
+    
 
     google.charts.load('current', {'packages':['corechart']});
       google.charts.setOnLoadCallback(drawChart);
@@ -246,6 +243,11 @@ function UpdatePositionChart(__game_count) {
         var chart = new google.visualization.PieChart(document.getElementById('charts-lane'));
         
         chart.draw(data, chartOptions);
+
+        if(positionTable[1] && positionTable[1][1] !== 0) {
+            var imgSrc = `/icon/Position_${positionTable[1][0]}.png`;
+            $('#charts-lane-img').attr('src', imgSrc);
+        }
 
         google.visualization.events.addListener(chart, 'select', selectHandler);
 
@@ -261,8 +263,7 @@ function UpdatePositionChart(__game_count) {
                     $('#charts-lane-img').attr('src', imgSrc);
                 }
             }
-            UpdateLog('NOT', 'NOT',
-                position, 'ALL');
+            UpdateLog('NOT', 'NOT', position, 'ALL');
             UpdateChampChart(__game_count);
         }
     }
@@ -290,11 +291,7 @@ function UpdateChampChart(__game_count) {
     champTable = champTable.sort((a, b) => {
         return b[1] - a[1];
     });
-    if(champTable[1]) {
-        var imgSrc = $('#charts-champ-img').attr('srcuri');
-        imgSrc += `/img/champion/${champTable[1][2]}.png`;
-        $('#charts-champ-img').attr('src', imgSrc);
-    }
+    
     
 
     google.charts.load('current', {'packages':['corechart']});
@@ -306,6 +303,12 @@ function UpdateChampChart(__game_count) {
         var chart = new google.visualization.PieChart(document.getElementById('charts-champ'));
 
         chart.draw(data, chartOptions);
+
+        if(champTable[1]) {
+            var imgSrc = $('#charts-champ-img').attr('srcuri');
+            imgSrc += `/img/champion/${champTable[1][2]}.png`;
+            $('#charts-champ-img').attr('src', imgSrc);
+        }
 
         google.visualization.events.addListener(chart, 'select', selectHandler);
 
@@ -323,8 +326,7 @@ function UpdateChampChart(__game_count) {
                 $('#charts-champ-img').attr('src', imgSrc);
             }
           }
-          UpdateLog('NOT', 'NOT',
-            'NOT', champ);
+          UpdateLog('NOT', 'NOT', 'NOT', champ);
         }
       }
 }
