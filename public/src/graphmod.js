@@ -211,22 +211,19 @@ Change = function (_init, __game_count) {
 function UpdatePositionChart(__game_count) {
     $('#charts-lane-img').removeAttr('src');
     var positions = {
-        TOP: 0,
-        JUNGLE: 0,
-        MIDDLE: 0,
-        BOTTOM: 0,
-        SUPPORT: 0,
-        UNKNOWN: 0,
-        NONE: 0
+        
+    }
+    for(elem in LANG) {
+        positions[elem] = 0;
     }
     $(`a.user-games-game[style="display: inline-block;"]`).each((i, elem) => {
         var position = $(elem).attr('lane');
         positions[position]++;
     });
 
-    var positionTable = [['Position', __game_count]];
+    var positionTable = [['Position', __game_count, 'PositionId']];
     for(elem in positions) {
-        positionTable.push([elem, positions[elem]]);
+        positionTable.push([LANG[elem], positions[elem], elem]);
     }
     positionTable = positionTable.sort((a, b) => {
         return b[1] - a[1];
@@ -245,7 +242,7 @@ function UpdatePositionChart(__game_count) {
         chart.draw(data, chartOptions);
 
         if(positionTable[1] && positionTable[1][1] !== 0) {
-            var imgSrc = `/icon/Position_${positionTable[1][0]}.png`;
+            var imgSrc = `/icon/Position_${positionTable[1][2]}.png`;
             $('#charts-lane-img').attr('src', imgSrc);
         }
 
@@ -254,12 +251,12 @@ function UpdatePositionChart(__game_count) {
         function selectHandler(e) {
             var position = 'ALL';
             if (chart.getSelection()[0]) {
-                position = data.getValue(chart.getSelection()[0].row, 0);
+                position = data.getValue(chart.getSelection()[0].row, 2);
                 var imgSrc = `/icon/Position_${position}.png`;
                 $('#charts-lane-img').attr('src', imgSrc);
             } else {
                 if (positionTable[1] && positionTable[1][1] !== 0) {
-                    var imgSrc = `/icon/Position_${positionTable[1][0]}.png`;
+                    var imgSrc = `/icon/Position_${positionTable[1][2]}.png`;
                     $('#charts-lane-img').attr('src', imgSrc);
                 }
             }
