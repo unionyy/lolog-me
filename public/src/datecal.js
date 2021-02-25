@@ -55,20 +55,23 @@ $('rect#rect-' + timeString).css('display', 'none');
 
 
 /** Udpate period */
-var period = $('span#username-period').text();
+var endStr = $('span#username-period-end').text();
+var beginStr = $('span#username-period-begin').text();
 var end;
 var begin;
-if(period === '???') {
+if(endStr === '???') {
     end = (new Date(new Date() - 31536000000 - offset)).toISOString().slice(0, 10);
+} else {
+    end = (new Date(endStr * 1000)).toISOString().slice(0, 10);
+}
+if(beginStr === '???') {
     begin = (new Date(new Date() - offset)).toISOString().slice(0, 10);
 } else {
-    period = period.split('~');
-    end = (new Date(period[0] * 1000)).toISOString().slice(0, 10);
-    begin = (new Date(period[1] * 1000)).toISOString().slice(0, 10);
+    begin = (new Date(beginStr * 1000)).toISOString().slice(0, 10);
 }
 
-$('span#username-period').text(`(${end}~${begin})`);
-$('span#user-games-period').text(`(${end}~${begin})`);
+$('#username-period-end').text(end);
+$('#username-period-begin').text(begin);
 
 /** Period Selector Setting */
 $('#period-selector-begin').attr('value', begin);
