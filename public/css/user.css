@@ -176,6 +176,34 @@
     font-weight: 500;
 }
 
+#seasons {
+    margin-top: 10px;
+    text-align: right;
+    font-size: 1.2em;
+}
+
+.seasons-button {
+    display: inline-block;
+    background-color: #0366d6;
+    color: white;
+
+    width: 80px;
+    height: 40px;
+    border-style: none;
+    border-radius: 5px;
+    text-align: center;
+    align-self: center;
+}
+.seasons-link {
+    display: block;
+    color: white;
+    text-decoration: none;
+    width: 100%;
+    
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+
 #type-check {
     display:inline-block;
     align-self:flex-end;
