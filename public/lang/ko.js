@@ -7,6 +7,16 @@ const LANG = {
     UNKNOWN: "Unknown",
     NONE: "None",
 
+	"icon_solo": "솔랭",
+	"icon_norm": "일반",
+	"icon_aram": "칼바람",
+	"icon_flex": "자랭",
+	"icon_nbg": "돌넥",
+	"icon_urf": "URF",
+	"icon_ofa": "단일",
+	"icon_ai": "AI대전",
+	"icon_poro": "포로왕",
+
     "month_1": "2월",
 	"month_2": "3월",
 	"month_3": "4월",

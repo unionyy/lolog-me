@@ -7,6 +7,17 @@ const LANG = {
     UNKNOWN: "Unknown",
     NONE: "None",
 
+	
+	"icon_solo": "R_Solo",
+	"icon_norm": "Norm",
+	"icon_aram": "ARAM",
+	"icon_flex": "R_Flex",
+	"icon_nbg": "Blitz",
+	"icon_urf": "URF",
+	"icon_ofa": "OFA",
+	"icon_ai": "AI",
+	"icon_poro": "Poro",
+
     "game_count": " lol",
 	"month_1": "Feb",
 	"month_2": "Mar",

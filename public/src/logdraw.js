@@ -7,10 +7,10 @@ DrawLog = function(RIOTCDNURI) {
         //var url = `/${Object.keys(PLATFORM_MY)[game.platform_my]}/match/${game.game_id}`;
         var url = `https://matchhistory.kr.leagueoflegends.com/#match-details/${elem[0]}?tab=overview`;
         html +=
-            `<a class="user-games-game" href="${url}" target="_blank" rel="noopener noreferrer" timestamp="${elem[1]}" gametype="${elem[2]}" champname="${elem[3]}" champid="${elem[3]}" lane="${elem[4]}">
+            `<a class="user-games-game" href="${url}" target="_blank" rel="noopener noreferrer" timestamp="${elem[1]}" gametype="${elem[2]}" champname="${elem[5]}" champid="${elem[3]}" lane="${elem[4]}">
                 <img class="user-games-icon" src="${CHAMPIONURI + elem[3]}.png">
                 <span class="user-games-date">???</span><br>
-                <span class="user-games-type">${elem[2]}</span>
+                <span class="user-games-type">${LANG['icon_'+elem[2]]}</span>
             </a>
             `;
     }
