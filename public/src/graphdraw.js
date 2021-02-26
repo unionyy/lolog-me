@@ -60,6 +60,7 @@ DrawGraph = function (_begin, _end) {
 
     var ratio = (graphWidth * 100) / 1067;
 
+    /** Modify View Box width */
     $('#graph-viewbox').attr({
         'viewBox': `0 0 ${graphWidth} 170`,
         'width': `${ratio}%`
