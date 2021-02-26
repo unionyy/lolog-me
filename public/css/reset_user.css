@@ -102,7 +102,7 @@
 
     /*********/
     #username-total {font-size: 1.2em;}
-    #username-period {font-size: 1em;}
+    .period {font-size: 1em;}
 
     #type-check {
         display:grid;
