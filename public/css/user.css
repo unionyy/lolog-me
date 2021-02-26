@@ -309,16 +309,11 @@
 #user-games-refresh {
     display: none;
     font-weight: 500;
-    color: #24292e;
+    color: white;
     cursor: pointer;
-    background-color: whitesmoke;
-    border: 1px solid rgb(222, 222, 222);
+    background-color: #0366d6;
     border-radius: 5px;
     padding: 5px;
-}
-
-#user-games-refresh:hover {
-    background-color: rgb(222, 222, 222);
 }
 
 .fa-caret-down, .fa-caret-up {
