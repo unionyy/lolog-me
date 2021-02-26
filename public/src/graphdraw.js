@@ -1,8 +1,6 @@
 const offset = new Date().getTimezoneOffset() * 60000;
 
 DrawGraph = function (_begin, _end) {
-
-    console.log(_end);
     
     var monhtml = '';
     var endStr = '???';
