@@ -5,5 +5,26 @@ const LANG = {
     BOTTOM: "AD CARRY",
     SUPPORT: "SUPORT",
     UNKNOWN: "Unknown",
-    NONE: "None"
+    NONE: "None",
+
+    "game_count": " lol",
+	"month_1": "Feb",
+	"month_2": "Mar",
+	"month_3": "Apr",
+	"month_4": "May",
+	"month_5": "Jun",
+	"month_6": "Jul",
+	"month_7": "Aug",
+	"month_8": "Sep",
+	"month_9": "Oct",
+	"month_10": "Nov",
+	"month_11": "Dec",
+	"month_0": "Jan",
+	"sunday": "S",
+	"monday": "M",
+	"tuesday": "T",
+	"wednesday": "W",
+	"thursday": "T",
+	"friday": "F",
+	"saturday": "S"
 }

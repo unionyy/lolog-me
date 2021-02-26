@@ -1,4 +1,3 @@
-var offset = new Date().getTimezoneOffset() * 60000;
 
 /** Update Log & Make pDate for graph*/
 var pDate = [];
@@ -63,42 +62,42 @@ beginStr = begin.toISOString().slice(0, 10);
 /** Remove out of date rect, remove count*/
 // -1
 var timeStr = new Date(end - 86400000).toISOString().slice(0, 10);
-$('rect#rect-' + timeStr).css('display', 'none');
-$('rect#rect-' + timeStr).attr({
-    "data-count-total": 0,
-    "data-count-solo" : 0, // 솔랭
-    "data-count-flex" : 0, // 자랭
-    "data-count-norm" : 0, // 일반
-    "data-count-aram" : 0, // 칼바람
-    "data-count-urf"  : 0, // 우루프
-    "data-count-ai"   : 0, // 봇전
-    "data-count-ofa"  : 0, // 
-    "data-count-nbg"  : 0,
-    "data-count-tut"  : 0,
-    "data-count-clash"  : 0,
-    "data-count-poro"  : 0,
-    "data-count-etc"  : 0
-});
+// $('rect#rect-' + timeStr).css('display', 'none');
+// $('rect#rect-' + timeStr).attr({
+//     "data-count-total": 0,
+//     "data-count-solo" : 0, // 솔랭
+//     "data-count-flex" : 0, // 자랭
+//     "data-count-norm" : 0, // 일반
+//     "data-count-aram" : 0, // 칼바람
+//     "data-count-urf"  : 0, // 우루프
+//     "data-count-ai"   : 0, // 봇전
+//     "data-count-ofa"  : 0, // 
+//     "data-count-nbg"  : 0,
+//     "data-count-tut"  : 0,
+//     "data-count-clash"  : 0,
+//     "data-count-poro"  : 0,
+//     "data-count-etc"  : 0
+// });
 $('a.log-' + timeStr).attr('gameType', 'outofdate');
 
 // +1
 var timeStr = new Date(begin - (-86400000)).toISOString().slice(0, 10);
-$('rect#rect-' + timeStr).css('display', 'none');
-$('rect#rect-' + timeStr).attr({
-    "data-count-total": 0,
-    "data-count-solo" : 0, // 솔랭
-    "data-count-flex" : 0, // 자랭
-    "data-count-norm" : 0, // 일반
-    "data-count-aram" : 0, // 칼바람
-    "data-count-urf"  : 0, // 우루프
-    "data-count-ai"   : 0, // 봇전
-    "data-count-ofa"  : 0, // 
-    "data-count-nbg"  : 0,
-    "data-count-tut"  : 0,
-    "data-count-clash"  : 0,
-    "data-count-poro"  : 0,
-    "data-count-etc"  : 0
-});
+// $('rect#rect-' + timeStr).css('display', 'none');
+// $('rect#rect-' + timeStr).attr({
+//     "data-count-total": 0,
+//     "data-count-solo" : 0, // 솔랭
+//     "data-count-flex" : 0, // 자랭
+//     "data-count-norm" : 0, // 일반
+//     "data-count-aram" : 0, // 칼바람
+//     "data-count-urf"  : 0, // 우루프
+//     "data-count-ai"   : 0, // 봇전
+//     "data-count-ofa"  : 0, // 
+//     "data-count-nbg"  : 0,
+//     "data-count-tut"  : 0,
+//     "data-count-clash"  : 0,
+//     "data-count-poro"  : 0,
+//     "data-count-etc"  : 0
+// });
 $('a.log-' + timeStr).attr('gameType', 'outofdate');
 
 $('#username-period-end').text(endStr);
