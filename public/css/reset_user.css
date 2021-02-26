@@ -113,6 +113,10 @@
 
     /********/
 
+    #user-graph-grad {
+        text-align: center;
+    }
+
     #charts {
         grid-template-columns: 300px 300px;
         overflow:auto;

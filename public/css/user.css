@@ -210,21 +210,33 @@
     text-align: right;
 }
 
-#user-graph-svg {
+#user-graph-box {
     margin-top: 20px;
     
     padding-top: 10px;
-    padding-bottom: 15px;
+    padding-bottom: 10px;
 
+    
+    text-align: center;
+}
+
+#user-graph-svg {
     overflow:auto;
     direction: rtl;
-    text-align: center;
+
+    padding-bottom: 5px;
 }
 
 /* svg icon have to DISPLAY!!! */
 .graph-svg {
     width: 0px;
     height: 0px;
+}
+
+#user-graph-grad {
+    text-align: right;
+    margin-right: 10px;
+    font-weight: 600;
 }
 
 .month {
