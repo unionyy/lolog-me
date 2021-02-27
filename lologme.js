@@ -19,7 +19,12 @@ const i18n = new I18n({
 
 const template = require('./lib/template.js');
 const riot = require('./lib/riot.js');
-const { nextTick } = require('process');
+
+/** Config */
+const config = require('./config.json');
+if(config['isDevelop']) {
+  template.RemoveGtag();
+}
 
 function NormalizeName(name) {
   var username = name;
