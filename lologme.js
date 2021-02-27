@@ -31,25 +31,46 @@ function NormalizeName(name) {
 }
 
 app.use(cookieParser());
-app.use(i18n.init);
-
+app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use(express.static('public'));
+app.use((req, res, next) => {
+  var lang = req.query.lang;
+
+  switch(lang) {
+    case 'ko':
+      res.cookie('lang-lologme', 'ko');
+      req.cookies['lang-lologme'] = 'ko';
+
+      break;
+    case 'en':
+      res.cookie('lang-lologme', 'en');
+      req.cookies['lang-lologme'] = 'en';
+
+      break;
+    default:
+      break;
+  }
+  next();
+})
+
+app.use(i18n.init);
+
+
 
 app.get('/', (req, res) => {
   res.send(template.HTMLindex(res.__, req.cookies['platform-lologme']));
 });
 
-app.get('/lang-ko', function (req, res) {
-  res.cookie('lang-lologme', 'ko');
-  res.redirect('back');
-});
+// app.get('/lang-ko', function (req, res) {
+//   res.cookie('lang-lologme', 'ko');
+//   res.redirect('back');
+// });
 
-app.get('/lang-en', function (req, res) {
-  res.cookie('lang-lologme', 'en');
-  res.redirect('back');
-});
+// app.get('/lang-en', function (req, res) {
+//   res.cookie('lang-lologme', 'en');
+//   res.redirect('back');
+// });
 
 app.get(`/search`, (req, res) => {
   //res.redirect(`/${urlencode.encode(req.body.platform)}/user/${urlencode.encode(req.body.username)}`);
