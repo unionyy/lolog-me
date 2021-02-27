@@ -50,7 +50,7 @@
 	"rate_limit": "요청이 너무 많습니다. 잠시 후에 다시 시도해주세요.",
 	"title_main": "롤 전적 그래프 LoLog.me",
 	"description_main": "리그오브레전드 전적 검색, 전적 그래프, 소환사 정보, 게임 정보",
-	"keywords_main": "lol graph lolog 리그오브레전드 롤전적검색 전적그래프 롤로그",
+	"keywords_main": "lol graph, lolog, 리그오브레전드, 롤 전적 검색, 전적 그래프, 롤로그",
 	"description_user": ", 최근 1년 롤 전적 그래프",
 	"show_on_riot": "라이엇 공식 홈페이지에서 보기",
 	"Aatrox": "아트록스",
