@@ -14,7 +14,7 @@ DrawGraph = function (_begin, _end) {
     }
 
     if(_end === '???') {
-        _end = new Date(_begin - 31536000000 - offset);
+        _end = new Date(_begin - 31536000000);
     } else {
         _end = new Date(_end);
         endStr = parseInt(_end / 1000);
