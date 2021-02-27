@@ -1,0 +1,10 @@
+{
+    "name": "LoLog.me",
+    "icons": [{
+        "src": "images/favicon/icon_512x512.png",
+        "sizes": "512x512"
+    }],
+    "background_color": "#ffffff",
+    "theme_color": "#ffffff",
+    "display": "fullscreen"
+}
