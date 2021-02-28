@@ -46,26 +46,19 @@
 
     #period {
         display: block;
+        margin-top: 0;
     }
 
-    /* #seasons {
-        font-size: 1em;
+    #period-selector {
+        display: none;
+    }
+
+    #seasons {
         text-align: center;
     }
-
     .seasons-button {
-        width: 60px;
+        margin-top: 10px;
     }
-
-    .seasons-link {
-        display: block;
-        color: white;
-        text-decoration: none;
-        width: 100%;
-        
-        padding-top: 9px;
-        padding-bottom: 9px;
-    } */
 
     /* GRAPH */
 
