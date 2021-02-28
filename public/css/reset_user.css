@@ -42,6 +42,31 @@
         height: 100px;
     }
 
+    /**  Period Selector */
+
+    #period {
+        display: block;
+    }
+
+    /* #seasons {
+        font-size: 1em;
+        text-align: center;
+    }
+
+    .seasons-button {
+        width: 60px;
+    }
+
+    .seasons-link {
+        display: block;
+        color: white;
+        text-decoration: none;
+        width: 100%;
+        
+        padding-top: 9px;
+        padding-bottom: 9px;
+    } */
+
     /* GRAPH */
 
     #user-graph-header {
