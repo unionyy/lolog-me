@@ -125,7 +125,7 @@
     display: grid;
     grid-template-columns: 515px auto 385px;
 
-    margin-top: 30px;
+    margin-top: 10px;
 }
 
 #seasons {
@@ -191,7 +191,7 @@
 /*******************************/
 
 #user-graph {
-    margin-top: 30px;
+    margin-top: 40px;
 }
 
 #user-graph-header {
