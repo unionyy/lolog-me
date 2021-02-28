@@ -1,9 +1,8 @@
 DrawLog = function(RIOTCDNURI) {
     const CHAMPIONURI = RIOTCDNURI + '/img/champion/';
-    const array = JSON.parse($('#user-games-body').html())['data'];
     var html = '';
 
-    for(elem of array) {
+    for(elem of logArray) {
         //var url = `/${Object.keys(PLATFORM_MY)[game.platform_my]}/match/${game.game_id}`;
         var url = `https://matchhistory.kr.leagueoflegends.com/#match-details/${elem[0]}?tab=overview`;
         html +=
