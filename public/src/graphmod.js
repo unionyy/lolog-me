@@ -210,6 +210,7 @@ Change = function (_init, __game_count) {
 
 function UpdatePositionChart(__game_count) {
     $('#charts-lane-img').removeAttr('src');
+    $('#charts-lane-img').removeAttr('alt');
     var positions = {
         
     }
@@ -244,6 +245,7 @@ function UpdatePositionChart(__game_count) {
         if(positionTable[1] && positionTable[1][1] !== 0) {
             var imgSrc = `/icon/Position_${positionTable[1][2]}.png`;
             $('#charts-lane-img').attr('src', imgSrc);
+            $('#charts-lane-img').attr('alt', positionTable[1][2]);
         }
 
         google.visualization.events.addListener(chart, 'select', selectHandler);
@@ -254,10 +256,12 @@ function UpdatePositionChart(__game_count) {
                 position = data.getValue(chart.getSelection()[0].row, 2);
                 var imgSrc = `/icon/Position_${position}.png`;
                 $('#charts-lane-img').attr('src', imgSrc);
+                $('#charts-lane-img').attr('alt', position);
             } else {
                 if (positionTable[1] && positionTable[1][1] !== 0) {
                     var imgSrc = `/icon/Position_${positionTable[1][2]}.png`;
                     $('#charts-lane-img').attr('src', imgSrc);
+                    $('#charts-lane-img').attr('alt', positionTable[1][2]);
                 }
             }
             UpdateLog('NOT', 'NOT', position, 'ALL');
@@ -268,6 +272,7 @@ function UpdatePositionChart(__game_count) {
 
 function UpdateChampChart(__game_count) {
     $('#charts-champ-img').removeAttr('src');
+    $('#charts-champ-img').removeAttr('alt');
     var champs = {};
     $(`a.user-games-game[style="display: inline-block;"]`).each((i, elem) => {
         var id = $(elem).attr('champid');
@@ -305,6 +310,7 @@ function UpdateChampChart(__game_count) {
             var imgSrc = $('#charts-champ-img').attr('srcuri');
             imgSrc += `/img/champion/${champTable[1][2]}.png`;
             $('#charts-champ-img').attr('src', imgSrc);
+            $('#charts-champ-img').attr('alt', champTable[1][2]);
         }
 
         google.visualization.events.addListener(chart, 'select', selectHandler);
@@ -316,11 +322,13 @@ function UpdateChampChart(__game_count) {
             var imgSrc = $('#charts-champ-img').attr('srcuri');
             imgSrc += `/img/champion/${champ}.png`;
             $('#charts-champ-img').attr('src', imgSrc);
+            $('#charts-champ-img').attr('alt', champ);
           } else {
             if(champTable[1]) {
                 var imgSrc = $('#charts-champ-img').attr('srcuri');
                 imgSrc += `/img/champion/${champTable[1][2]}.png`;
                 $('#charts-champ-img').attr('src', imgSrc);
+                $('#charts-champ-img').attr('img', champTable[1][2]);
             }
           }
           UpdateLog('NOT', 'NOT', 'NOT', champ);
