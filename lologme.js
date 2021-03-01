@@ -130,7 +130,7 @@ app.get(`/:platform/user/:userName`,apiLimiter, (req, res, next) => {
 
   riot.SearchCustom(normName, platform, begin, end).then(data => {
     if (!data) {
-      res.send(template.HTMLmsg(`"${req.params.userName}" ${res.__('user_not_found')}`, res.__, req.cookies['platform-lologme']));
+      res.status(404).send(template.HTMLmsg(`"${req.params.userName}" ${res.__('user_not_found')}`, res.__, req.cookies['platform-lologme']));
     } else {
       res.send(template.HTMLuser(data, res.__, platform, begin, end));
     }
