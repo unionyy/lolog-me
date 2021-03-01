@@ -39,6 +39,7 @@ app.use(cookieParser());
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 
+/** Language */
 app.use((req, res, next) => {
   var lang = req.query.lang;
 
@@ -55,6 +56,27 @@ app.use((req, res, next) => {
       break;
     default:
       break;
+  }
+  next();
+})
+
+/** Lacation Setting along with Language */
+app.use((req, res, next) => {
+  if(!req.cookies['platform-lologme']) {
+    var lang = req.cookies['lang-lologme'];
+
+    switch(lang) {
+      case 'ko':
+        res.cookie('platform-lologme', 'kr');
+        req.cookies['platform-lologme'] = 'kr';
+        break;
+      case 'en':
+        res.cookie('platform-lologme', 'na1');
+        req.cookies['platform-lologme'] = 'na1';
+        break;
+      default:
+        break;
+    }
   }
   next();
 })
