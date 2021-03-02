@@ -49,13 +49,10 @@
         margin-top: 0;
     }
 
-    #period-selector {
-        display: none;
-    }
-
     #seasons {
-        text-align: center;
+        text-align: right;
     }
+    
     .seasons-button {
         margin-top: 5px;
     }
@@ -123,13 +120,32 @@
     .period {font-size: 1em;}
 
     #type-check {
-        display:grid;
+        display:none;
         grid-template-columns: 6.67% 26.67% 6.67% 26.67% 6.67% 26.67%;
         align-items:flex-end;
         text-align: left;
     }
+    
 
     /********/
+
+    
+    #user-graph-header .fa-caret-down {
+        display: inline;
+    }
+
+    #period {
+        display: none;
+        margin-top: 0;
+    }
+
+    #period-selector {
+        display: none;
+    }
+
+    #seasons {
+        text-align: center;
+    }
 
     #user-graph-grad {
         text-align: center;

@@ -123,7 +123,7 @@
 
 #period {
     display: grid;
-    grid-template-columns: 515px auto 385px;
+    grid-template-columns: auto 385px;
 
     margin-top: 10px;
 }
@@ -204,8 +204,13 @@
 
     display:grid;
     grid-template-columns: 360px auto 570px;
+}
 
-
+#user-graph-header .fa-caret-down {
+    display: none;
+}
+#user-graph-header .fa-caret-up {
+    display: none;
 }
 
 #username-total {
