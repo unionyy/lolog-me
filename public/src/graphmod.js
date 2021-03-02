@@ -27,6 +27,15 @@ const chartOptions = {
     }
 };
 
+if(matchMedia("only screen and (max-width: 550px)").matches) {
+    chartOptions.chartArea = {
+        width: 200,
+        height: 120
+    };
+    chartOptions.width = 200;
+    chartOptions.height = 140;
+}
+
 UpdateLog = function (_types, _date, _position, _champion) {
     /** Set / Get Global Variable */
     if(_types === 'NOT') _types = typesG;

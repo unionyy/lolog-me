@@ -136,8 +136,25 @@
     }
 
     #charts {
-        grid-template-columns: 300px 300px;
+        grid-template-columns: 200px 200px;
+        height: 140px;
         overflow:auto;
+    }
+    
+    #charts-champ-img {
+        position: absolute;
+        top: 44px;
+        left:74px;
+        height: 52px;
+        width: 52px;
+        border-radius: 40px;
+    }
+    #charts-lane-img {
+        position: absolute;
+        top: 50px;
+        left:80px;
+        height: 40px;
+        width: 40px;
     }
 
     #user-games-number {font-size: 1.2em;}
