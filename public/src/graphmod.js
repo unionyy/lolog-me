@@ -34,6 +34,7 @@ if(matchMedia("only screen and (max-width: 550px)").matches) {
     };
     chartOptions.width = 200;
     chartOptions.height = 140;
+    chartOptions.tooltip.trigger = 'none'
 }
 
 UpdateLog = function (_types, _date, _position, _champion) {
