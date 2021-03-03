@@ -1,10 +1,10 @@
-/*******************************/
 .in-box {
     background-color: whitesmoke;
     border: 1px solid rgb(222, 222, 222);
     border-radius: 5px;
 }
 
+/************* PROFILE ***************/
 #user-profile {
     display:grid;
     grid-template-columns: auto 520px;
@@ -121,6 +121,8 @@
 .text-CHALLENGER    {color:rgb(57, 174, 241);}
 .text-Unranked      {color:#7c7c7c;}
 
+
+/**************** PERIOD SETTING *****************/
 #period {
     display: grid;
     grid-template-columns: auto 385px;
@@ -193,7 +195,7 @@
     background-color: rgb(222, 222, 222);
 }
 
-/*******************************/
+/*******************  GRAPH HEADER ********************/
 
 #user-graph {
     margin-top: 40px;
@@ -230,6 +232,8 @@
     align-self:flex-end;
     text-align: right;
 }
+
+/********************* GRAPH ************************/
 
 #user-graph-box {
     margin-top: 20px;
@@ -274,7 +278,7 @@
     fill:#40c463;
 }
 
-/* Games */
+/*********************** CHARTS *************************/
 #charts {
     margin-top: 30px;
     display: grid;
@@ -304,6 +308,7 @@
     width: 60px;
 }
 
+/************************* GAMES ************************/
 #user-games {
     margin-top: 30px;
 

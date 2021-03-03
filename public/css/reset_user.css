@@ -1,4 +1,5 @@
 @media only screen and (max-width: 900px){
+    /****************** PROFILE ********************/
     #user-profile {
         display:block;
         background-color:white;
@@ -42,7 +43,7 @@
         height: 100px;
     }
 
-    /**  Period Selector */
+    /********************  Period Selector *******************/
 
     #period {
         display: block;
@@ -57,17 +58,17 @@
         margin-top: 5px;
     }
 
-    /* GRAPH */
+    /************************* GRAPH ***********************8*/
 
+    #username-total {
+        align-self: center;
+    }
+    
     #user-graph-header {
         display:block;
         margin-left: 10px;
         margin-right: 10px;
         text-align: center;
-    }
-
-    #username-total {
-        align-self: center;
     }
 
     #graph-viewbox {
@@ -90,6 +91,7 @@
 }
 
 @media only screen and (max-width: 550px){
+    /************************ PROFILE ************************/
     #user-profile {
         margin-left: 0px;
         margin-right: 0px;
@@ -115,7 +117,7 @@
         font-size: 1em;
     }
 
-    /*********/
+    /******************** GRAPH *********************/
     #username-total {font-size: 1.2em;}
     .period {font-size: 1em;}
 
@@ -125,10 +127,6 @@
         align-items:flex-end;
         text-align: left;
     }
-    
-
-    /********/
-
     
     #user-graph-header .fa-caret-down {
         display: inline;
@@ -151,6 +149,8 @@
         text-align: center;
     }
 
+    /*********************** CHARTS ***********************/
+
     #charts {
         grid-template-columns: 200px 200px;
         height: 140px;
@@ -172,6 +172,8 @@
         height: 40px;
         width: 40px;
     }
+
+    /******************** GAMES ********************/
 
     #user-games-number {font-size: 1.2em;}
 }
