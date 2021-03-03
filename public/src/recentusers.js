@@ -64,7 +64,7 @@ function GetRecentUsers() {
         if(i > 10) break;
 
         var user = recentUsers[i];
-        
+
         recentUsersHtml += `
         <div class="recent-user">
             <a href="/${platform}/user/${user}">
@@ -98,5 +98,6 @@ function RemoveRecentUsers(_user) {
     var cookieStr = 'j: ' + JSON.stringify(recentUsers);
     setCookie('recent-lologme-'+platform, cookieStr, 30);
 
+    lifeRU--;
     GetRecentUsers();
 }
