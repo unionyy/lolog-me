@@ -39,6 +39,8 @@ function HideRecentUsers() {
     $('#recent-users').css('display', 'none');
     $('#searchbox-platform').css('border-bottom-left-radius', radius);
     $('#searchbox-button').css('border-bottom-right-radius', radius);
+
+    lifeRU = 0;
 }
 
 function GetRecentUsers() {
