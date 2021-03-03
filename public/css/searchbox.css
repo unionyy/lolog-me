@@ -1,3 +1,7 @@
+#searchbox {
+    position: relative;
+}
+
 #searchbox-platform {
     appearance: none;
     -moz-appearance: none; /* Firefox */ 
@@ -39,6 +43,14 @@
     border: 0;
 }
 
+::placeholder {
+    color: 757575;
+}
+
+#searchbox-box:focus {
+    outline: none;
+}
+
 #searchbox-button {
     border-top-right-radius: 25px;
     border-bottom-right-radius: 25px;
@@ -55,4 +67,54 @@
     color:#24292e;
 
     cursor:pointer;
+}
+
+#recent-users {
+    font-size: 1.2em;
+    display: none;
+    position: absolute;
+
+    background-color: white;
+
+    top: 100%;
+    left: 0px;
+    width: 100%;
+
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+
+    box-shadow: 2px 2px 2px #24292e;
+}
+
+#recent-container {
+    padding: 10px;
+    
+}
+
+.recent-user {
+    padding: 10px;
+    display: inline-flex;
+    align-self: center;
+    height: auto;
+}
+
+.recent-user a{
+    color: #757575;
+    text-decoration: none;
+    font-weight: 700;
+
+}
+
+.recent-user a:hover {
+    color: #24292e;
+}
+
+.recent-delete {
+    cursor: pointer;
+    color: #757575;
+    font-size: 0.7em;
+}
+
+.recent-delete .fa:hover {
+    color: red;
 }

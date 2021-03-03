@@ -45,12 +45,12 @@ app.use((req, res, next) => {
 
   switch(lang) {
     case 'ko':
-      res.cookie('lang-lologme', 'ko');
+      res.cookie('lang-lologme', 'ko', { maxAge: 3000000000 });
       req.cookies['lang-lologme'] = 'ko';
 
       break;
     case 'en':
-      res.cookie('lang-lologme', 'en');
+      res.cookie('lang-lologme', 'en', { maxAge: 3000000000 });
       req.cookies['lang-lologme'] = 'en';
 
       break;
@@ -67,11 +67,11 @@ app.use((req, res, next) => {
 
     switch(lang) {
       case 'ko':
-        res.cookie('platform-lologme', 'kr');
+        res.cookie('platform-lologme', 'kr', { maxAge: 3000000000 });
         req.cookies['platform-lologme'] = 'kr';
         break;
       case 'en':
-        res.cookie('platform-lologme', 'na1');
+        res.cookie('platform-lologme', 'na1', { maxAge: 3000000000 });
         req.cookies['platform-lologme'] = 'na1';
         break;
       default:
@@ -143,7 +143,7 @@ app.get(`/:platform/user/:userName`,apiLimiter, (req, res, next) => {
     next();
   }
 
-  res.cookie('platform-lologme', platform);
+  res.cookie('platform-lologme', platform, { maxAge: 3000000000 });
 
   // var ip = req.header('x-forwarded-for');
   var normName = NormalizeName(urlencode.decode(req.params.userName));
@@ -154,6 +154,26 @@ app.get(`/:platform/user/:userName`,apiLimiter, (req, res, next) => {
     if (!data) {
       res.status(404).send(template.HTMLmsg(`"${req.params.userName}" ${res.__('user_not_found')}`, res.__, req.cookies['platform-lologme']));
     } else {
+      /** Save Recent Users */
+      var recentUsers = req.cookies['recent-lologme-' + platform]
+
+      if(!recentUsers) recentUsers = [];
+
+      try {
+        for(i in recentUsers) {
+          if(recentUsers[i] === data.userData.real_name) {
+            recentUsers.splice(i, 1);
+            break;
+          }
+        }
+      } catch(err) {
+        recentUsers = [];
+      }
+
+      recentUsers.unshift(data.userData.real_name);
+
+      res.cookie('recent-lologme-' + platform, recentUsers, { maxAge: 3000000000 });
+
       res.send(template.HTMLuser(data, res.__, platform, begin, end));
     }
   }, err => {

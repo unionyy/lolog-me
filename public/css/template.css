@@ -38,6 +38,11 @@ body {
     height: 30px;
 }
 
+#searchbox-platform {
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+}
+
 #searchbox-platform option{
     color:#24292e;
 }
@@ -48,6 +53,15 @@ body {
 
 #searchbox-button {
     font-size: 1em;
+
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+#recent-users {
+    font-size: 1em;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
 }
 
 #lang-select {
