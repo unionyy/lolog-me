@@ -1,22 +1,17 @@
-var lifeRU = 0;
-
 $('document').ready(() => {
-    /** Check search box */
-    $('#searchbox-box').focus(() => {
-        lifeRU++;
-        ShowRecentUsers();
-    })
-    $('#searchbox-box').blur(() => {
-        lifeRU--;
-        if(lifeRU < 1) HideRecentUsers();
-    })
+    /** Default cursor for title */
+    if($('#title-main').length) {
+        $('#searchbox-box').focus()
+    }
 
     /** Check mouse on */
-    $('#searchbox').hover(()=> {
-        lifeRU++;
-    }, () => {
-        lifeRU--;
-        if(lifeRU < 1) HideRecentUsers();
+    $('body').click((event) => {
+        console.log(event.target)
+        if($(event.target).hasClass('recent-pop')) {
+            ShowRecentUsers();
+        } else {
+            HideRecentUsers();
+        }
     })
 
     /** Change Recent Users */
@@ -39,8 +34,6 @@ function HideRecentUsers() {
     $('#recent-users').css('display', 'none');
     $('#searchbox-platform').css('border-bottom-left-radius', radius);
     $('#searchbox-button').css('border-bottom-right-radius', radius);
-
-    lifeRU = 0;
 }
 
 function GetRecentUsers() {
@@ -67,10 +60,10 @@ function GetRecentUsers() {
 
         recentUsersHtml += `
         <div class="recent-user">
-            <a href="/${platform}/user/${user}">
+            <a href="/${platform}/user/${user}" onclick="$('#searchbox-box').val('${user}');">
                 ${user}
             </a>
-            <span class="recent-delete" onclick="RemoveRecentUsers('${user}')"><i class="fa fa-times" aria-hidden="true"></i></span>
+            <span class="recent-delete" onclick="RemoveRecentUsers('${user}')"><i class="fa fa-times recent-pop" aria-hidden="true"></i></span>
         </div>`
     }
 
@@ -98,6 +91,5 @@ function RemoveRecentUsers(_user) {
     var cookieStr = 'j: ' + JSON.stringify(recentUsers);
     setCookie('recent-lologme-'+platform, cookieStr, 30);
 
-    lifeRU--;
     GetRecentUsers();
 }
