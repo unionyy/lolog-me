@@ -1,4 +1,4 @@
-var lifeRU = 1;
+var lifeRU = 0;
 
 $('document').ready(() => {
     /** Check search box */
