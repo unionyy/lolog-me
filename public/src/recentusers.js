@@ -60,7 +60,11 @@ function GetRecentUsers() {
         HideRecentUsers();
     }
 
-    for (user of recentUsers) {
+    for (i in recentUsers) {
+        if(i > 10) break;
+
+        var user = recentUsers[i];
+        
         recentUsersHtml += `
         <div class="recent-user">
             <a href="/${platform}/user/${user}">
