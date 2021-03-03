@@ -20,6 +20,7 @@
     padding: 0;
     margin-right: 0;
     text-align-last: center;
+    -moz-text-align-last: center;
     
     font-weight: 700;
     background-color: white;
@@ -27,6 +28,14 @@
 
     cursor:pointer;
 }
+
+/* For Safari */
+@supports not (text-align-last: center) {
+    #searchbox-platform {
+        padding-left: 1.5em;
+    }
+}
+
 /* IE 기본 스타일 제거 */
 #searchbox-platform::-ms-expand{
 	display: none; /* IE 10, 11 */
@@ -39,7 +48,7 @@
 #searchbox-box {
     width:100%;
     height: 100%;
-    
+
     box-sizing: border-box;
     
     padding-left: 10px;
