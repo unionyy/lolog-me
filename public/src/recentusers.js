@@ -6,7 +6,6 @@ $('document').ready(() => {
 
     /** Check mouse on */
     $('body').click((event) => {
-        console.log(event.target)
         if($(event.target).hasClass('recent-pop')) {
             ShowRecentUsers();
         } else {
