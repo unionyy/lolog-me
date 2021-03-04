@@ -16,19 +16,26 @@ riotApi.MatchV4.matches(gameId, platform).then(data => {
     var queueType = data.json.queueId
     for(team of data.json.teams) {
         if(team.win === 'Win') {
-            if(team.teamId === 100) {
-                winner = 'blue';
-            } else {
-                winner = 'red';
-            }
+            winner = team.teamId;
         }
     }
 
     for(part of data.json.participants) {
+        var team = part.teamId
+
+        if(winner !== 'no') {
+            if(winner === team) {
+                team++;
+            } else {
+                team += 2;
+            }
+        }
+
         var game = {
             champion: part.championId,
             lane: part.timeline.lane,
             role: part.timeline.role,
+            team: team
         }
         games[part.participantId] = game;
     }
@@ -38,4 +45,5 @@ riotApi.MatchV4.matches(gameId, platform).then(data => {
     }
 
     console.log(games);
+    console.log(playTime, queueType)
 })
