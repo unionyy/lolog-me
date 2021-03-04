@@ -69,17 +69,8 @@ body {
 
 /* Style the footer */
 #footer {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    text-align: center;
     color: white;
-
-    width:100%;
-    margin: 0;
-
-    /* Temporary hide footer */
-    margin-top:100vh;
-  }
+}
 
 #footer a {
     color: white;

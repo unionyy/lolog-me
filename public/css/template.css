@@ -97,13 +97,8 @@ body {
 
 /* Style the footer */
 #footer {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    text-align: center;
     color: #24292e;
-
-
-    width:100%;
+    
     margin: 0;
 }
 
