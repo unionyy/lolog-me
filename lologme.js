@@ -10,6 +10,7 @@ const sanitizedHtml = require('sanitize-html');
 const cookieParser = require('cookie-parser');
 const rateLimit = require("express-rate-limit");
 const path = require('path')
+const helmet = require('helmet')
 const { I18n } = require('i18n')
 const i18n = new I18n({
   locales: ['en', 'ko'],
@@ -35,6 +36,17 @@ function NormalizeName(name) {
   return username;
 }
 
+const cspOptions = {
+  directives: {
+    ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+    "script-src": ["'self'", "*.googleapis.com", "*.gstatic.com"],
+    "img-src": ["'self'", "*.leagueoflegends.com"]
+  }
+}
+
+app.use(helmet({
+  contentSecurityPolicy: cspOptions,
+}));
 app.use(cookieParser());
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }));
