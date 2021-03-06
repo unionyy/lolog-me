@@ -1,6 +1,6 @@
 const offset = new Date().getTimezoneOffset() * 60000;
 
-DrawGraph = function (_begin, _end) {
+DrawGraph = function (_begin, _end, _nonce) {
     
     var monhtml = '';
     var endStr = '???';
@@ -28,13 +28,14 @@ DrawGraph = function (_begin, _end) {
     var days = 0;
     var lx = 0;
     var tx = 0;
+
     while(true) {
         days++;
         var cs = ctime.toISOString().slice(0, 10);
         var day = ctime.getUTCDay();
         
         var ly = day * 20;
-        html += `<a onclick="$('#user-games-refresh').attr('date', '${cs}');Change(false, '${LANG['game_count']}');" style="cursor:pointer;"><rect id="rect-${cs}" class="day" title="???${LANG['game_count']}, ${cs}" width="16" height="16" rx="3" x=${lx} y=${ly} style="stroke: #e2e4e7; fill: #ebedf0" data-date=${cs}></rect></a>`
+        html += `<a style="cursor:pointer;"><rect id="rect-${cs}" class="day" title="???${LANG['game_count']}, ${cs}" width="16" height="16" rx="3" x=${lx} y=${ly} style="stroke: #e2e4e7; fill: #ebedf0" data-date=${cs}></rect></a>`
 
 
         // Month tag
@@ -79,6 +80,12 @@ DrawGraph = function (_begin, _end) {
         <text text-anchor="start" class="wday wday-point" dx="-10" dy="135">${LANG['saturday']}</text>`;
 
     $('#graph-g').html(html);
+
+    // Add onclick event for rect
+    $('.day').click(function() {
+        $('#user-games-refresh').attr('date', $(this).attr('data-date'));
+        Change(false, LANG['game_count']);
+    })
 
     return;
 }

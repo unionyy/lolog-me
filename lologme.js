@@ -4,6 +4,8 @@ const express = require('express');
 const app = express();
 const port = 1028;
 
+const crypto = require('crypto');
+
 const bodyParser = require('body-parser')
 const urlencode = require('urlencode');
 const sanitizedHtml = require('sanitize-html');
@@ -17,6 +19,7 @@ const i18n = new I18n({
   cookie: 'lang-lologme',
   directory: path.join(__dirname, 'locales')
 })
+
 
 const template = require('./lib/template.js');
 const riot = require('./lib/riot.js');
@@ -36,12 +39,17 @@ function NormalizeName(name) {
   return username;
 }
 
+app.use((req, res, next) => {
+  res.locals.cspNonce = crypto.randomBytes(16).toString("hex");
+  next();
+});
+
 const cspOptions = {
   directives: {
     ...helmet.contentSecurityPolicy.getDefaultDirectives(),
     "script-src": ["'self'", "*.googleapis.com",
               "https://www.googletagmanager.com", "https://www.google-analytics.com", "https://ssl.google-analytics.com", "https://tagmanager.google.com",
-              "*.gstatic.com", "'unsafe-inline'"],
+              "*.gstatic.com", (req, res) => `'nonce-${res.locals.cspNonce}'`],
     "img-src": ["'self'", "*.leagueoflegends.com", "www.googletagmanager.com", "https://www.google-analytics.com" , "https://*.gstatic.com", "https://www.gstatic.com", "data:"],
    
     "connect-src": ["'self'", "https://www.google-analytics.com"]
@@ -102,7 +110,7 @@ app.use(i18n.init);
 
 
 app.get('/', (req, res) => {
-  res.send(template.HTMLindex(res.__, req.cookies['platform-lologme']));
+  res.send(template.HTMLindex(res.__, req.cookies['platform-lologme'], res.locals.cspNonce));
 });
 
 // app.get('/lang-ko', function (req, res) {
@@ -145,7 +153,7 @@ const apiLimiter = rateLimit({
     /** empty */
   },
   onLimitReached: function (req, res, options) {
-    res.status(options.statusCode).send(template.HTMLmsg(res.__('rate_limit'), res.__, req.cookies['platform-lologme']));
+    res.status(options.statusCode).send(template.HTMLmsg(res.__('rate_limit'), res.__, req.cookies['platform-lologme'], res.locals.cspNonce));
   }
 });
 app.get(`/:platform/user/:userName`,apiLimiter, (req, res, next) => {
@@ -168,7 +176,7 @@ app.get(`/:platform/user/:userName`,apiLimiter, (req, res, next) => {
 
   riot.SearchCustom(normName, platform, begin, end).then(data => {
     if (!data) {
-      res.status(404).send(template.HTMLmsg(`"${req.params.userName}" ${res.__('user_not_found')}`, res.__, req.cookies['platform-lologme']));
+      res.status(404).send(template.HTMLmsg(`"${req.params.userName}" ${res.__('user_not_found')}`, res.__, req.cookies['platform-lologme'], res.locals.cspNonce));
     } else {
       /** Save Recent Users */
       var recentUsers = req.cookies['recent-lologme-' + platform]
@@ -190,7 +198,7 @@ app.get(`/:platform/user/:userName`,apiLimiter, (req, res, next) => {
 
       res.cookie('recent-lologme-' + platform, recentUsers, { maxAge: 3000000000 });
 
-      res.send(template.HTMLuser(data, res.__, platform, begin, end));
+      res.send(template.HTMLuser(data, res.__, platform, begin, end, res.locals.cspNonce));
     }
   }, err => {
     console.log(err);
@@ -214,7 +222,7 @@ app.use(function (err, req, res, next) {
   res.status(500).send('Something broke!')
 })
 app.use(function (req, res, next) {
-  res.status(404).send(template.HTMLmsg(res.__('404_msg'), res.__, req.cookies['platform-lologme']))
+  res.status(404).send(template.HTMLmsg(res.__('404_msg'), res.__, req.cookies['platform-lologme'], res.locals.cspNonce))
 })
 
 app.listen(port, () => {
