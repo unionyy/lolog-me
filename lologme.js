@@ -40,7 +40,7 @@ const cspOptions = {
   directives: {
     ...helmet.contentSecurityPolicy.getDefaultDirectives(),
     "script-src": ["'self'", "*.googleapis.com", "https://www.googletagmanager.com", "*.gstatic.com", "'unsafe-inline'"],
-    "img-src": ["'self'", "*.leagueoflegends.com"]
+    "img-src": ["'self'", "*.leagueoflegends.com", "www.googletagmanager.com"]
   }
 }
 
