@@ -59,14 +59,22 @@ function GetRecentUsers() {
 
         recentUsersHtml += `
         <div class="recent-user">
-            <a href="/${platform}/user/${user}" onclick="$('#searchbox-box').val('${user}');">
+            <a class="recent-link" href="/${platform}/user/${user}" name="${user}">
                 ${user}
             </a>
-            <span class="recent-delete" onclick="RemoveRecentUsers('${user}')"><i class="fa fa-times recent-pop" aria-hidden="true"></i></span>
+            <span class="recent-delete" name="${user}"><i class="fa fa-times recent-pop" aria-hidden="true"></i></span>
         </div>`
     }
 
     $('#recent-container').html(recentUsersHtml);
+
+    $('.recent-link').click(function() {
+        $('#searchbox-box').val($(this).attr('name'));
+    })
+
+    $('.recent-delete').click(function() {
+        RemoveRecentUsers($(this).attr('name'))
+    })
 }
 
 function RemoveRecentUsers(_user) {
