@@ -42,7 +42,7 @@ const cspOptions = {
     "script-src": ["'self'", "*.googleapis.com",
               "https://www.googletagmanager.com", "https://www.google-analytics.com", "https://ssl.google-analytics.com", "https://tagmanager.google.com",
               "*.gstatic.com", "'unsafe-inline'"],
-    "img-src": ["'self'", "*.leagueoflegends.com", "www.googletagmanager.com", "https://www.google-analytics.com" , "https://ssl.gstatic.com", "https://www.gstatic.com"],
+    "img-src": ["'self'", "*.leagueoflegends.com", "www.googletagmanager.com", "https://www.google-analytics.com" , "https://*.gstatic.com", "https://www.gstatic.com"],
    
     "connect-src": ["'self'", "https://www.google-analytics.com"]
   }
