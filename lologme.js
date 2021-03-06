@@ -39,7 +39,7 @@ function NormalizeName(name) {
 const cspOptions = {
   directives: {
     ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-    "script-src": ["'self'", "*.googleapis.com", "*.gstatic.com"],
+    "script-src": ["'self'", "*.googleapis.com", "*.gstatic.com", "'unsafe-inline'"],
     "img-src": ["'self'", "*.leagueoflegends.com"]
   }
 }
