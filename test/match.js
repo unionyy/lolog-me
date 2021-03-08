@@ -2,13 +2,28 @@ const origin = require('./5048836327.json')
 const { CHAMPION, RIOTCDNURI, SPELL, RUNE } = require('./const');
 const fs = require('fs');
 
+var teams = {};
+
+for (elem of origin.teams) {
+    teams[elem.teamId] = {
+        win: elem.win,
+        kills: 0,
+        deaths: 0,
+        assists: 0,
+        gold: 0,
+        damage: 0,
+        participants: []
+    }
+}
+
 var team1 = {
     html: '<ul class="team-container">',
     kills: 0,
     deaths: 0,
     assists: 0,
     gold: 0,
-    damage: 0
+    damage: 0,
+    participants: []
 }
 var team2 = {
     html: '<ul class="team-container">',
@@ -16,15 +31,46 @@ var team2 = {
     deaths: 0,
     assists: 0,
     gold: 0,
-    damage: 0
+    damage: 0,
+    participants: []
 }
 
-var names = {};
+var ids = {};
 for (elem of origin.participantIdentities) {
-    names[elem.participantId] = elem.player.summonerName;
+    ids[elem.participantId] = {
+            name: elem.player.summonerName,
+            accountId: elem.player.currentAccountId,
+            platform: elem.player.currentPlatformId
+    }
 }
 
 for (elem of origin.participants) {
+    var participant = {
+        id: ids[elem.participantId],
+        champ: elem.championId,
+        spell1Id: elem.spell1Id,
+        spell2Id: elem.spell2Id,
+        stats: {
+            champLevel: elem.stats.champLevel,
+            rune0: elem.stats.perk0,
+            rune1: elem.stats.perkSubStyle,
+            item0: elem.stats.item0,
+            item1: elem.stats.item1,
+            item2: elem.stats.item2,
+            item3: elem.stats.item3,
+            item4: elem.stats.item4,
+            item5: elem.stats.item5,
+            item6: elem.stats.item6,
+            kills: elem.stats.kills,
+            deaths: elem.stats.deaths,
+            assists: elem.stats.assists,
+            minions: elem.stats.totalMinionsKilled,
+            jungle: elem.stats.neutralMinionsKilled,
+            gold: elem.stats.goldEarned,
+            deal: elem.stats.totalDamageDealtToChampions,
+            dealTotal: elem.stats.totalDamageDealt
+        }
+    }
     var partHtml = `<li class="team-part">
     <div class="part-champ cell">
         <div class="part-icon">
@@ -41,7 +87,7 @@ for (elem of origin.participants) {
         </div>
     </div>
     <div class="part-name cell">
-        <span>${names[elem.participantId]}</span>
+        <span>${ids[elem.participantId].name}</span>
     </div>
     <div class="part-item cell">
         <img src="${RIOTCDNURI}/img/item/${elem.stats.item0}.png" />
@@ -67,11 +113,11 @@ for (elem of origin.participants) {
 </li>`;
     if(elem.teamId === 100) {
         team1.html += partHtml + '</ul>';
-        team1.kills += elem.stats.kills;
-        team1.deaths += elem.stats.deaths;
-        team1.assists += elem.stats.assists;
-        team1.gold += elem.stats.goldEarned;
-        team1.damage += elem.stats.totalDamageDealtToChampions;
+        team1.kills += participant.stats.kills;
+        team1.deaths += participant.stats.deaths;
+        team1.assists += participant.stats.assists;
+        team1.gold += participant.stats.goldEarned;
+        team1.damage += participant.stats.deal;
     }else {
         team2.html += partHtml + '</ul>';
         team2.kills += elem.stats.kills;
@@ -80,6 +126,13 @@ for (elem of origin.participants) {
         team2.gold += elem.stats.goldEarned;
         team2.damage += elem.stats.totalDamageDealtToChampions;
     }
+
+    teams[elem.teamId].participants.push(participant)
+    teams[elem.teamId].kills += participant.stats.kills;
+    teams[elem.teamId].deaths += participant.stats.deaths;
+    teams[elem.teamId].assists += participant.stats.assists;
+    teams[elem.teamId].gold += participant.stats.gold;
+    teams[elem.teamId].damage += participant.stats.deal;
 }
 
 team1.html = `<link rel="stylesheet" href="./match.css" />
@@ -95,9 +148,12 @@ team1.html = `<link rel="stylesheet" href="./match.css" />
             <div class="col-damage cell">damage</div>
         </header>
         ${team1.html}
-        </div>
+    </div>
 </div>`;
 
 fs.writeFile('./test/test.html', team1.html, err => {
+    console.log(err);
+})
+fs.writeFile('./test/test.json', JSON.stringify(teams), err => {
     console.log(err);
 })
