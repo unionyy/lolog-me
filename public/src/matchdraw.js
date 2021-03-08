@@ -1,4 +1,4 @@
-async function GetMatch(_matchId, _platform, _container) {
+async function GetMatch(_matchId, _platform) {
     fetch(`/${_platform}/match/${_matchId}`)
         .then(response => response.json())
         .then(data => {
@@ -65,14 +65,19 @@ async function GetMatch(_matchId, _platform, _container) {
             }
 
             matchHtml += '</div>';
-            $(_container).append(matchHtml);
+            $("#match-inspecter").html(matchHtml);
         });
 }
 
 $(document).ready(function() {
+    var current;
     $('.user-games-game').each(function() {
         $(this).find('.user-games-mini').click(() => {
-            GetMatch($(this).attr('matchId'), $(this).attr('platform'), this)
+            GetMatch($(this).attr('matchId'), $(this).attr('platform'))
+            $(current).css('height', $(this).find('.user-games-mini').height())
+            $(this).css('height', $(this).find('.user-games-mini').height() + $('#match-inspecter').height())
+            current = this;
+            $('#match-inspecter').css('top', $(this).position().top + $(this).find('.user-games-mini').height());
         })
     })
 })

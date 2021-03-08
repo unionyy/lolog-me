@@ -1,11 +1,13 @@
+#match-inspecter {
+    position: absolute;
+}
+
 .match div {
     border: 1px solid black;
 }
 
 .match {
-    position:absolute;
     width: 100%;
-    left: 0;
 }
 
 .team {
