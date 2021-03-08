@@ -1,3 +1,4 @@
 User-agent: *
-Allow: /
+Disallow: /*/match/
+Disallow: /update
 Sitemap: https://lolog.me/sitemap.xml

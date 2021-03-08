@@ -206,6 +206,22 @@ app.get(`/:platform/user/:userName`,apiLimiter, (req, res, next) => {
   })
 });
 
+app.get(`/:platform/match/:matchId`, apiLimiter, (req, res, next) => {
+  var platform = urlencode.decode(req.params.platform);
+
+  // Varify query
+  if(PLATFORM_MY[platform] === undefined) {
+    next();
+  }
+
+  riot.GetGame(req.params.matchId, platform).then((data) => {
+    res.send(data);
+  }, (err) => {
+    console.log(err);
+    next();
+  })
+})
+
 // app.get(`/:platform/match/:matchId`, (req, res) => {
 //   var platform = urlencode.decode(req.params.platform);
   
