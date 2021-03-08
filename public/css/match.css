@@ -1,17 +1,15 @@
 #match-inspecter {
     position: absolute;
+    width: 100%;
 }
 
 .match div {
     border: 1px solid black;
 }
 
-.match {
-    width: 100%;
-}
-
 .team {
     display: table;
+    width: 100%;
 }
 .team-header {
     display: table-header-group;

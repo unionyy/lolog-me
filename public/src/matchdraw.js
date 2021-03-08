@@ -1,5 +1,5 @@
 async function GetMatch(_matchId, _platform) {
-    fetch(`/${_platform}/match/${_matchId}`)
+    await fetch(`/${_platform}/match/${_matchId}`)
         .then(response => response.json())
         .then(data => {
             var matchHtml = `<div class="match">`
@@ -72,8 +72,8 @@ async function GetMatch(_matchId, _platform) {
 $(document).ready(function() {
     var current;
     $('.user-games-game').each(function() {
-        $(this).find('.user-games-mini').click(() => {
-            GetMatch($(this).attr('matchId'), $(this).attr('platform'))
+        $(this).find('.user-games-mini').click(async () => {
+            await GetMatch($(this).attr('matchId'), $(this).attr('platform'))
             $(current).css('height', $(this).find('.user-games-mini').height())
             $(this).css('height', $(this).find('.user-games-mini').height() + $('#match-inspecter').height())
             current = this;
