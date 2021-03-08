@@ -353,9 +353,17 @@
 
     padding-top: 30px;
     padding-bottom: 30px;
+
+    position: relative;
 }
 
 .user-games-game {
+    display: inline-block;
+    width: 50px;
+    
+}
+
+.user-games-mini {
     display: inline-block;
     width: 50px;
     margin-bottom: 2px;
@@ -368,6 +376,7 @@
     color:#e2e4e7;
     padding-bottom: 3px;
 }
+
 .user-games-icon {
     width: 50px;
     border-radius: 8px;

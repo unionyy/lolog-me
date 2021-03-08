@@ -6,11 +6,4 @@ $(document).ready(function() {
         offset: [0, 10],
         arrow: true
     });
-    $('.user-games-game').tooltipster({
-        theme: 'tooltipster-borderless',
-        plugins: ['follower'],
-        anchor: 'bottom-center',
-        offset: [0, 10],
-        arrow: true
-    });
 });

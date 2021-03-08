@@ -1,0 +1,58 @@
+.match div {
+    border: 1px solid black;
+}
+
+.match {
+    position:absolute;
+    width: 100%;
+    left: 0;
+}
+
+.team {
+    display: table;
+}
+.team-header {
+    display: table-header-group;
+}
+.team-container {
+    display: table-row-group;
+}
+.team-part {
+    display: table-row;
+}
+.cell {
+    display: table-cell;
+}
+
+.part-icon img {
+    width: 40px;
+    height: 40px;
+}
+
+.part-champ div {
+    display: inline-block;
+}
+
+.part-spell {
+    width: 20px;
+}
+
+.part-spell img {
+    width: 20px;
+    height: 20px;
+}
+
+.part-rune {
+    width: 20px;
+}
+
+.part-rune img {
+    width: 20px;
+    height: 20px;
+}
+
+.part-item img {
+    float:left;
+    width: 30px;
+    height: 30px;
+}

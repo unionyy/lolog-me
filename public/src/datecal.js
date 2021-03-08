@@ -1,7 +1,7 @@
 
 /** Update Log & Make pDate for graph*/
 var pDate = [];
-$('a.user-games-game').each((i, elem) => {
+$('.user-games-game').each((i, elem) => {
     var timestamp = $(elem).attr('timestamp') * 1000;
     var fakeTime = new Date(timestamp - offset);
     var timeString = fakeTime.toISOString().slice(0, 10);
@@ -11,7 +11,6 @@ $('a.user-games-game').each((i, elem) => {
     $(elem).attr('date', timeString);
     $(elem).addClass('log-' + timeString);
     $(elem).find('span.user-games-date').text(timeString.slice(5));
-    $(elem).attr('title', `${timeString}, ${queueTypeText}`);
 
     /** Update pDate */
     if(!pDate[timeString]) {

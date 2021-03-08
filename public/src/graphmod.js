@@ -51,7 +51,7 @@ UpdateLog = function (_types, _date, _position, _champion) {
     else championG = _champion;
 
     /** Clear Logs */
-    $(`a.user-games-game`).css('display', 'none');
+    $(`.user-games-game`).css('display', 'none');
 
     var queryStr ='';
     if(_position !== 'ALL') {
@@ -65,13 +65,13 @@ UpdateLog = function (_types, _date, _position, _champion) {
     var count = 0;
     if(_date === 'all') {
         for (var elem of _types) {
-            count += $(`a.user-games-game[gametype='${elem}']${queryStr}`).length;
-            $(`a.user-games-game[gametype='${elem}']${queryStr}`).css('display', 'inline-block');
+            count += $(`.user-games-game[gametype='${elem}']${queryStr}`).length;
+            $(`.user-games-game[gametype='${elem}']${queryStr}`).css('display', 'inline-block');
         }
     } else {
         for (var elem of _types) {
-            count += $(`a.log-${_date}[gametype='${elem}']${queryStr}`).length
-            $(`a.log-${_date}[gametype='${elem}']${queryStr}`).css('display', 'inline-block');
+            count += $(`.log-${_date}[gametype='${elem}']${queryStr}`).length
+            $(`.log-${_date}[gametype='${elem}']${queryStr}`).css('display', 'inline-block');
         }
     }
 
@@ -229,7 +229,7 @@ function UpdatePositionChart(__game_count) {
     for(elem in LANG) {
         positions[elem] = 0;
     }
-    $(`a.user-games-game[style="display: inline-block;"]`).each((i, elem) => {
+    $(`.user-games-game[style="display: inline-block;"]`).each((i, elem) => {
         var position = $(elem).attr('lane');
         positions[position]++;
     });
@@ -286,7 +286,7 @@ function UpdateChampChart(__game_count) {
     $('#charts-champ-img').removeAttr('src');
     $('#charts-champ-img').removeAttr('alt');
     var champs = {};
-    $(`a.user-games-game[style="display: inline-block;"]`).each((i, elem) => {
+    $(`.user-games-game[style="display: inline-block;"]`).each((i, elem) => {
         var id = $(elem).attr('champid');
         if(!champs[id]) {
             champs[id] = {
