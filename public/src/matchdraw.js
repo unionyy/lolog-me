@@ -73,11 +73,18 @@ $(document).ready(function() {
     var current;
     $('.user-games-game').each(function() {
         $(this).find('.user-games-mini').click(async () => {
-            await GetMatch($(this).attr('matchId'), $(this).attr('platform'))
-            $(current).css('height', $(this).find('.user-games-mini').height())
-            $(this).css('height', $(this).find('.user-games-mini').height() + $('#match-inspecter').height())
-            current = this;
-            $('#match-inspecter').css('top', $(this).position().top + $(this).find('.user-games-mini').height());
+            if(this === current) {
+                $('#match-inspecter').html('');
+                $(current).css('height', $(this).find('.user-games-mini').height())
+            }else {
+                await GetMatch($(this).attr('matchId'), $(this).attr('platform'))
+                $(current).css('height', $(this).find('.user-games-mini').height())
+                $(this).css('height', $(this).find('.user-games-mini').height() + $('#match-inspecter').height())
+                current = this;
+                $('#match-inspecter').css('top', $(this).position().top + $(this).find('.user-games-mini').height());
+            
+            }
+
         })
     })
 })
