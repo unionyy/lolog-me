@@ -76,6 +76,7 @@ $(document).ready(function() {
             if(this === current) {
                 $('#match-inspecter').html('');
                 $(current).css('height', $(this).find('.user-games-mini').height())
+                current = undefined;
             }else {
                 await GetMatch($(this).attr('matchId'), $(this).attr('platform'))
                 $(current).css('height', $(this).find('.user-games-mini').height())
