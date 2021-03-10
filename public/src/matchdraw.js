@@ -3,11 +3,12 @@ async function GetMatch(_matchId, _platform) {
         .then(response => response.json())
         .then(data => {
             var matchHtml = `<div class="match">`
+            var myTeam;
             for (team in data) {
                 var teamHtml = `
                 <div class="team">
                     <header class="team-header">
-                        <div class="col-champ cell">승리(파랑팀)</div>
+                        <div class="col-champ cell">${data[team].win}(${team})</div>
                         <div class="col-name cell">${data[team].kills}/${data[team].deaths}/${data[team].assists}</div>
                         <div class="col-item cell">${data[team].gold}</div>
                         <div class="col-kda cell">K/D/A</div>
@@ -17,6 +18,11 @@ async function GetMatch(_matchId, _platform) {
                     </header>
                     <ul class="team-container">`;
                 for (elem of data[team].participants) {
+                    /** Current User */
+                    if($('#user-profile-name').attr('accountId') === elem.id.accountId) {
+                        myTeam = team;
+                    }
+
                     var partHtml = `<li class="team-part">
 <div class="part-champ cell">
     <div class="part-icon">
@@ -33,7 +39,7 @@ async function GetMatch(_matchId, _platform) {
     </div>
 </div>
 <div class="part-name cell">
-    <span>${elem.name}</span>
+    <span>${elem.id.name}</span>
 </div>
 <div class="part-item cell">
     <img src="${RIOTCDNURI}/img/item/${elem.stats.item0}.png" />
@@ -61,7 +67,18 @@ async function GetMatch(_matchId, _platform) {
                 }
                 teamHtml += '</ul></div>'
 
-                matchHtml += teamHtml;
+                data[team].html = teamHtml;
+            }
+
+            /** Input & Order teams */
+            if(data[myTeam]) {
+                matchHtml += data[myTeam].html;
+            }
+
+            for(team in data) {
+                if (team !== myTeam) {
+                    matchHtml += data[team].html;
+                }
             }
 
             matchHtml += '</div>';
