@@ -290,8 +290,7 @@ function UpdateChampChart(__game_count) {
         var id = $(elem).attr('champid');
         if(!champs[id]) {
             champs[id] = {
-                count: 1,
-                name: $(elem).attr('champname')
+                count: 1
             };
         } else {
             champs[id].count++;
@@ -300,7 +299,7 @@ function UpdateChampChart(__game_count) {
 
     var champTable = [['Champion', __game_count, 'id']];
     for(elem in champs) {
-        champTable.push([champs[elem].name, champs[elem].count, elem]);
+        champTable.push([CHAMPION[elem], champs[elem].count, elem]);
     }
     champTable = champTable.sort((a, b) => {
         return b[1] - a[1];
@@ -320,7 +319,7 @@ function UpdateChampChart(__game_count) {
 
         if(champTable[1]) {
             var imgSrc = $('#charts-champ-img').attr('srcuri');
-            imgSrc += `/img/champion/${champTable[1][2]}.png`;
+            imgSrc += `/img/champion/${CHAMPION[champTable[1][2]]}.png`;
             $('#charts-champ-img').attr('src', imgSrc);
             $('#charts-champ-img').attr('alt', champTable[1][2]);
         }
@@ -332,15 +331,15 @@ function UpdateChampChart(__game_count) {
           if(chart.getSelection()[0]) {
             champ = data.getValue(chart.getSelection()[0].row, 2);
             var imgSrc = $('#charts-champ-img').attr('srcuri');
-            imgSrc += `/img/champion/${champ}.png`;
+            imgSrc += `/img/champion/${CHAMPION[champ]}.png`;
             $('#charts-champ-img').attr('src', imgSrc);
-            $('#charts-champ-img').attr('alt', champ);
+            $('#charts-champ-img').attr('alt', CHAMPION[champ]);
           } else {
             if(champTable[1]) {
                 var imgSrc = $('#charts-champ-img').attr('srcuri');
-                imgSrc += `/img/champion/${champTable[1][2]}.png`;
+                imgSrc += `/img/champion/${CHAMPION[champTable[1][2]]}.png`;
                 $('#charts-champ-img').attr('src', imgSrc);
-                $('#charts-champ-img').attr('img', champTable[1][2]);
+                $('#charts-champ-img').attr('img', CHAMPION[champTable[1][2]]);
             }
           }
           UpdateLog('NOT', 'NOT', 'NOT', champ);
