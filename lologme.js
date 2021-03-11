@@ -215,7 +215,7 @@ app.get(`/:platform/match/:matchId`, apiLimiter, (req, res, next) => {
   }
 
   riot.GetGame(req.params.matchId, platform).then((data) => {
-    res.send(data);
+    res.json(data);
   }, (err) => {
     console.log(err);
     next();
