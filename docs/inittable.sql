@@ -43,5 +43,11 @@ CREATE TABLE games (
     queue_type  smallint    NOT NULL,
     lane_my     tinyint     NOT NULL,
 
+    win_my      tinyint     NOT NULL,
+    kills       smallint    NOT NULL,
+    deaths      smallint    NOT NULL,
+    assists     smallint    NOT NULL,
+    total_kills smallint    NOT NULL,
+
     CONSTRAINT pk_my_time PRIMARY KEY (id_my, play_time DESC)
 );
