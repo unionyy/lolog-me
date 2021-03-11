@@ -40,6 +40,9 @@ if(matchMedia("only screen and (max-width: 550px)").matches) {
 }
 
 UpdateLog = function (_types, _date, _position, _champion) {
+    /** Hide match detail box */
+    RefreshMatch();
+    
     /** Set / Get Global Variable */
     if(_types === 'NOT') _types = typesG;
     else typesG = _types;

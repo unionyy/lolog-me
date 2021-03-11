@@ -86,19 +86,17 @@ async function GetMatch(_matchId, _platform) {
         });
 }
 
+var currentMatch;
 $(document).ready(function() {
-    var current;
     $('.user-games-game').each(function() {
         $(this).find('.user-games-mini').click(async () => {
-            if(this === current) {
-                $('#match-inspecter').html('');
-                $(current).css('height', $(this).find('.user-games-mini').height())
-                current = undefined;
+            if(this === currentMatch) {
+                RefreshMatch();
             }else {
                 await GetMatch($(this).attr('matchId'), $(this).attr('platform'))
-                $(current).css('height', $(this).find('.user-games-mini').height())
+                $(currentMatch).css('height', $(this).find('.user-games-mini').height())
                 $(this).css('height', $(this).find('.user-games-mini').height() + $('#match-inspecter').height())
-                current = this;
+                currentMatch = this;
                 $('#match-inspecter').css('top', $(this).position().top + $(this).find('.user-games-mini').height());
             
             }
@@ -106,3 +104,11 @@ $(document).ready(function() {
         })
     })
 })
+
+function RefreshMatch() {
+    if(currentMatch) {
+        $('#match-inspecter').html('');
+        $(currentMatch).css('height', $(currentMatch).find('.user-games-mini').height())
+        currentMatch = undefined;
+    }
+}
