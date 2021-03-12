@@ -364,6 +364,8 @@
 }
 
 .user-games-mini {
+    cursor: pointer;
+
     display: inline-block;
     width: 50px;
     margin-bottom: 2px;
