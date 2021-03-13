@@ -302,7 +302,7 @@ function UpdateChampChart(__game_count) {
 
     var champTable = [['Champion', __game_count, 'id']];
     for(elem in champs) {
-        champTable.push([CHAMPION[elem], champs[elem].count, elem]);
+        champTable.push([LANG.champ[CHAMPION[elem]], champs[elem].count, elem]);
     }
     champTable = champTable.sort((a, b) => {
         return b[1] - a[1];
@@ -342,7 +342,7 @@ function UpdateChampChart(__game_count) {
                 var imgSrc = $('#charts-champ-img').attr('srcuri');
                 imgSrc += `/img/champion/${CHAMPION[champTable[1][2]]}.png`;
                 $('#charts-champ-img').attr('src', imgSrc);
-                $('#charts-champ-img').attr('img', CHAMPION[champTable[1][2]]);
+                $('#charts-champ-img').attr('alt', CHAMPION[champTable[1][2]]);
             }
           }
           UpdateLog('NOT', 'NOT', 'NOT', champ);
