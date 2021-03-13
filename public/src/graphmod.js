@@ -258,7 +258,7 @@ function UpdatePositionChart(__game_count) {
         chart.draw(data, chartOptions);
 
         if(positionTable[1] && positionTable[1][1] !== 0) {
-            var imgSrc = `/icon/Position_${positionTable[1][2]}.png`;
+            var imgSrc = `/images/icon/Position_${positionTable[1][2]}.svg`;
             $('#charts-lane-img').attr('src', imgSrc);
             $('#charts-lane-img').attr('alt', positionTable[1][2]);
         }
@@ -269,12 +269,12 @@ function UpdatePositionChart(__game_count) {
             var position = 'ALL';
             if (chart.getSelection()[0]) {
                 position = data.getValue(chart.getSelection()[0].row, 2);
-                var imgSrc = `/icon/Position_${position}.png`;
+                var imgSrc = `/images/icon/Position_${position}.svg`;
                 $('#charts-lane-img').attr('src', imgSrc);
                 $('#charts-lane-img').attr('alt', position);
             } else {
                 if (positionTable[1] && positionTable[1][1] !== 0) {
-                    var imgSrc = `/icon/Position_${positionTable[1][2]}.png`;
+                    var imgSrc = `/images/icon/Position_${positionTable[1][2]}.svg`;
                     $('#charts-lane-img').attr('src', imgSrc);
                     $('#charts-lane-img').attr('alt', positionTable[1][2]);
                 }
