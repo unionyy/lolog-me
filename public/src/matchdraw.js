@@ -1,7 +1,16 @@
-async function GetMatch(_matchId, _platform) {
+async function GetMatch(_matchId, _platform, _timestamp) {
     await fetch(`/${_platform}/match/${_matchId}`)
         .then(response => response.json())
         .then(data => {
+            var cdnuri = RIOTCDNURI;
+            for(version in VERSION) {
+                if(version === 'latest') continue;
+
+                if(VERSION[version] < _timestamp) {
+                    cdnuri += version;
+                    break;
+                }
+            }
             var matchHtml = `<div class="match">`
             var myTeam;
             for (team in data) {
@@ -26,12 +35,12 @@ async function GetMatch(_matchId, _platform) {
                     var partHtml = `<li class="team-part">
 <div class="part-champ cell">
     <div class="part-icon">
-        <img src="${RIOTCDNURI}/img/champion/${CHAMPION[elem.champ]}.png" alt="${CHAMPION[elem.champ]}" title="${CHAMPION[elem.championId]}" />
+        <img src="${RIOTCDNURI+VERSION.latest}/img/champion/${CHAMPION[elem.champ]}.png" alt="${CHAMPION[elem.champ]}" title="${CHAMPION[elem.championId]}" />
         <span>${elem.stats.champLevel}</span>
     </div>
     <div class="part-spell">
-        <img src="${RIOTCDNURI}/img/spell/${SPELL[elem.spell1Id]}.png" />
-        <img src="${RIOTCDNURI}/img/spell/${SPELL[elem.spell2Id]}.png" />
+        <img src="${RIOTCDNURI+VERSION.latest}/img/spell/${SPELL[elem.spell1Id]}.png" />
+        <img src="${RIOTCDNURI+VERSION.latest}/img/spell/${SPELL[elem.spell2Id]}.png" />
     </div>
     <div class="part-rune">
         <img src="https://ddragon.leagueoflegends.com/cdn/img/${RUNE[elem.stats.rune0]}" />
@@ -42,13 +51,13 @@ async function GetMatch(_matchId, _platform) {
     <span>${elem.id.name}</span>
 </div>
 <div class="part-item cell">
-    <img src="${RIOTCDNURI}/img/item/${elem.stats.item0}.png" />
-    <img src="${RIOTCDNURI}/img/item/${elem.stats.item1}.png" />
-    <img src="${RIOTCDNURI}/img/item/${elem.stats.item2}.png" />
-    <img src="${RIOTCDNURI}/img/item/${elem.stats.item3}.png" />
-    <img src="${RIOTCDNURI}/img/item/${elem.stats.item4}.png" />
-    <img src="${RIOTCDNURI}/img/item/${elem.stats.item5}.png" />
-    <img src="${RIOTCDNURI}/img/item/${elem.stats.item6}.png" />
+    <img src="${cdnuri}/img/item/${elem.stats.item0}.png" />
+    <img src="${cdnuri}/img/item/${elem.stats.item1}.png" />
+    <img src="${cdnuri}/img/item/${elem.stats.item2}.png" />
+    <img src="${cdnuri}/img/item/${elem.stats.item3}.png" />
+    <img src="${cdnuri}/img/item/${elem.stats.item4}.png" />
+    <img src="${cdnuri}/img/item/${elem.stats.item5}.png" />
+    <img src="${cdnuri}/img/item/${elem.stats.item6}.png" />
 </div>
 <div class="part-kda cell">
     <span>${elem.stats.kills}/${elem.stats.deaths}/${elem.stats.assists} (${Math.ceil((elem.stats.kills + elem.stats.assists) / data[team].kills * 100)}%)</span>
@@ -93,7 +102,7 @@ $(document).ready(function() {
             if(this === currentMatch) {
                 RefreshMatch();
             }else {
-                await GetMatch($(this).attr('matchId'), $(this).attr('platform'))
+                await GetMatch($(this).attr('matchId'), $(this).attr('platform'), $(this).attr('timestamp'))
                 $(currentMatch).css('height', $(this).find('.user-games-mini').height())
                 $(this).css('height', $(this).find('.user-games-mini').height() + $('#match-inspecter').height())
                 currentMatch = this;

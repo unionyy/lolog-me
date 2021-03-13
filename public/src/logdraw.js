@@ -1,5 +1,5 @@
 DrawLog = function() {
-    const CHAMPIONURI = RIOTCDNURI + '/img/champion/';
+    const CHAMPIONURI = RIOTCDNURI + VERSION.latest + '/img/champion/';
     var html = '';
 
     for(elem of logArray) {
