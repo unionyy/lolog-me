@@ -2,10 +2,12 @@ async function GetMatch(_matchId, _platform, _timestamp) {
     await fetch(`/${_platform}/match/${_matchId}`)
         .then(response => response.json())
         .then(data => {
-            var cdnuri = RIOTCDNURI;
+            var cdnuri = BANANACDN;
             for(version in VERSION) {
                 if(version === 'latest') continue;
 
+                if(version === '10.19.1') cdnuri = RIOTCDNURI;
+                
                 if(VERSION[version] < _timestamp) {
                     cdnuri += version;
                     break;
@@ -32,62 +34,67 @@ async function GetMatch(_matchId, _platform, _timestamp) {
                         myTeam = team;
                     }
 
+                    var itemsHtml = '';
+                    for(item of elem.stats.items) {
+                        if(item === 0) {
+                            itemsHtml += '<img />'
+                        } else {
+                            itemsHtml += `<img src="${cdnuri}/img/item/${item}.png" />`
+                        }
+                    }
                     var partHtml = `<li class="team-part">
-<div class="part-champ cell">
-    <div class="inner-cell">
-        <div class="part-rune">
-            <img class="rune-main" src="https://ddragon.leagueoflegends.com/cdn/img/${RUNE[elem.stats.rune0]}" />
-            <img class="rune-sub" src="https://ddragon.leagueoflegends.com/cdn/img/${RUNE[elem.stats.rune1]}" />
-        </div>
-        <div class="part-spell">
-            <img src="${RIOTCDNURI+VERSION.latest}/img/spell/${SPELL[elem.spell1Id]}.png" />
-            <img src="${RIOTCDNURI+VERSION.latest}/img/spell/${SPELL[elem.spell2Id]}.png" />
-        </div>
-        <div class="part-level">
-            <span>${elem.stats.champLevel}</span>     
-        </div>
-    </div>
-</div>
-<div class="part-name cell">
-    <div class="inner-cell">
-        <div class="part-icon">
-            <img src="${RIOTCDNURI+VERSION.latest}/img/champion/${CHAMPION[elem.champ]}.png" alt="${CHAMPION[elem.champ]}" title="${CHAMPION[elem.championId]}" />
-        </div>
-        <span>${elem.id.name}</span>
-    </div>
-</div>
-<div class="part-item cell">
-    <div class="inner-cell">
-        <img src="${cdnuri}/img/item/${elem.stats.item0}.png" />
-        <img src="${cdnuri}/img/item/${elem.stats.item1}.png" />
-        <img src="${cdnuri}/img/item/${elem.stats.item2}.png" />
-        <img src="${cdnuri}/img/item/${elem.stats.item3}.png" />
-        <img src="${cdnuri}/img/item/${elem.stats.item4}.png" />
-        <img src="${cdnuri}/img/item/${elem.stats.item5}.png" />
-        <img src="${cdnuri}/img/item/${elem.stats.item6}.png" />
-    </div>
-</div>
-<div class="part-kda cell">
-    <div class="inner-cell">
-        <span>${elem.stats.kills}/${elem.stats.deaths}/${elem.stats.assists} (${Math.ceil((elem.stats.kills + elem.stats.assists) / data[team].kills * 100)}%)</span>
-    </div>
-</div>
-<div class="part-cs cell">
-    <div class="inner-cell">
-        <span title="${elem.stats.minions} + ${elem.stats.jungle}">${elem.stats.minions + elem.stats.jungle}</span>
-    </div>
-</div>
-<div class="part-gold cell">
-    <div class="inner-cell">
-        <span>${elem.stats.gold}</span>
-    </div>
-</div>
-<div class="part-damage cell">
-    <div class="inner-cell">
-        <span title="${elem.stats.deal}/${elem.stats.dealTotal}">${elem.stats.deal}</span>
-    </div>
-</div>
-</li>`;
+                        <div class="part-champ cell">
+                            <div class="inner-cell">
+                                <div class="part-rune">
+                                    <img class="rune-main" src="https://ddragon.leagueoflegends.com/cdn/img/${RUNE[elem.stats.rune0]}" />
+                                    <img class="rune-sub" src="https://ddragon.leagueoflegends.com/cdn/img/${RUNE[elem.stats.rune1]}" />
+                                </div>
+                                <div class="part-spell">
+                                    <img src="${RIOTCDNURI + VERSION.latest}/img/spell/${SPELL[elem.spell1Id]}.png" />
+                                    <img src="${RIOTCDNURI + VERSION.latest}/img/spell/${SPELL[elem.spell2Id]}.png" />
+                                </div>
+                                <div class="part-level">
+                                    <span>${elem.stats.champLevel}</span>     
+                                </div>
+                            </div>
+                        </div>
+                        <div class="part-name cell">
+                            <div class="inner-cell">
+                                <div class="part-icon">
+                                    <img src="${RIOTCDNURI + VERSION.latest}/img/champion/${CHAMPION[elem.champ]}.png" alt="${CHAMPION[elem.champ]}" title="${CHAMPION[elem.championId]}" />
+                                </div>
+                                <span>${elem.id.name}</span>
+                            </div>
+                        </div>
+                        <div class="part-item cell">
+                            <div class="inner-cell">
+                                ${itemsHtml}
+                                <div class="vision-score">
+                                    <span title="Buy: ${elem.stats.wardsBought}, Place: ${elem.stats.wardsPlaced}, Kill: ${elem.stats.wardsKilled}">${elem.stats.visionScore}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="part-kda cell">
+                            <div class="inner-cell">
+                                <span>${elem.stats.kills}/${elem.stats.deaths}/${elem.stats.assists} (${Math.ceil((elem.stats.kills + elem.stats.assists) / data[team].kills * 100)}%)</span>
+                            </div>
+                        </div>
+                        <div class="part-cs cell">
+                            <div class="inner-cell">
+                                <span title="${elem.stats.minions} + ${elem.stats.jungle}">${elem.stats.minions + elem.stats.jungle}</span>
+                            </div>
+                        </div>
+                        <div class="part-gold cell">
+                            <div class="inner-cell">
+                                <span>${elem.stats.gold}</span>
+                            </div>
+                        </div>
+                        <div class="part-damage cell">
+                            <div class="inner-cell">
+                                <span title="${elem.stats.deal}/${elem.stats.dealTotal}">${elem.stats.deal}</span>
+                            </div>
+                        </div>
+                        </li>`;
                     teamHtml += partHtml;
                 }
                 teamHtml += '</ul></div>'

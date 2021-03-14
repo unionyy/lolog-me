@@ -50,7 +50,7 @@ const cspOptions = {
     "script-src": ["'self'", "*.googleapis.com",
               "https://www.googletagmanager.com", "https://www.google-analytics.com", "https://ssl.google-analytics.com", "https://tagmanager.google.com",
               "*.gstatic.com", (req, res) => `'nonce-${res.locals.cspNonce}'`],
-    "img-src": ["'self'", "*.leagueoflegends.com", "www.googletagmanager.com", "https://www.google-analytics.com" , "https://*.gstatic.com", "https://www.gstatic.com", "data:"],
+    "img-src": ["'self'", "*.leagueoflegends.com", "ddragon.bangingheads.net", "www.googletagmanager.com", "https://www.google-analytics.com" , "https://*.gstatic.com", "https://www.gstatic.com", "data:"],
    
     "connect-src": ["'self'", "https://www.google-analytics.com"]
   }

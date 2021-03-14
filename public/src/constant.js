@@ -1,5 +1,7 @@
 const RIOTCDNURI = 'https://ddragon.leagueoflegends.com/cdn/';
 
+const BANANACDN = 'https://ddragon.bangingheads.net/cdn/';
+
 const VERSION = {
     latest:     "11.5.1",
     "11.5.1":   "1614758400",
@@ -15,7 +17,6 @@ const VERSION = {
     "10.20.1":  "1601449200",
     "10.19.1":  "1600239600",
     "10.18.1":  "1599030000",
-    "10.17.1":  "1598162400",
     "10.16.1":  "1596610800",
     "10.15.1":  "1595401200",
     "10.14.1":  "1594191600",
