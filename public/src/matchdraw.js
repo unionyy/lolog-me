@@ -16,16 +16,61 @@ async function GetMatch(_matchId, _platform, _timestamp) {
             var matchHtml = `<div class="match">`
             var myTeam;
             for (team in data.teams) {
+                /** Win or Lose */
+                var winText;
+                switch(data.teams[team].win % 10) {
+                    case 1:
+                        winText = 'Win';
+                        break;
+                    case 2:
+                        winText = 'Lose';
+                        break;
+                    case 3:
+                        winText = 'Remake';
+                        break;
+                    default:
+                        winText = 'Unkown';
+                        break;
+                }
+                /** Team define */
+                var teamText;
+                if(data.teams[team].win < 10) {
+                    teamText = 'Unkown';
+                } else if(data.teams[team].win < 20) {
+                    teamText = 'BlueTeam';
+                } else {
+                    teamText = 'RedTeam';
+                }
+
                 var teamHtml = `
-                <div class="team">
+                <div class="team ${winText}">
                     <header class="team-header">
-                        <div class="col-champ cell">${data.teams[team].win}(${team})</div>
-                        <div class="col-name cell">${data.teams[team].kills}/${data.teams[team].deaths}/${data.teams[team].assists}</div>
-                        <div class="col-item cell">${data.teams[team].gold}</div>
-                        <div class="col-kda cell">K/D/A</div>
-                        <div class="col-cs cell">cs</div>
-                        <div class="col-gold cell">gold</div>
-                        <div class="col-damage cell">damage</div>
+                        <div class="col-champ cell">
+                            <div class="inner-cell-header">
+                                <span class="text-WLR text-color-${winText}">${winText}</span>
+                                <span class="text-team text-${teamText}">(${teamText})</span>
+                            </div>
+                        </div>
+                        <div class="col-name cell">
+                            <div class="inner-cell-header">
+                                <span class="text-kda-header text-color-${winText}">${data.teams[team].kills}</span><span class="text-color-${winText}">/</span>
+                                <span class="text-kda-header text-color-${winText}">${data.teams[team].deaths}</span><span class="text-color-${winText}">/</span>
+                                <span class="text-kda-header text-color-${winText}">${data.teams[team].assists}</span>
+                            </div>
+                        </div>
+                        <div class="col-item cell">
+                            <div class="inner-cell-header">
+                                ${data.teams[team].gold}
+                            </div>
+                        </div>
+                        <div class="col-kda cell">
+                            <div class="inner-cell-header">
+                                KDA
+                            </div>
+                        </div>
+                        <div class="col-cs cell"><div class="inner-cell-header">CS</div></div>
+                        <div class="col-gold cell"><div class="inner-cell-header">Gold</div></div>
+                        <div class="col-damage cell"><div class="inner-cell-header">Damage</div></div>
                     </header>
                     <ul class="team-container">`;
                 for (elem of data.teams[team].participants) {
@@ -95,12 +140,12 @@ async function GetMatch(_matchId, _platform, _timestamp) {
                         </div>
                         <div class="part-gold cell">
                             <div class="inner-cell">
-                                <span class="text-gold">${elem.stats.gold}</span>
+                                <span class="text-gold">${elem.stats.gold.toLocaleString('ko-KR')}</span>
                             </div>
                         </div>
                         <div class="part-damage cell">
                             <div class="inner-cell">
-                                <span class="text-damage" title="${elem.stats.deal}/${elem.stats.dealTotal}">${elem.stats.deal}</span>
+                                <span class="text-damage" title="${elem.stats.deal.toLocaleString('ko-KR')}/${elem.stats.dealTotal.toLocaleString('ko-KR')}">${elem.stats.deal.toLocaleString('ko-KR')}</span>
                             </div>
                         </div>
                         </li>`;

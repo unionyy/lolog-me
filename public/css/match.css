@@ -30,6 +30,36 @@
     height: 100%;
 }
 
+/* header */
+.inner-cell-header {
+    display: inline-flex;
+    align-items: center;
+    height: 30px;
+}
+
+.text-color-Win {
+    color: blue;
+}
+.text-color-Lose {
+    color: red;
+}
+.text-color-Remake {
+    color: gray;
+}
+.text-team {
+    font-size: 0.8em;
+}
+.text-BlueTeam {
+    color: blue;
+}
+.text-RedTeam {
+    color: red;
+}
+
+.text-kda-header {
+    width: 30px;
+}
+
 /* part-champ */
 .part-rune {
     position: relative;
@@ -78,6 +108,7 @@
 .part-name span {
     width: 120px;
     padding-left: 5px;
+    font-size: 0.8em;
     text-align: left;
     white-space:nowrap;
     overflow:hidden;
@@ -145,10 +176,14 @@
 
 /* part-gold */
 .text-gold {
+    padding-left: 20px;
+    text-align: left;
     width: 80px;
 }
 
 /* part-damage */
 .text-damage {
+    padding-left: 20px;
+    text-align: left;
     width: 80px;
 }
