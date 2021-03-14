@@ -6,6 +6,7 @@
 .team {
     display: table;
     margin: auto;
+    font-weight: 700;
 }
 .team-header {
     display: table-header-group;
@@ -67,12 +68,11 @@
 .part-level {
     width: 25px;
     font-size: 1.2em;
-    font-weight: 700;
+    
 }
 
 /* part-name */
 .part-name {
-    font-weight: 700;
     width: 150px;
 }
 .part-name span {
@@ -123,4 +123,32 @@
      1px -1px 0 #24292e,
      -1px 1px 0 #24292e,
       1px 1px 0 #24292e;
+}
+
+/* part-kda */
+.text-kda {
+    width: 30px;
+}
+.text-kill-participation {
+    width: 50px;
+    font-size: 0.8em;
+}
+
+/* part-cs */
+.text-cs {
+    width: 40px;
+}
+.text-cs-min {
+    width: 35px;
+    font-size: 0.8em;
+}
+
+/* part-gold */
+.text-gold {
+    width: 80px;
+}
+
+/* part-damage */
+.text-damage {
+    width: 80px;
 }

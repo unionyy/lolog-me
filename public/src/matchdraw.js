@@ -7,7 +7,7 @@ async function GetMatch(_matchId, _platform, _timestamp) {
                 if(version === 'latest') continue;
 
                 if(version === '10.19.1') cdnuri = RIOTCDNURI;
-                
+
                 if(VERSION[version] < _timestamp) {
                     cdnuri += version;
                     break;
@@ -15,25 +15,26 @@ async function GetMatch(_matchId, _platform, _timestamp) {
             }
             var matchHtml = `<div class="match">`
             var myTeam;
-            for (team in data) {
+            for (team in data.teams) {
                 var teamHtml = `
                 <div class="team">
                     <header class="team-header">
-                        <div class="col-champ cell">${data[team].win}(${team})</div>
-                        <div class="col-name cell">${data[team].kills}/${data[team].deaths}/${data[team].assists}</div>
-                        <div class="col-item cell">${data[team].gold}</div>
+                        <div class="col-champ cell">${data.teams[team].win}(${team})</div>
+                        <div class="col-name cell">${data.teams[team].kills}/${data.teams[team].deaths}/${data.teams[team].assists}</div>
+                        <div class="col-item cell">${data.teams[team].gold}</div>
                         <div class="col-kda cell">K/D/A</div>
                         <div class="col-cs cell">cs</div>
                         <div class="col-gold cell">gold</div>
                         <div class="col-damage cell">damage</div>
                     </header>
                     <ul class="team-container">`;
-                for (elem of data[team].participants) {
+                for (elem of data.teams[team].participants) {
                     /** Current User */
                     if($('#user-profile-name').attr('accountId') === elem.id.accountId) {
                         myTeam = team;
                     }
 
+                    /** Item Images */
                     var itemsHtml = '';
                     for(item of elem.stats.items) {
                         if(item === 0) {
@@ -42,6 +43,10 @@ async function GetMatch(_matchId, _platform, _timestamp) {
                             itemsHtml += `<img src="${cdnuri}/img/item/${item}.png" />`
                         }
                     }
+                    /** Kill Participation */
+                    var killPart = 0;
+                    if(data.teams[team].kills) killPart = Math.ceil((elem.stats.kills + elem.stats.assists) / data.teams[team].kills * 100);
+
                     var partHtml = `<li class="team-part">
                         <div class="part-champ cell">
                             <div class="inner-cell">
@@ -76,22 +81,26 @@ async function GetMatch(_matchId, _platform, _timestamp) {
                         </div>
                         <div class="part-kda cell">
                             <div class="inner-cell">
-                                <span>${elem.stats.kills}/${elem.stats.deaths}/${elem.stats.assists} (${Math.ceil((elem.stats.kills + elem.stats.assists) / data[team].kills * 100)}%)</span>
+                                <span class="text-kda">${elem.stats.kills}</span>
+                                <span>/</span><span class="text-kda">${elem.stats.deaths}</span>
+                                <span>/</span><span class="text-kda">${elem.stats.assists}</span>
+                                <span class="text-kill-participation">(${killPart}%)</span>
                             </div>
                         </div>
                         <div class="part-cs cell">
                             <div class="inner-cell">
-                                <span title="${elem.stats.minions} + ${elem.stats.jungle}">${elem.stats.minions + elem.stats.jungle}</span>
+                                <span class="text-cs" title="${elem.stats.minions} + ${elem.stats.jungle}">${elem.stats.minions + elem.stats.jungle}</span>
+                                <span class="text-cs-min">(${((elem.stats.minions + elem.stats.jungle)/(data.duration/60)).toFixed(1)})</span>
                             </div>
                         </div>
                         <div class="part-gold cell">
                             <div class="inner-cell">
-                                <span>${elem.stats.gold}</span>
+                                <span class="text-gold">${elem.stats.gold}</span>
                             </div>
                         </div>
                         <div class="part-damage cell">
                             <div class="inner-cell">
-                                <span title="${elem.stats.deal}/${elem.stats.dealTotal}">${elem.stats.deal}</span>
+                                <span class="text-damage" title="${elem.stats.deal}/${elem.stats.dealTotal}">${elem.stats.deal}</span>
                             </div>
                         </div>
                         </li>`;
@@ -99,17 +108,17 @@ async function GetMatch(_matchId, _platform, _timestamp) {
                 }
                 teamHtml += '</ul></div>'
 
-                data[team].html = teamHtml;
+                data.teams[team].html = teamHtml;
             }
 
             /** Input & Order teams */
-            if(data[myTeam]) {
-                matchHtml += data[myTeam].html;
+            if(data.teams[myTeam]) {
+                matchHtml += data.teams[myTeam].html;
             }
 
-            for(team in data) {
+            for(team in data.teams) {
                 if (team !== myTeam) {
-                    matchHtml += data[team].html;
+                    matchHtml += data.teams[team].html;
                 }
             }
 
