@@ -4,12 +4,15 @@
 }
 
 .team {
+    background-color: #011925;
+    color: #f0e6d2;
     display: table;
     margin: auto;
-    font-weight: 700;
+    font-weight: 600;
 }
 .team-header {
     display: table-header-group;
+    color: #a09b8c;
 }
 .team-container {
     display: table-row-group;
@@ -38,10 +41,10 @@
 }
 
 .text-color-Win {
-    color: blue;
+    color: #098fa2;
 }
 .text-color-Lose {
-    color: red;
+    color: #be1e37;
 }
 .text-color-Remake {
     color: gray;
@@ -49,15 +52,30 @@
 .text-team {
     font-size: 0.8em;
 }
-.text-BlueTeam {
-    color: blue;
+.text-Blue {
+    color: #098fa2;
 }
-.text-RedTeam {
-    color: red;
+.text-Red {
+    color: #be1e37;
 }
 
 .text-kda-header {
     width: 30px;
+}
+.icon-header {
+    width: 18px;
+    height: 18px;
+    filter: opacity(0.5) drop-shadow(0 0 0 #011925) saturate(100%);
+}
+.icon-header.Win {
+    filter: opacity(0.5) drop-shadow(0 0 0 #098fa2) saturate(200%);
+}
+.icon-header.Lose {
+    filter: opacity(0.5) drop-shadow(0 0 0 #be1e37) saturate(200%);
+}
+
+.text-gold-header {
+    margin-right: 10px;
 }
 
 /* part-champ */
@@ -71,7 +89,6 @@
 .rune-main {
     width: 25px;
     height: 25px;
-    background-color: black;
     border-radius: 15px;
 }
 .rune-sub {
@@ -95,10 +112,16 @@
     height: 15px;
 }
 
+.spell1 {
+    border: solid 1px #463714;
+}
+.spell2 {
+    border: solid 1px #463714;
+    border-top: none;
+}
+
 .part-level {
     width: 25px;
-    font-size: 1.2em;
-    
 }
 
 /* part-name */
@@ -109,12 +132,14 @@
     width: 120px;
     padding-left: 5px;
     font-size: 0.8em;
+    font-weight: 500;
     text-align: left;
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
 }
 .part-icon {
+    position: relative;
     height: 30px;
 }
 .part-icon img {
@@ -122,26 +147,37 @@
     height: 30px;
     border-radius: 15px;
 }
-
+.shadow {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    box-shadow: inset 0px 0px 0px 2px #af8830;
+    border-radius: 15px;
+    top: 0;
+    left: 0;
+}
 
 /* part-item */
 .part-item {
     position: relative;
 }
-.part-item img {
+.item {
     float:left;
-    width: 30px;
-    height: 30px;
-    border: solid 1px white;
-    border-radius: 5px;
-
+    width: 25px;
+    height: 25px;
+    color: #011925;
+    border: solid 1px #463714;
+    border-left: none;
+}
+.item-first {
+    border-left: solid 1px #463714;
 }
 .vision-score {
     position: absolute;
     display: flex;
-    left: 193px;
-    width: 30px;
-    height: 30px;
+    left: 157px;
+    width: 25px;
+    height: 25px;
     align-items: flex-end;
     text-align: center;
 }
@@ -186,4 +222,12 @@
     padding-left: 20px;
     text-align: left;
     width: 80px;
+}
+
+/* Me */
+.is-me {
+    color: #fabe0a;
+}
+.is-me .shadow {
+    box-shadow: inset 0px 0px 0px 2px #fabe0a;
 }
