@@ -3,13 +3,6 @@
     width: 100%;
 }
 
-.match {
-}
-
-.match div {
-    border: 1px solid black;
-}
-
 .team {
     display: table;
     margin: auto;
@@ -100,9 +93,34 @@
 }
 
 
-
+/* part-item */
+.part-item {
+    position: relative;
+}
 .part-item img {
     float:left;
     width: 30px;
-}
+    height: 30px;
+    border: solid 1px white;
+    border-radius: 5px;
 
+}
+.vision-score {
+    position: absolute;
+    display: flex;
+    left: 193px;
+    width: 30px;
+    height: 30px;
+    align-items: flex-end;
+    text-align: center;
+}
+.vision-score span {
+    width: 100%;
+    color: white;
+    font-size: 0.8em;
+    text-shadow:
+    -1px -1px 0 #24292e,  
+     1px -1px 0 #24292e,
+     -1px 1px 0 #24292e,
+      1px 1px 0 #24292e;
+}
