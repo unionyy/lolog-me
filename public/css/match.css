@@ -1,6 +1,29 @@
 #match-inspecter {
+    background-color: #24292e;
     position: absolute;
     width: 100%;
+
+    border-radius: 5px;
+}
+#match-inspecter.inspecter-win {
+    /* border: solid 2px #22c4d5d0; */
+    background-color: #22c4d530;
+}
+#match-inspecter.inspecter-lose {
+    /* border: solid 2px #22c4d5d0; */
+    background-color: #e5133c30;
+}
+
+
+.cur-log.log-win {
+    background-color: #22c4d5d0;
+    color: #24292e;
+    font-weight: 700;
+}
+.cur-log.log-lose {
+    background-color: #e5133cd0;
+    color: #24292e;
+    font-weight: 700;
 }
 
 .team {
@@ -9,6 +32,13 @@
     display: table;
     margin: auto;
     font-weight: 600;
+}
+
+.team.Win {
+    border: solid 5px #22c4d5d0;
+}
+.team.Lose {
+    border: solid 5px #e5133cd0;
 }
 .team-header {
     display: table-header-group;
@@ -41,10 +71,10 @@
 }
 
 .text-color-Win {
-    color: #098fa2;
+    color: #22c4d5d0;
 }
 .text-color-Lose {
-    color: #be1e37;
+    color: #e5133cd0;
 }
 .text-color-Remake {
     color: gray;
@@ -52,12 +82,12 @@
 .text-team {
     font-size: 0.8em;
 }
-.text-Blue {
-    color: #098fa2;
+/* .text-Blue {
+    color: #22c4d5d0;
 }
 .text-Red {
-    color: #be1e37;
-}
+    color: #e5133cd0;
+} */
 
 .text-kda-header {
     width: 30px;
@@ -68,10 +98,10 @@
     filter: opacity(0.5) drop-shadow(0 0 0 #011925) saturate(100%);
 }
 .icon-header.Win {
-    filter: opacity(0.5) drop-shadow(0 0 0 #098fa2) saturate(200%);
+    filter: opacity(0.5) drop-shadow(0 0 0 #22c4d5) saturate(200%);
 }
 .icon-header.Lose {
-    filter: opacity(0.5) drop-shadow(0 0 0 #be1e37) saturate(200%);
+    filter: opacity(0.5) drop-shadow(0 0 0 #e5133c) saturate(200%);
 }
 
 .text-gold-header {
@@ -193,36 +223,38 @@
 }
 
 /* part-kda */
+.padding-cell {
+    padding-left: 30px;
+}
 .text-kda {
     width: 30px;
 }
-.text-kill-participation {
+/* .text-kill-participation {
     width: 50px;
     font-size: 0.8em;
-}
+} */
 
 /* part-cs */
 .text-cs {
     width: 40px;
 }
-.text-cs-min {
+/* .text-cs-min {
     width: 35px;
     font-size: 0.8em;
-}
+} */
 
 /* part-gold */
 .text-gold {
-    padding-left: 20px;
     text-align: left;
-    width: 80px;
+    width: 65px;
 }
 
 /* part-damage */
-.text-damage {
+/* .text-damage {
     padding-left: 20px;
     text-align: left;
     width: 80px;
-}
+} */
 
 /* Me */
 .is-me {

@@ -1,19 +1,22 @@
-async function GetMatch(_matchId, _platform, _timestamp) {
-    await fetch(`/${_platform}/match/${_matchId}`)
+async function GetMatch(_this) {
+    await fetch(`/${$(_this).attr('platform')}/match/${$(_this).attr('matchId')}`)
         .then(response => response.json())
         .then(data => {
             var cdnuri = BANANACDN;
+
+            /** Find version */
+            var timestamp = $(_this).attr('timestamp');
             for(version in VERSION) {
                 if(version === 'latest') continue;
 
                 if(version === '10.19.1') cdnuri = RIOTCDNURI;
 
-                if(VERSION[version] < _timestamp) {
+                if(VERSION[version] < timestamp) {
                     cdnuri += version;
                     break;
                 }
             }
-            var matchHtml = `<div class="match">`
+            
             var myTeam;
             for (team in data.teams) {
                 /** Win or Lose */
@@ -47,8 +50,8 @@ async function GetMatch(_matchId, _platform, _timestamp) {
                     <header class="team-header">
                         <div class="col-champ cell">
                             <div class="inner-cell-header">
-                                <span class="text-WLR text-color-${winText}">${winText}</span>
-                                <span class="text-team text-${teamText}">(${teamText})</span>
+                                <span class="text-WLR text-color-${winText}">${LANG[winText]}</span>
+                                <span class="text-team text-${teamText} text-color-${winText}">(${teamText})</span>
                             </div>
                         </div>
                         <div class="col-name cell">
@@ -66,17 +69,19 @@ async function GetMatch(_matchId, _platform, _timestamp) {
                             </div>
                         </div>
                         <div class="col-kda cell">
-                            <div class="inner-cell-header">
+                            <div class="inner-cell-header padding-cell">
                             <img class="icon-header" src="/images/icon/mask-icon-offense.png" />
                             </div>
                         </div>
-                        <div class="col-cs cell"><div class="inner-cell-header">
+                        <div class="col-cs cell"><div class="inner-cell-header padding-cell">
                             <img class="icon-header" src="/images/icon/mask-icon-cs.png" />
                         </div></div>
                         <div class="col-gold cell"><div class="inner-cell-header">
                             <img class="icon-header" src="/images/icon/mask-icon-gold.png" />
                         </div></div>
+                        <!--
                         <div class="col-damage cell"><div class="inner-cell-header">Damage</div></div>
+                        -->
                     </header>
                     <ul class="team-container">`;
                 for (elem of data.teams[team].participants) {
@@ -85,6 +90,19 @@ async function GetMatch(_matchId, _platform, _timestamp) {
                     if($('#user-profile-name').attr('accountId') === elem.id.accountId) {
                         myTeam = team;
                         isMe = ' is-me';
+
+                        /** Add Class to mini log */
+                        var miniLog = $(_this).find('.user-games-mini');
+                        $(miniLog).addClass('cur-log')
+                        $('#match-inspecter').removeClass('inspecter-win');
+                        $('#match-inspecter').removeClass('inspecter-lose');
+                        if (winText === 'Win') {
+                            $('#match-inspecter').addClass('inspecter-win');
+                            $(miniLog).addClass('log-win');
+                        } else if (winText === 'Lose') {
+                            $('#match-inspecter').addClass('inspecter-lose')
+                            $(miniLog).addClass('log-lose');
+                        }
                     }
 
                     /** Item Images */
@@ -139,29 +157,27 @@ async function GetMatch(_matchId, _platform, _timestamp) {
                             </div>
                         </div>
                         <div class="part-kda cell">
-                            <div class="inner-cell">
+                            <div class="inner-cell padding-cell" title="(${killPart}%)">
                                 <span class="text-kda">${elem.stats.kills}</span>
                                 <span>/</span><span class="text-kda">${elem.stats.deaths}</span>
                                 <span>/</span><span class="text-kda">${elem.stats.assists}</span>
-                                <span class="text-kill-participation">(${killPart}%)</span>
                             </div>
                         </div>
                         <div class="part-cs cell">
-                            <div class="inner-cell">
-                                <span class="text-cs" title="${elem.stats.minions} + ${elem.stats.jungle}">${elem.stats.minions + elem.stats.jungle}</span>
-                                <span class="text-cs-min">(${((elem.stats.minions + elem.stats.jungle)/(data.duration/60)).toFixed(1)})</span>
+                            <div class="inner-cell padding-cell">
+                                <span class="text-cs" title="${elem.stats.minions} + ${elem.stats.jungle} (${((elem.stats.minions + elem.stats.jungle)/(data.duration/60)).toFixed(1)})">${elem.stats.minions + elem.stats.jungle}</span>
                             </div>
                         </div>
                         <div class="part-gold cell">
-                            <div class="inner-cell">
+                            <div class="inner-cell padding-cell">
                                 <span class="text-gold">${elem.stats.gold.toLocaleString('ko-KR')}</span>
                             </div>
                         </div>
-                        <div class="part-damage cell">
+                        <!-- <div class="part-damage cell">
                             <div class="inner-cell">
                                 <span class="text-damage" title="${elem.stats.deal.toLocaleString('ko-KR')}/${elem.stats.dealTotal.toLocaleString('ko-KR')}">${elem.stats.deal.toLocaleString('ko-KR')}</span>
                             </div>
-                        </div>
+                        </div>-->
                         </li>`;
                     teamHtml += partHtml;
                 }
@@ -170,6 +186,7 @@ async function GetMatch(_matchId, _platform, _timestamp) {
                 data.teams[team].html = teamHtml;
             }
 
+            var matchHtml = `<div class="match">`
             /** Input & Order teams */
             if(data.teams[myTeam]) {
                 matchHtml += data.teams[myTeam].html;
@@ -190,14 +207,17 @@ var currentMatch;
 $(document).ready(function() {
     $('.user-games-game').each(function() {
         $(this).find('.user-games-mini').click(async () => {
+            /** Init Class */
+            $(currentMatch).find('.user-games-mini').removeClass('cur-log');
+
             if(this === currentMatch) {
                 RefreshMatch();
             }else {
-                await GetMatch($(this).attr('matchId'), $(this).attr('platform'), $(this).attr('timestamp'))
+                await GetMatch(this);
                 $(currentMatch).css('height', $(this).find('.user-games-mini').height())
-                $(this).css('height', $(this).find('.user-games-mini').height() + $('#match-inspecter').height())
+                $(this).css('height', $(this).find('.user-games-mini').height() + $('#match-inspecter').height() + 4)
                 currentMatch = this;
-                $('#match-inspecter').css('top', $(this).position().top + $(this).find('.user-games-mini').height());
+                $('#match-inspecter').css('top', $(this).position().top + $(this).find('.user-games-mini').height() + 4);
             
             }
 
@@ -208,7 +228,7 @@ $(document).ready(function() {
 function RefreshMatch() {
     if(currentMatch) {
         $('#match-inspecter').html('');
-        $(currentMatch).css('height', $(currentMatch).find('.user-games-mini').height())
+        $(currentMatch).css('height', $(currentMatch).find('.user-games-mini').height());
         currentMatch = undefined;
     }
 }

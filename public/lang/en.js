@@ -156,6 +156,9 @@ const LANG = {
 		"Zyra": "Zyra",
 	},
 
+	Win: "Victory",
+	Lose: "Defeat",
+	
 	TOP: "TOP",
 	JUNGLE: "JUNGLER",
 	MIDDLE: "MID",

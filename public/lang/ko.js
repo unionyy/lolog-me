@@ -156,6 +156,9 @@ const LANG = {
 		"Zyra": "자이라",	
 	},
 
+	Win: "승리",
+	Lose: "패배",
+
     TOP: "탑",
     JUNGLE: "정글",
     MIDDLE: "미드",
