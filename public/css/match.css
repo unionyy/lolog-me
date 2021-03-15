@@ -11,10 +11,13 @@
 #match-inspecter.match-hide {
     display: none;
 }
-
 .match-loading {
-    text-align: center;
     margin: auto;
+}
+.match-fail {
+    margin: auto;
+    font-size: 1.4em;
+    font-weight: 700;
 }
 
 #match-inspecter.inspecter-win {

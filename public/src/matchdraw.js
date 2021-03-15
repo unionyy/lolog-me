@@ -1,6 +1,6 @@
 async function GetMatch(_this) {
     await fetch(`/${$(_this).attr('platform')}/match/${$(_this).attr('matchId')}`)
-        .then(response => response.json())
+        .then(response => response.json(), err => {$("#match-inspecter").html('<span class="match-fail">Try Again</span>');})
         .then(data => {
             var cdnuri = BANANACDN;
 
