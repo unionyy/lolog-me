@@ -326,3 +326,6 @@
 .is-me .shadow {
     box-shadow: inset 0px 0px 0px 2px #fabe0a;
 }
+.is-me .part-link {
+    color: #fabe0a;
+}
