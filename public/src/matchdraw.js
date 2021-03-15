@@ -225,12 +225,15 @@ $(document).ready(function() {
             if(this === currentMatch) {
                 RefreshMatch();
             }else {
+                await $('#match-inspecter').removeClass('match-hide');
+                await $('#match-inspecter').html('<i class="match-loading fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>');
+                await $(this).css('height', $(this).find('.user-games-mini').height() + $('#match-inspecter').height() + 4);
+                await $('#match-inspecter').css('top', $(this).position().top + $(this).find('.user-games-mini').height() + 4);
+                await $(currentMatch).css('height', $(this).find('.user-games-mini').height())
+
                 await GetMatch(this);
-                $(currentMatch).css('height', $(this).find('.user-games-mini').height())
-                $(this).css('height', $(this).find('.user-games-mini').height() + $('#match-inspecter').height() + 4)
+                
                 currentMatch = this;
-                $('#match-inspecter').css('top', $(this).position().top + $(this).find('.user-games-mini').height() + 4);
-            
             }
 
         })
@@ -240,7 +243,9 @@ $(document).ready(function() {
 function RefreshMatch() {
     if(currentMatch) {
         $('#match-inspecter').html('');
+        $('#match-inspecter').addClass('match-hide');
         $(currentMatch).css('height', $(currentMatch).find('.user-games-mini').height());
+        $(currentMatch).find('.user-games-mini').removeClass('cur-log');
         currentMatch = undefined;
     }
 }
