@@ -107,6 +107,18 @@ app.use((req, res, next) => {
 
 app.use(i18n.init);
 
+const apiLimiter = rateLimit({
+  windowMs: 10 * 1000,
+  max: 10,
+  handler: function  (req, res, next) {
+    /** empty */
+  },
+  onLimitReached: function (req, res, options) {
+    res.status(options.statusCode).send(template.HTMLmsg(res.__('rate_limit'), res.__, req.cookies['platform-lologme'], res.locals.cspNonce));
+  }
+});
+
+app.use(apiLimiter);
 
 
 app.get('/', (req, res) => {
@@ -142,21 +154,26 @@ app.get(`/update`, (req, res) => {
   var platform = req.query.platform;
   platform = Object.keys(PLATFORM_MY)[platform];
   riot.Update(normName, platform).then(data => {
-    res.redirect(`${platform}/user/${normName}`);
+    res.redirect(`/${platform}/user/${normName}`);
   })
 });
 
-const apiLimiter = rateLimit({
-  windowMs: 10 * 1000,
-  max: 10,
-  handler: function  (req, res, next) {
-    /** empty */
-  },
-  onLimitReached: function (req, res, options) {
-    res.status(options.statusCode).send(template.HTMLmsg(res.__('rate_limit'), res.__, req.cookies['platform-lologme'], res.locals.cspNonce));
+app.get(`/:platform/id/:userId`, (req, res, next) => {
+  var platform = urlencode.decode(req.params.platform);
+  var userId = req.params.userId;
+  // Varify query
+  if (PLATFORM_MY[platform] === undefined) {
+    next();
   }
-});
-app.get(`/:platform/user/:userName`,apiLimiter, (req, res, next) => {
+  riot.SearchId(userId, platform).then(data=> {
+    res.redirect(`/${platform}/user/${data.norm_name}`);
+  }, err => {
+    console.log(err);
+    next();
+  })
+})
+
+app.get(`/:platform/user/:userName`, (req, res, next) => {
   var platform = urlencode.decode(req.params.platform);
   var begin = req.query.begin;
   var end = req.query.end;
@@ -206,7 +223,7 @@ app.get(`/:platform/user/:userName`,apiLimiter, (req, res, next) => {
   })
 });
 
-app.get(`/:platform/match/:matchId`, apiLimiter, (req, res, next) => {
+app.get(`/:platform/match/:matchId`, (req, res, next) => {
   var platform = urlencode.decode(req.params.platform);
 
   // Varify query

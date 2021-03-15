@@ -146,7 +146,7 @@ async function GetMatch(_this) {
                                     <img src="${RIOTCDNURI + VERSION.latest}/img/champion/${CHAMPION[elem.champ]}.png" alt="${CHAMPION[elem.champ]}" title="${CHAMPION[elem.championId]}" />
                                     <div class="shadow"></div>
                                 </div>
-                                <span>${elem.id.name}</span>
+                                <a class="part-link" href="/${elem.id.platform.toLowerCase()}/id/${elem.id.accountId}">${elem.id.name}</a>
                             </div>
                         </div>
                         <div class="part-item cell">

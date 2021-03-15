@@ -200,7 +200,7 @@
 .part-name {
     width: 150px;
 }
-.part-name span {
+.part-link {
     width: 120px;
     padding-left: 5px;
     font-size: 0.8em;
@@ -209,6 +209,12 @@
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
+
+    color: #f0e6d2;
+    text-decoration: none;
+}
+.part-link:hover {
+    text-decoration: underline;
 }
 .part-icon {
     position: relative;
