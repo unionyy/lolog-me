@@ -158,7 +158,10 @@ const LANG = {
 
 	Win: "Victory",
 	Lose: "Defeat",
-	
+
+	BlueTeam: "Blue team",
+	RedTeam: "Red team",
+
 	TOP: "TOP",
 	JUNGLE: "JUNGLER",
 	MIDDLE: "MID",

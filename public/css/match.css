@@ -14,6 +14,46 @@
     background-color: #e5133c30;
 }
 
+.match {
+    background-color: #011925;
+    width: 730px;
+    margin: auto;
+}
+.match.Win {
+    border: solid 5px #22c4d5d0;
+}
+.match.Lose {
+    border: solid 5px #e5133cd0;
+}
+
+/* HEADER */
+.match-header {
+    display: inline-flex;
+    width: 100%;
+    text-align: left;
+    align-items: flex-end;
+    margin-left: 5px;
+
+    color: #f0e6d2;
+
+}
+.win-rect.Win {
+    color: #22c4d5d0;
+}
+.win-rect.Lose {
+    color: #e5133cd0;
+}
+.match-header-win {
+    text-align: left;
+    font-size: 1.4em;
+    font-weight: 700;
+}
+
+.match-header-duration {
+    
+    margin-left: 5px;
+}
+
 
 .cur-log.log-win {
     background-color: #22c4d5d0;
@@ -27,19 +67,18 @@
 }
 
 .team {
-    background-color: #011925;
     color: #f0e6d2;
     display: table;
     margin: auto;
     font-weight: 600;
 }
 
-.team.Win {
+/* .team.Win {
     border: solid 5px #22c4d5d0;
 }
 .team.Lose {
     border: solid 5px #e5133cd0;
-}
+} */
 .team-header {
     display: table-header-group;
     color: #a09b8c;
@@ -79,9 +118,11 @@
 .text-color-Remake {
     color: gray;
 }
-.text-team {
-    font-size: 0.8em;
+.header-team {
+    text-align: left;
+    width: 100%;
 }
+
 /* .text-Blue {
     color: #22c4d5d0;
 }

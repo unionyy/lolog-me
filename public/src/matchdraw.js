@@ -40,18 +40,19 @@ async function GetMatch(_this) {
                 if(data.teams[team].win < 10) {
                     teamText = 'Unkown';
                 } else if(data.teams[team].win < 20) {
-                    teamText = 'Blue';
+                    teamText = 'BlueTeam';
                 } else {
-                    teamText = 'Red';
+                    teamText = 'RedTeam';
                 }
+
+                data.teams[team].win = winText;
 
                 var teamHtml = `
                 <div class="team ${winText}">
                     <header class="team-header">
                         <div class="col-champ cell">
-                            <div class="inner-cell-header">
-                                <span class="text-WLR text-color-${winText}">${LANG[winText]}</span>
-                                <span class="text-team text-${teamText} text-color-${winText}">(${teamText})</span>
+                            <div class="inner-cell-header header-team">
+                                <span class="text-team text-${teamText} text-color-${winText}">${LANG[teamText]}</span>
                             </div>
                         </div>
                         <div class="col-name cell">
@@ -186,7 +187,18 @@ async function GetMatch(_this) {
                 data.teams[team].html = teamHtml;
             }
 
-            var matchHtml = `<div class="match">`
+            /** Header */
+            var headerHtml = `<div class="match-header">
+                    <div class="match-header-win">
+                        <i class="fa fa-circle win-rect ${data.teams[myTeam].win}" aria-hidden="true"></i>
+                        <span>${LANG[data.teams[myTeam].win]}</span>
+                    </div>
+                    <div class="match-header-duration">
+                        <span>${Math.ceil(data.duration/60)}:${(data.duration % 60).toString().padStart(2,'0')}</span>
+                    </div>
+                </div>`;
+
+            var matchHtml = `<div class="match ${data.teams[myTeam].win}">` + headerHtml;
             /** Input & Order teams */
             if(data.teams[myTeam]) {
                 matchHtml += data.teams[myTeam].html;

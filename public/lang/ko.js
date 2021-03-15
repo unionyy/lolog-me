@@ -159,6 +159,9 @@ const LANG = {
 	Win: "승리",
 	Lose: "패배",
 
+	BlueTeam: "파랑 팀",
+	RedTeam: "빨강 팀",
+
     TOP: "탑",
     JUNGLE: "정글",
     MIDDLE: "미드",
