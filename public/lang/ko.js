@@ -158,6 +158,7 @@ const LANG = {
 
 	Win: "승리",
 	Lose: "패배",
+	Remake: "다시하기",
 
 	BlueTeam: "파랑 팀",
 	RedTeam: "빨강 팀",
