@@ -1,23 +1,24 @@
 #match-inspecter {
-    background-color: #24292e;
+    /* background-color: #24292e; */
     position: absolute;
     width: 100%;
 
-    border-radius: 5px;
+    /* border-radius: 5px; */
 }
 #match-inspecter.inspecter-win {
     /* border: solid 2px #22c4d5d0; */
-    background-color: #22c4d530;
+    /* background-color: #22c4d530; */
 }
 #match-inspecter.inspecter-lose {
     /* border: solid 2px #22c4d5d0; */
-    background-color: #e5133c30;
+    /* background-color: #e5133c30; */
 }
 
 .match {
     background-color: #011925;
     width: 730px;
     margin: auto;
+    border-radius: 5px;
 }
 .match.Win {
     border: solid 5px #22c4d5d0;
