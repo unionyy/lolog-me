@@ -77,16 +77,18 @@
     margin-left: 5px;
 }
 
-
-.cur-log.log-win {
-    background-color: #22c4d5d0;
+.cur-log {
     color: #24292e;
     font-weight: 700;
 }
-.cur-log.log-lose {
+.cur-log.log-Win {
+    background-color: #22c4d5d0;
+}
+.cur-log.log-Lose {
     background-color: #e5133cd0;
-    color: #24292e;
-    font-weight: 700;
+}
+.cur-log.log-Remake {
+    background-color: gray;
 }
 
 .team {

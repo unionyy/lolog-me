@@ -94,16 +94,8 @@ async function GetMatch(_this) {
 
                         /** Add Class to mini log */
                         var miniLog = $(_this).find('.user-games-mini');
-                        $(miniLog).addClass('cur-log')
-                        // $('#match-inspecter').removeClass('inspecter-win');
-                        // $('#match-inspecter').removeClass('inspecter-lose');
-                        if (winText === 'Win') {
-                            // $('#match-inspecter').addClass('inspecter-win');
-                            $(miniLog).addClass('log-win');
-                        } else if (winText === 'Lose') {
-                            // $('#match-inspecter').addClass('inspecter-lose')
-                            $(miniLog).addClass('log-lose');
-                        }
+                        $(miniLog).addClass('cur-log');
+                        $(miniLog).addClass('log-' + winText);
                     }
 
                     /** Item Images */
