@@ -150,7 +150,7 @@ app.get(`/search`, (req, res) => {
   res.redirect(`/${req.query.platform}/user/${req.query.username}`);
 });
 
-app.get(`/update`, (req, res) => {
+app.get(`/update`, (req, res, next) => {
   // var normName = NormalizeName(urlencode.decode(req.body.username));
 
   // var platform = urlencode.decode(req.body.platform);
@@ -158,7 +158,9 @@ app.get(`/update`, (req, res) => {
   // riot.Update(normName, platform).then(data => {
   //   res.redirect(`${urlencode.encode(platform)}/user/${normName}`);
   // })
-
+  if(!req.query.username) {
+    next();
+  }
   var normName = NormalizeName(req.query.username);
 
   var platform = req.query.platform;
