@@ -114,6 +114,7 @@ const userLimiter = rateLimit({
     /** empty */
   },
   onLimitReached: function (req, res, options) {
+    console.log('Rate Limit: user');
     res.status(options.statusCode).send(template.HTMLmsg(res.__('rate_limit'), res.__, req.cookies['platform-lologme'], res.locals.cspNonce));
   }
 });
@@ -124,6 +125,7 @@ const matchLimiter = rateLimit({
     /** empty */
   },
   onLimitReached: function (req, res, options) {
+    console.log('Rate Limit: match');
     res.status(options.statusCode).send(template.HTMLmsg(res.__('rate_limit'), res.__, req.cookies['platform-lologme'], res.locals.cspNonce));
   }
 });
