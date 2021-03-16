@@ -158,16 +158,21 @@ app.get(`/update`, (req, res, next) => {
   // riot.Update(normName, platform).then(data => {
   //   res.redirect(`${urlencode.encode(platform)}/user/${normName}`);
   // })
-  if(!req.query.username) {
+  try{
+    var normName = NormalizeName(req.query.username);
+
+    var platform = req.query.platform;
+    platform = Object.keys(PLATFORM_MY)[platform];
+    riot.Update(normName, platform).then(data => {
+      res.redirect(`/${platform}/user/${normName}`);
+    }, err => {
+      console.log('riot Update Err');
+      next();
+    })
+  } catch (err) {
+    console.log('update Err');
     next();
   }
-  var normName = NormalizeName(req.query.username);
-
-  var platform = req.query.platform;
-  platform = Object.keys(PLATFORM_MY)[platform];
-  riot.Update(normName, platform).then(data => {
-    res.redirect(`/${platform}/user/${normName}`);
-  })
 });
 
 app.get(`/:platform/id/:userId`, userLimiter, (req, res, next) => {
