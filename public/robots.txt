@@ -3,4 +3,6 @@ Disallow: /*/match/
 Disallow: /*/id/
 Disallow: /update
 Disallow: /search
+Allow: /css/
+Allow: /src/
 Sitemap: https://lolog.me/sitemap.xml
