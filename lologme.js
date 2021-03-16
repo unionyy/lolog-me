@@ -107,7 +107,7 @@ app.use((req, res, next) => {
 
 app.use(i18n.init);
 
-const apiLimiter = rateLimit({
+const userLimiter = rateLimit({
   windowMs: 10 * 1000,
   max: 10,
   handler: function  (req, res, next) {
@@ -117,8 +117,16 @@ const apiLimiter = rateLimit({
     res.status(options.statusCode).send(template.HTMLmsg(res.__('rate_limit'), res.__, req.cookies['platform-lologme'], res.locals.cspNonce));
   }
 });
-
-app.use(apiLimiter);
+const matchLimiter = rateLimit({
+  windowMs: 10 * 1000,
+  max: 100,
+  handler: function  (req, res, next) {
+    /** empty */
+  },
+  onLimitReached: function (req, res, options) {
+    res.status(options.statusCode).send(template.HTMLmsg(res.__('rate_limit'), res.__, req.cookies['platform-lologme'], res.locals.cspNonce));
+  }
+});
 
 
 app.get('/', (req, res) => {
@@ -158,7 +166,7 @@ app.get(`/update`, (req, res) => {
   })
 });
 
-app.get(`/:platform/id/:userId`, (req, res, next) => {
+app.get(`/:platform/id/:userId`, userLimiter, (req, res, next) => {
   var platform = urlencode.decode(req.params.platform);
   var userId = req.params.userId;
   // Varify query
@@ -173,7 +181,7 @@ app.get(`/:platform/id/:userId`, (req, res, next) => {
   })
 })
 
-app.get(`/:platform/user/:userName`, (req, res, next) => {
+app.get(`/:platform/user/:userName`, userLimiter, (req, res, next) => {
   var platform = urlencode.decode(req.params.platform);
   var begin = req.query.begin;
   var end = req.query.end;
@@ -223,7 +231,7 @@ app.get(`/:platform/user/:userName`, (req, res, next) => {
   })
 });
 
-app.get(`/:platform/match/:matchId`, (req, res, next) => {
+app.get(`/:platform/match/:matchId`, matchLimiter, (req, res, next) => {
   var platform = urlencode.decode(req.params.platform);
 
   // Varify query
