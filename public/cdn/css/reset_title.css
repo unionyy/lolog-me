@@ -1,0 +1,22 @@
+@media only screen and (max-width: 900px){
+    #title-main {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+}
+
+@media only screen and (max-width: 550px){
+    #title-main {
+        margin-top: 20%;
+    }
+
+    #title-title img {
+        width: 100%;
+    }
+
+    #title-main #searchbox {
+        width: 100%;
+        grid-template-columns: 60px auto 60px;
+    }
+
+}

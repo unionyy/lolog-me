@@ -1,0 +1,79 @@
+html {
+    height: 100%;
+}
+
+body {
+    background-color: #24292e;
+    height: 100%;
+    margin:0;
+}
+
+#wrapper {
+    min-height: 100%;
+}
+
+#title-toolbar {
+    display: grid;
+    grid-template-columns: auto 100px;
+    text-align: left;
+}
+
+#lang-select {
+    
+    background-color: #00000000;
+    color: white;
+    border:none;
+    height: 25px;
+    margin-left: 10px;
+    text-align-last: right;
+}
+#lang-select option {
+    
+    background-color: #24292e;
+    color: white;
+}
+
+#title-main {
+    margin-top:10%;
+}
+
+#title-title {
+    text-align: center;
+    margin: 50px;
+    
+}
+
+#searchbox {
+    display: grid;
+    grid-template-columns: 80px 400px 80px;
+    width: 560px;
+    margin: auto;
+    height: 50px;
+}
+
+#searchbox-platform {
+    font-size: 1.2em;
+}
+
+#searchbox-platform option{
+    font-size: 0.83em;
+}
+
+#searchbox-box {
+    font-size: 1.2em;
+}
+
+#searchbox-button {
+    font-size: 1.2em;
+}
+
+/* Style the footer */
+#footer {
+    color: white;
+}
+
+#footer a {
+    color: white;
+}
+  
+

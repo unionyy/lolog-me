@@ -1,0 +1,51 @@
+@media only screen and (max-width: 550px){
+    #toolbar-logo {
+        margin: 15px;
+    }
+    #toolbar #searchbox {
+        height: 40px;
+    }
+    
+    #searchbox-platform {
+        font-size: 1em;
+    }
+    #searchbox-platform option{
+        font-size: 1em;
+    }
+    
+    #searchbox-box {
+        font-size: 1em;
+        font-weight: 700;
+    }
+    
+    #searchbox-button {
+        font-size: 1em;
+        font-weight: 700;
+        background-color: white;
+        color:#24292e;
+    }
+
+    #toolbar {
+        grid-template-columns: auto;
+        text-align: center;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 10px;
+    }
+
+    #toolbar-title {
+        margin-bottom: 25px;
+    }
+
+    #toolbar #lang-select {
+        display: none;
+    }
+}
+
+@media only screen and (min-width: 1000px){
+    #content {
+        width: 1000px;
+        margin-left:auto;
+        margin-right:auto;
+    }
+}

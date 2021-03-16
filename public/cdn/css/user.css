@@ -1,0 +1,385 @@
+.in-box {
+    background-color: whitesmoke;
+    border: 1px solid rgb(222, 222, 222);
+    border-radius: 5px;
+}
+
+/************* PROFILE ***************/
+#user-profile {
+    display:grid;
+    grid-template-columns: auto 520px;
+
+    overflow:hidden;
+
+    padding: 30px;
+    margin: 20px;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+#user-profile-bio {
+    display:inline-flex;
+}
+
+#user-profile-bio-img {
+    display:inline-flex;    
+}
+#user-profile-bio-img img{
+    border-radius: 15px;
+    display:inline-block;
+    align-self: center;
+    height: 120px;
+    
+}
+
+#user-profile-bio-grid {
+    display:grid;
+    grid-template-rows: 60px 60px;
+    align-items: center;
+    margin-left: 10px
+}
+
+#user-profile-name {
+    text-align: left;
+    color: #24292e;
+    font-size: 1.8em;
+    font-weight: 900;
+}
+
+#user-profile-refresh {
+    display:inline-block;
+}
+
+#update-button {
+    cursor: pointer;
+    background-color: #0366d6;
+    border-style: none;
+    width: 80px;
+    height: 40px;
+    border-radius: 5px;
+    
+    color: white;
+    font-size: 1em;
+}
+
+#user-ranks {
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+.profile-rank {
+    display:inline-flex;
+    margin: auto;
+}
+
+.profile-rank img {
+    display:inline-block;
+    align-self: center;
+    height: 120px;
+}
+
+.profile-rank-text {
+    color: #24292e;
+    display:inline-block;
+    align-self: center;
+    text-align: center;
+    font-weight: 700;
+}
+.profile-rank-text-grid {
+    display:grid
+}
+
+.text-rank-title {
+    font-size: 0.8em;
+    font-weight: 500;
+    color:rgb(100, 100, 100);
+}
+
+.text-ratio {
+    font-size: 0.8em;
+    font-weight: 500;
+    color:rgb(100, 100, 100);
+}
+
+.text-wins   {color:rgb(57, 174, 241);}
+.text-losses   {color:rgb(243, 111, 59);}
+.text-inactive  {color:#7c7c7c;}
+
+.text-tier {
+        font-size: 1.4em;
+        font-weight: 900;
+}
+/* Tier Text Color */
+.text-IRON          {color:#3d2a28;}
+.text-BRONZE        {color:#5c2e1d;}
+.text-SILVER        {color:#829094;}
+.text-GOLD          {color:#ecb938;}
+.text-PLATINUM      {color:#0ec351;}
+.text-DIAMOND       {color:#432ac7;}
+.text-MASTER        {color:#ab14cc;}
+.text-GRANDMASTER   {color:#fb2627;}
+.text-CHALLENGER    {color:rgb(57, 174, 241);}
+.text-Unranked      {color:#7c7c7c;}
+
+
+/**************** PERIOD SETTING *****************/
+#period {
+    display: grid;
+    grid-template-columns: auto 385px;
+
+    margin-top: 10px;
+}
+
+#seasons {
+    text-align: left;
+    font-size: 1.2em;
+}
+
+.seasons-button {
+    display: inline-block;
+    width: 80px;
+    height: 40px;
+}
+
+.seasons-link {
+    background-color: whitesmoke;
+    border: 1px solid rgb(222, 222, 222);
+    color: #24292e;
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
+
+    display: block;
+    width: 100%;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+
+.seasons-link[selected] {
+    background-color: #0366d6;
+    border: 1px solid #0366d6;
+    color: white;
+}
+
+#period-selector {
+    align-self: center;
+    text-align: right;
+    font-size: 1em;
+    font-weight: 700;
+    color: #24292e;
+}
+
+#period-selector-end, #period-selector-begin {
+    font-size: 1em;
+    font-weight: 700;
+    color: #24292e;
+
+    width: 145px;
+}
+
+#period-button {
+    font-size: 1.2em;
+
+    font-weight: 500;
+    color: #24292e;
+    cursor: pointer;
+    background-color: whitesmoke;
+    border: 1px solid rgb(222, 222, 222);
+    border-radius: 5px;
+
+    width: 30px;
+    height: 30px;
+}
+
+#period-button:hover {
+    background-color: rgb(222, 222, 222);
+}
+
+/*******************  GRAPH HEADER ********************/
+
+#user-graph {
+    margin-top: 40px;
+}
+
+#user-graph-header {
+    margin-left: 30px;
+
+    display:grid;
+    grid-template-columns: 360px auto 570px;
+}
+
+#user-graph-header .fa-caret-down {
+    display: none;
+}
+#user-graph-header .fa-caret-up {
+    display: none;
+}
+
+#username-total {
+    color: #24292e;
+    font-size: 1.6em;
+    font-weight: 700;
+}
+
+.period {
+    color: #24292e;
+    font-size: 1.3em;
+    font-weight: 500;
+}
+
+#type-check {
+    display:inline-block;
+    align-self:flex-end;
+    text-align: right;
+}
+
+/********************* GRAPH ************************/
+
+#user-graph-box {
+    margin-top: 20px;
+    
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    
+    text-align: center;
+}
+
+#user-graph-svg {
+    overflow:auto;
+    direction: rtl;
+
+    padding-bottom: 5px;
+}
+
+/* svg icon have to DISPLAY!!! */
+.graph-svg {
+    width: 0px;
+    height: 0px;
+}
+
+#user-graph-grad {
+    text-align: right;
+    margin-right: 10px;
+    font-weight: 600;
+}
+
+.month {
+    fill: #24292e;
+    font-weight: 600;
+}
+
+.wday {
+    fill:#9be9a8;
+    font-weight: 900;
+}
+
+.wday-point {
+    fill:#40c463;
+}
+
+/*********************** CHARTS *************************/
+#charts {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    height: 200px;
+    text-align: center;
+}
+
+#charts-champ-wrapper, #charts-lane-wrapper {
+    position: relative;
+    margin: auto;
+}
+
+#charts-champ-img {
+    position: absolute;
+    top: 60px;
+    left:160px;
+    height: 80px;
+    width: 80px;
+    border-radius: 40px;
+}
+#charts-lane-img {
+    position: absolute;
+    top: 70px;
+    left:170px;
+    height: 60px;
+    width: 60px;
+}
+
+/************************* GAMES ************************/
+#user-games {
+    margin-top: 30px;
+
+    text-align: center;
+}
+
+#user-games-header {
+    color: #24292e;
+}
+
+#user-games-number {
+    color: #24292e;
+    font-size: 1.6em;
+    font-weight: 700;
+}
+
+#username-total {
+    color: #24292e;
+    font-size: 1.6em;
+    font-weight: 700;
+}
+
+
+#user-games-refresh {
+    display: none;
+    font-weight: 500;
+    color: white;
+    cursor: pointer;
+    background-color: #0366d6;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.fa-caret-down, .fa-caret-up {
+    color: #0366d6;
+    font-size: 1.6em;
+    cursor: pointer;
+}
+
+#user-games-body {
+    margin-top: 20px;
+
+    padding-top: 30px;
+    padding-bottom: 30px;
+
+    position: relative;
+}
+
+.user-games-game {
+    display: inline-block;
+    width: 50px;
+    
+}
+
+.user-games-mini {
+    cursor: pointer;
+
+    display: inline-block;
+    width: 50px;
+    margin-bottom: 2px;
+    background-color: #24292e;
+    border-radius: 8px;
+    text-decoration: none;
+    line-height: 1.1em;
+    font-size: 0.7em;
+    font-weight: 500;
+    color:#e2e4e7;
+    padding-bottom: 3px;
+}
+
+.user-games-icon {
+    width: 50px;
+    border-radius: 8px;
+}
