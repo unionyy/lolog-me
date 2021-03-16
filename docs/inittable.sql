@@ -49,5 +49,10 @@ CREATE TABLE games (
     assists     smallint    NOT NULL,
     total_kills smallint    NOT NULL,
 
+    duration    smallint    NOT NULL,
+    cs          smallint    NOT NULL,
+    multi_kill  tinyint     NOT NULL,
+    vision_score smallint   NOT NULL,
+
     CONSTRAINT pk_my_time PRIMARY KEY (id_my, play_time DESC)
 );
