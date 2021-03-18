@@ -101,8 +101,9 @@ UpdateLog = function (_types, _date, _position, _champion) {
     });
 
     function ShowPage(_prev) {
+        RefreshMatch();
         $('#controller-text').text(` ${curPage} / ${LogPages} `);
-
+        
         $('.cur-game').slice(MAXLOG * (_prev - 1), MAXLOG * _prev).css('display', 'none');
         $('.cur-game').slice(MAXLOG * (curPage - 1), MAXLOG * curPage).css('display', 'inline-block');
 
