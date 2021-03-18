@@ -43,16 +43,41 @@ CREATE TABLE games (
     queue_type  smallint    NOT NULL,
     lane_my     tinyint     NOT NULL,
 
-    win_my      tinyint     NOT NULL,
-    kills       smallint    NOT NULL,
-    deaths      smallint    NOT NULL,
-    assists     smallint    NOT NULL,
-    total_kills smallint    NOT NULL,
-
-    duration    smallint    NOT NULL,
-    cs          smallint    NOT NULL,
-    multi_kill  tinyint     NOT NULL,
-    vision_score smallint   NOT NULL,
-
     CONSTRAINT pk_my_time PRIMARY KEY (id_my, play_time DESC)
+);
+
+CREATE TABLE participants (
+    id_my       int         UNSIGNED    NOT NULL,
+    game_id     bigint      UNSIGNED    NOT NULL,
+
+    duration    smallint    UNSIGNED    NOT NULL,
+    win_my      tinyint     UNSIGNED    NOT NULL,
+    total_kills smallint    UNSIGNED    NOT NULL,
+
+    spell1      tinyint     UNSIGNED    NOT NULL,
+    spell2      tinyint     UNSIGNED    NOT NULL,
+
+    champ_level tinyint     UNSIGNED    NOT NULL,
+    rune0       smallint    UNSIGNED    NOT NULL,
+    rune1       smallint    UNSIGNED    NOT NULL,
+    item0       smallint    UNSIGNED    NOT NULL,
+    item1       smallint    UNSIGNED    NOT NULL,
+    item2       smallint    UNSIGNED    NOT NULL,
+    item3       smallint    UNSIGNED    NOT NULL,
+    item4       smallint    UNSIGNED    NOT NULL,
+    item5       smallint    UNSIGNED    NOT NULL,
+    item6       smallint    UNSIGNED    NOT NULL,
+    kills       tinyint     UNSIGNED    NOT NULL,
+    deaths      tinyint     UNSIGNED    NOT NULL,
+    assists     tinyint     UNSIGNED    NOT NULL,
+    minions     smallint    UNSIGNED    NOT NULL,
+    jungle      smallint    UNSIGNED    NOT NULL,
+    gold        int         UNSIGNED    NOT NULL,
+    multi_kill  tinyint     UNSIGNED    NOT NULL,
+    vision_score smallint   UNSIGNED    NOT NULL,
+    wards_bought smallint   UNSIGNED    NOT NULL,
+    wards_placed smallint   UNSIGNED    NOT NULL,
+    wards_killed smallint   UNSIGNED    NOT NULL,
+
+    CONSTRAINT id_my_game PRIMARY KEY (id_my, game_id DESC)
 );
