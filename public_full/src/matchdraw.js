@@ -221,7 +221,7 @@ $(document).ready(function() {
                 await $('#match-inspecter').html('<i class="match-loading fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>');
                 await $(this).css('height', $(this).find('.user-games-mini').height() + $('#match-inspecter').height() + 4);
                 await $(currentMatch).css('height', $(this).find('.user-games-mini').height());
-                await $('#match-inspecter').css('top', $(this).position().top + $(this).find('.user-games-mini').height() + 4);
+                await $('#match-inspecter').css('top', $('#user-games-body').scrollTop() + $(this).position().top + $(this).find('.user-games-mini').height() + 4);
                 await GetMatch(this);
                 
                 currentMatch = this;

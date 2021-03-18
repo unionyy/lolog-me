@@ -23,5 +23,8 @@ DrawLog = function() {
 
     html += '<div id="match-inspecter"></div>';
 
-    $('#user-games-body').html(html);   
+    $('#user-games-body').html(html);
+    $('#user-games-body').scroll(function() {
+        alert('scroll');
+    })
 }
