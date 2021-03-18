@@ -55,6 +55,7 @@ UpdateLog = function (_types, _date, _position, _champion) {
 
     /** Clear Logs */
     $(`.user-games-game`).css('display', 'none');
+    $('.user-games-game').removeClass('cur-game');
 
     var queryStr ='';
     if(_position !== 'ALL') {
@@ -69,14 +70,18 @@ UpdateLog = function (_types, _date, _position, _champion) {
     if(_date === 'all') {
         for (var elem of _types) {
             count += $(`.user-games-game[gametype='${elem}']${queryStr}`).length;
-            $(`.user-games-game[gametype='${elem}']${queryStr}`).css('display', 'inline-block');
+            //$(`.user-games-game[gametype='${elem}']${queryStr}`).css('display', 'inline-block');
+            $(`.user-games-game[gametype='${elem}']${queryStr}`).addClass('cur-game');
         }
     } else {
         for (var elem of _types) {
             count += $(`.log-${_date}[gametype='${elem}']${queryStr}`).length;
-            $(`.log-${_date}[gametype='${elem}']${queryStr}`).css('display', 'inline-block');
+            //$(`.log-${_date}[gametype='${elem}']${queryStr}`).css('display', 'inline-block');
+            $(`.log-${_date}[gametype='${elem}']${queryStr}`).addClass('cur-game');
         }
     }
+
+    $('.user-games-game.cur-game').slice(0, 90).css('display', 'inline-block');
 
     /** Print Count */
     $('#user-games-number').text(` ${count}${gameCount}`);
@@ -232,7 +237,7 @@ function UpdatePositionChart(__game_count) {
     for(elem in LANG) {
         positions[elem] = 0;
     }
-    $(`.user-games-game[style="display: inline-block;"]`).each((i, elem) => {
+    $(`.user-games-game.cur-game`).each((i, elem) => {
         var position = $(elem).attr('lane');
         positions[position]++;
     });
@@ -289,7 +294,7 @@ function UpdateChampChart(__game_count) {
     $('#charts-champ-img').removeAttr('src');
     $('#charts-champ-img').removeAttr('alt');
     var champs = {};
-    $(`.user-games-game[style="display: inline-block;"]`).each((i, elem) => {
+    $(`.user-games-game.cur-game`).each((i, elem) => {
         var id = $(elem).attr('champid');
         if(!champs[id]) {
             champs[id] = {

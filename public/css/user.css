@@ -353,8 +353,8 @@
     padding-top: 30px;
     padding-bottom: 30px;
     position: relative;
-    height: 700px;
-    overflow: scroll;
+    /* height: 700px; */
+    /* overflow: scroll; */
 }
 
 .user-games-game {
@@ -385,4 +385,26 @@
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
+}
+
+#user-games-controller {
+    font-size: 1.4em;
+    display: flex;
+    justify-content: center;
+    
+}
+#controller-text {
+    align-self: center;
+    font-weight: 700;
+    color: #24292e;
+}
+.controller-button {
+    font-size: 1.4em;
+    color: gray;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+}
+.button-active {
+    cursor: pointer;
+    color: #0366d6;
 }
