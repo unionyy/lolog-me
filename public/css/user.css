@@ -353,17 +353,14 @@
     padding-top: 30px;
     padding-bottom: 30px;
     position: relative;
-
     height: 700px;
     overflow: scroll;
 }
 
 .user-games-game {
     display: inline-block;
-    width: 60px;
-    
+    width: 60px; 
 }
-
 .user-games-mini {
     cursor: pointer;
     display: inline-block;
@@ -385,4 +382,7 @@
 }
 .user-games-date {
     margin-bottom: 10px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
 }
