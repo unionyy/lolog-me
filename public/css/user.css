@@ -350,37 +350,39 @@
 
 #user-games-body {
     margin-top: 20px;
-
     padding-top: 30px;
     padding-bottom: 30px;
-
     position: relative;
+
+    height: 700px;
+    overflow: scroll;
 }
 
 .user-games-game {
     display: inline-block;
-    width: 50px;
+    width: 60px;
     
 }
 
 .user-games-mini {
     cursor: pointer;
-
     display: inline-block;
-    width: 50px;
-    margin-bottom: 2px;
+    width: 60px;
+    margin-bottom: 5px;
     background-color: #24292e;
     border-radius: 8px;
     text-decoration: none;
-    line-height: 1.1em;
+    line-height: 1.3em;
     font-size: 0.7em;
     font-weight: 500;
     color:#e2e4e7;
     padding-bottom: 3px;
 }
-
 .user-games-icon {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     border-radius: 8px;
+}
+.user-games-date {
+    margin-bottom: 10px;
 }

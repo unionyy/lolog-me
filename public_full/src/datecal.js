@@ -1,4 +1,3 @@
-
 /** Update Log & Make pDate for graph*/
 var pDate = [];
 $('.user-games-game').each((i, elem) => {
@@ -10,7 +9,18 @@ $('.user-games-game').each((i, elem) => {
 
     $(elem).attr('date', timeString);
     $(elem).addClass('log-' + timeString);
-    $(elem).find('span.user-games-date').text(timeString.slice(5));
+
+    // date text
+    var ago = (new Date() - timestamp) / 1000;
+    if(ago < 3600) {
+        $(elem).find('span.user-games-date').text(Math.ceil((ago/60)) + LANG['min_ago']);
+    } else if (ago < 86400) {
+        $(elem).find('span.user-games-date').text(Math.ceil((ago/3600)) + LANG['hour_ago']);
+    } else if (ago < 604800) {
+        $(elem).find('span.user-games-date').text(Math.ceil((ago/86400)) + LANG['days_ago']);
+    } else {
+        $(elem).find('span.user-games-date').text(timeString.slice(5));
+    }
 
     /** Update pDate */
     if(!pDate[timeString]) {
@@ -47,12 +57,12 @@ var begin;
 if(endStr === '???') {
     end = (new Date(new Date() - 31536000000 - offset))
 } else {
-    end = (new Date(endStr * 1000))
+    end = (new Date(endStr * 1000));
 }
 if(beginStr === '???') {
-    begin = (new Date(new Date() - offset))
+    begin = (new Date(new Date() - offset));
 } else {
-    begin = (new Date(beginStr * 1000))
+    begin = (new Date(beginStr * 1000));
 }
 
 endStr = end.toISOString().slice(0, 10);

@@ -171,6 +171,10 @@ const LANG = {
 	UNKNOWN: "Unknown",
 	NONE: "None",
 
+	min_ago: "m ago",
+	hour_ago: "h ago",
+	days_ago: "d ago",
+
 
 	"icon_solo": "R_Solo",
 	"icon_norm": "Norm",

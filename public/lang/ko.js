@@ -171,6 +171,10 @@ const LANG = {
     UNKNOWN: "Unknown",
     NONE: "None",
 
+	min_ago: "분 전",
+	hour_ago: "시간 전",
+	days_ago: "일 전",
+
 	"icon_solo": "솔랭",
 	"icon_norm": "일반",
 	"icon_aram": "칼바람",

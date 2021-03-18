@@ -24,5 +24,4 @@ DrawLog = function() {
     html += '<div id="match-inspecter"></div>';
 
     $('#user-games-body').html(html);
-    
 }
