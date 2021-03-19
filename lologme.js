@@ -26,6 +26,7 @@ const riot = require('./lib/riot.js');
 
 /** Config */
 const config = require('./config.json');
+const sanitize = require('sanitize-html');
 if(config['isDevelop']) {
   template.RemoveGtag();
 }
@@ -238,6 +239,45 @@ app.get(`/:platform/user/:userName`, userLimiter, (req, res, next) => {
     console.log(err);
     res.send('Error');
   })
+});
+
+app.get(`/:platform/user/:userName/detail`, userLimiter, (req, res, next) => {
+  var platform = urlencode.decode(req.params.platform);
+  var begin = req.query.begin;
+  var end = req.query.end;
+
+
+  // Varify query
+  if(PLATFORM_MY[platform] === undefined) {
+    next();
+  }
+
+  var normName = NormalizeName(urlencode.decode(req.params.userName));
+
+  /** Varify Game Ids */
+  var gameIds = [];
+  if(req.query.m.length <= 20) {
+    for(gameId of req.query.m) {
+      if(!isNaN(gameId)) {
+        gameIds.push(gameId);
+      }
+    }
+  }
+
+  if(gameIds.length === 0) {
+    res.status(404).send(template.HTMLmsg(`404 Not Found`, res.__, req.cookies['platform-lologme'], res.locals.cspNonce));
+  } else {
+    riot.SearchDetail(normName, platform, gameIds).then(data => {
+      if (!data) {
+        res.status(404).send(template.HTMLmsg(`404 Not Found`, res.__, req.cookies['platform-lologme'], res.locals.cspNonce));
+      } else {
+        res.json(data);
+      }
+    }, err => {
+      console.log(err);
+      res.send('Error');
+    })
+  }
 });
 
 app.get(`/:platform/match/:matchId`, matchLimiter, (req, res, next) => {
