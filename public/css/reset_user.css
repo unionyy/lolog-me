@@ -178,9 +178,6 @@
     /******************** GAMES ********************/
 
     #user-games-number {font-size: 1.2em;}
-    #user-games-body {
-        height: 300px;
-    }
     .user-games-game {
         width: 50px;  
     }
