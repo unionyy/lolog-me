@@ -82,7 +82,7 @@ UpdateLog = function (_types, _date, _position, _champion) {
     }
 
     /** Page Controller */
-    const MAXLOG = 45;
+    const MAXLOG = 60;
     const LogSize = $('.user-games-game.cur-game').length;
     const LogPages = Math.ceil(LogSize/MAXLOG);
     var curPage = 1;

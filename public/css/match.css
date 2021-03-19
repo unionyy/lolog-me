@@ -69,6 +69,7 @@
 }
 
 .cur-log {
+    background-color: gray;
     color: #24292e;
     font-weight: 700;
 }
@@ -77,9 +78,6 @@
 }
 .cur-log.log-Lose {
     background-color: #e5133cd0;
-}
-.cur-log.log-Remake {
-    background-color: gray;
 }
 
 .team {
