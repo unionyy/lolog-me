@@ -8,7 +8,7 @@ var championG;
 
 var gameCount;
 
-const chartOptions = {
+var chartOptions = {
     pieHole: 0.45,
     chartArea: {
       width: 400,
@@ -82,7 +82,10 @@ UpdateLog = function (_types, _date, _position, _champion) {
     }
 
     /** Page Controller */
-    const MAXLOG = 60;
+    var MAXLOG = 60;
+    if(matchMedia("only screen and (max-width: 550px)").matches) {
+        MAXLOG = 30;
+    }
     const LogSize = $('.user-games-game.cur-game').length;
     const LogPages = Math.ceil(LogSize/MAXLOG);
     var curPage = 1;
