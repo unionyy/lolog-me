@@ -163,7 +163,11 @@ app.get(`/update`, (req, res, next) => {
     var normName = NormalizeName(req.query.username);
 
     var platform = req.query.platform;
-    platform = Object.keys(PLATFORM_MY)[platform];
+
+    if(PLATFORM_MY[platform] === undefined) {
+      throw 'unkown platform';
+    }
+
     riot.Update(normName, platform).then(data => {
       res.redirect(`/${platform}/user/${normName}`);
     }, err => {
@@ -243,9 +247,6 @@ app.get(`/:platform/user/:userName`, userLimiter, (req, res, next) => {
 
 app.get(`/:platform/user/:userName/detail`, userLimiter, (req, res, next) => {
   var platform = urlencode.decode(req.params.platform);
-  var begin = req.query.begin;
-  var end = req.query.end;
-
 
   // Varify query
   if(PLATFORM_MY[platform] === undefined) {

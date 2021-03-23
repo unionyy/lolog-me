@@ -352,9 +352,15 @@
     margin-top: 20px;
     padding-top: 30px;
     padding-bottom: 30px;
-    position: relative;
     /* height: 700px; */
     /* overflow: scroll; */
+}
+#user-games-recent {
+
+}
+#user-games-all {
+    display: none;
+    position: relative;
 }
 
 .user-games-game {

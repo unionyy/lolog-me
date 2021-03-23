@@ -127,6 +127,9 @@ UpdateLog = function (_types, _date, _position, _champion) {
     } else {
         $('#user-games-refresh').css('display', 'inline');
     }
+
+    /** Update Recent Game */
+    GetRecentGames();
 }
 
 GetTypes = function() {

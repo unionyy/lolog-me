@@ -229,7 +229,7 @@ $(document).ready(function() {
                 $('#match-inspecter').removeClass('match-hide');
                 $(cur).css('height', $(cur).find('.user-games-mini').height() + $('#match-inspecter').height() + 4);
                 $(cur).find('.user-games-mini').addClass('cur-log');
-                $('#match-inspecter').css('top', $('#user-games-body').scrollTop() + $(cur).position().top + $(cur).find('.user-games-mini').height() + 4);
+                $('#match-inspecter').css('top', $('#user-games-all').scrollTop() + $(cur).position().top + $(cur).find('.user-games-mini').height() + 4);
                 await $('#match-inspecter').html('<i class="match-loading fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>');
                 GetMatch(cur);
             } else {

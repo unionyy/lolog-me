@@ -25,6 +25,6 @@ DrawLog = function() {
     /** mover */
     html += '<div id="user-games-controller" current-page="1"><i class="fa fa-caret-left controller-button" id="controller-left" aria-hidden="true"></i><span id="controller-text"> 1 / 1 </span><i class="fa fa-caret-right controller-button" id="controller-right" aria-hidden="true"></i></div>'
 
-    $('#user-games-body').html(html);
+    $('#user-games-all').html(html);
 
 }
