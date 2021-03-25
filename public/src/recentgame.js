@@ -28,6 +28,10 @@ function GetRecentGames(_index=0) {
                     var killPart = 0;
                     if(elem.total_kills) killPart = Math.ceil((elem.kills + elem.assists) / elem.total_kills * 100);
 
+                    var score;
+                    if(elem.deaths === 0) score = 'Perfect';
+                    else score = Math.ceil((elem.kills + elem.assists) * 100 / elem.deaths) / 100;
+
                     var timestamp = mini.attr('timestamp');
                     var itemHtml = ItemGen([elem.item0, elem.item1, elem.item2, elem.item3, elem.item4, elem.item5, elem.item6], FindCDN(timestamp));
 
@@ -60,7 +64,7 @@ function GetRecentGames(_index=0) {
                                 <span>/</span><span class="text-kda">${elem.assists}</span>
                             </div>
                             <div class="recent-score">
-                                <span class="text-score">${Math.ceil((elem.kills + elem.assists) * 100 / elem.deaths) / 100 || 'Perfect'}</span>
+                                <span class="text-score">${score}</span>
                                 <span class="text-killpart">${killPart}%</span>
                             </div>
                             <div class="recent-medal">
