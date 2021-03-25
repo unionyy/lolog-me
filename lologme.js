@@ -269,6 +269,7 @@ app.get(`/:platform/user/:userName/detail`, userLimiter, (req, res, next) => {
     res.status(404).send(template.HTMLmsg(`404 Not Found`, res.__, req.cookies['platform-lologme'], res.locals.cspNonce));
   } else {
     riot.SearchDetail(normName, platform, gameIds).then(data => {
+
       if (!data) {
         res.status(404).send(template.HTMLmsg(`404 Not Found`, res.__, req.cookies['platform-lologme'], res.locals.cspNonce));
       } else {

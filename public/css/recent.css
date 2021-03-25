@@ -1,0 +1,17 @@
+#user-games-recent{
+    display: grid;
+    grid-template-columns: auto 730px;
+}
+.recent-game{
+    display: inline-flex;
+}
+.recent-game-Win{
+    background-color: #22c4d5d0;
+}
+.recent-game-Lose{
+    background-color: #e5133cd0;
+}
+
+.recent-rune{
+    position: relative;
+}

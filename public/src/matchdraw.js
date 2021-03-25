@@ -1,49 +1,82 @@
+function ParseWin(_winMy) {
+    /** Win or Lose */
+    var winText;
+    switch(_winMy % 10) {
+        case 1:
+            winText = 'Win';
+            break;
+        case 2:
+            winText = 'Lose';
+            break;
+        case 3:
+            winText = 'Remake';
+            break;
+        default:
+            winText = 'Unkown';
+            break;
+    }
+    /** Team define */
+    var teamText;
+    if(_winMy < 10) {
+        teamText = 'Unkown';
+    } else if(_winMy < 20) {
+        teamText = 'BlueTeam';
+    } else {
+        teamText = 'RedTeam';
+    }
+
+    return {winText: winText, teamText: teamText};
+}
+
+function ItemGen(_items, _cdnuri) {
+    /** Item Images */
+    var itemsHtml = '';
+    var classStr = 'item';
+    for(i in _items) {
+        var classStrCur = classStr;
+        if(i === '0') {
+            classStrCur += ' item-first';
+        }
+        if(_items[i] === 0) {
+            itemsHtml += `<rect class="${classStrCur}"></rect>`;
+        } else {
+            itemsHtml += `<img class="${classStrCur}" src="${_cdnuri}/img/item/${_items[i]}.png" />`
+        }
+    }
+    return itemsHtml;
+}
+
+function FindCDN(_timestamp) {
+    /** Find version */
+    var cdnuri = BANANACDN;
+    for(version in VERSION) {
+        if(version === 'latest') continue;
+
+        if(version === '10.19.1') cdnuri = RIOTCDNURI;
+
+        if(VERSION[version] < _timestamp) {
+            cdnuri += version;
+            break;
+        }
+    }
+    return cdnuri
+}
+
 async function GetMatch(_this) {
     await fetch(`/${$(_this).attr('platform')}/match/${$(_this).attr('matchId')}`)
         .then(response => response.json(), err => {$("#match-inspecter").html('<span class="match-fail">Try Again</span>');})
         .then(data => {
-            var cdnuri = BANANACDN;
-
             /** Find version */
             var timestamp = $(_this).attr('timestamp');
-            for(version in VERSION) {
-                if(version === 'latest') continue;
-
-                if(version === '10.19.1') cdnuri = RIOTCDNURI;
-
-                if(VERSION[version] < timestamp) {
-                    cdnuri += version;
-                    break;
-                }
-            }
+            var cdnuri = FindCDN(timestamp)
             
             var myTeam;
             for (team in data.teams) {
+                var parsedWin = ParseWin(data.teams[team].win);
                 /** Win or Lose */
-                var winText;
-                switch(data.teams[team].win % 10) {
-                    case 1:
-                        winText = 'Win';
-                        break;
-                    case 2:
-                        winText = 'Lose';
-                        break;
-                    case 3:
-                        winText = 'Remake';
-                        break;
-                    default:
-                        winText = 'Unkown';
-                        break;
-                }
+                var winText = parsedWin.winText;
                 /** Team define */
-                var teamText;
-                if(data.teams[team].win < 10) {
-                    teamText = 'Unkown';
-                } else if(data.teams[team].win < 20) {
-                    teamText = 'BlueTeam';
-                } else {
-                    teamText = 'RedTeam';
-                }
+                var teamText = parsedWin.teamText
 
                 data.teams[team].win = winText;
 
@@ -108,19 +141,8 @@ async function GetMatch(_this) {
                     }
 
                     /** Item Images */
-                    var itemsHtml = '';
-                    var classStr = 'item';
-                    for(i in elem.stats.items) {
-                        var classStrCur = classStr;
-                        if(i === '0') {
-                            classStrCur += ' item-first';
-                        }
-                        if(elem.stats.items[i] === 0) {
-                            itemsHtml += `<rect class="${classStrCur}"></rect>`;
-                        } else {
-                            itemsHtml += `<img class="${classStrCur}" src="${cdnuri}/img/item/${elem.stats.items[i]}.png" />`
-                        }
-                    }
+                    var itemsHtml = ItemGen(elem.stats.items, cdnuri);
+
                     /** Kill Participation */
                     var killPart = 0;
                     if(data.teams[team].kills) killPart = Math.ceil((elem.stats.kills + elem.stats.assists) / data.teams[team].kills * 100);
