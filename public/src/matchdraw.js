@@ -97,6 +97,16 @@ async function GetMatch(_this) {
                         $(miniLog).addClass('log-' + winText);
                     }
 
+                    /** Rune Images */
+                    var runeHtml = '';
+                    if(elem.stats.rune0 === 0) {
+                        runeHtml += `<rect class="rune-main"></rect><rect class="rune-sub"></rect>`;
+                    } else {
+                        runeHtml += `<img class="rune-main" src="https://ddragon.leagueoflegends.com/cdn/img/${RUNE[elem.stats.rune0]}" />
+                        <img class="rune-sub" src="https://ddragon.leagueoflegends.com/cdn/img/${RUNE[elem.stats.rune1]}" />`;
+
+                    }
+
                     /** Item Images */
                     var itemsHtml = '';
                     var classStr = 'item';
@@ -119,8 +129,7 @@ async function GetMatch(_this) {
                         <div class="part-champ cell">
                             <div class="inner-cell">
                                 <div class="part-rune">
-                                    <img class="rune-main" src="https://ddragon.leagueoflegends.com/cdn/img/${RUNE[elem.stats.rune0]}" />
-                                    <img class="rune-sub" src="https://ddragon.leagueoflegends.com/cdn/img/${RUNE[elem.stats.rune1]}" />
+                                    ${runeHtml}
                                 </div>
                                 <div class="part-spell">
                                     <img class="spell1" src="${RIOTCDNURI + VERSION.latest}/img/spell/${SPELL[elem.spell1Id]}.png" />

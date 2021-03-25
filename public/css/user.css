@@ -356,10 +356,10 @@
     /* overflow: scroll; */
 }
 #user-games-recent {
-
+    display: none;
 }
 #user-games-all {
-    display: none;
+    display: block;
     position: relative;
 }
 
