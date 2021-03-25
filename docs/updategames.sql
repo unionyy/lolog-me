@@ -20,3 +20,5 @@ ALTER TABLE games DROP duration;
 ALTER TABLE games DROP cs;
 ALTER TABLE games DROP multi_kill;
 ALTER TABLE games DROP vision_score;
+
+TRUNCATE participants;
