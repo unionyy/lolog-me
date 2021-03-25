@@ -257,11 +257,17 @@ app.get(`/:platform/user/:userName/detail`, userLimiter, (req, res, next) => {
 
   /** Varify Game Ids */
   var gameIds = [];
-  if(req.query.m.length <= 20) {
-    for(gameId of req.query.m) {
-      if(!isNaN(gameId)) {
-        gameIds.push(gameId);
+  if(Array.isArray(req.query.m)) {
+    if(req.query.m.length <= 20) {
+      for(gameId of req.query.m) {
+        if(!isNaN(gameId)) {
+          gameIds.push(gameId);
+        }
       }
+    }
+  } else {
+    if(!isNaN(req.query.m)) {
+      gameIds.push(req.query.m);
     }
   }
 
