@@ -274,7 +274,7 @@ function UpdatePositionChart(__game_count) {
     var positions = {
         
     };
-    for(elem in LANG) {
+    for(elem of POSITION) {
         positions[elem] = 0;
     }
     $(`.user-games-game.cur-game`).each((i, elem) => {

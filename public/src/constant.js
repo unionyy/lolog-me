@@ -58,7 +58,7 @@ const VERSION = {
     "9.3.1":    "1549440000",
     "9.2.1":    "1548316800",
     "9.1.1":    "1547020800"
-}
+};
 
 const SPELL = {
     '1': 'SummonerBoost',
@@ -75,7 +75,7 @@ const SPELL = {
     '31': 'SummonerPoroThrow',
     '32': 'SummonerSnowball',
     '39': 'SummonerSnowURFSnowball_Mark'
-}
+};
 
 const CHAMPION = {
     '1': 'Annie',
@@ -232,7 +232,7 @@ const CHAMPION = {
     '777': 'Yone',
     '875': 'Sett',
     '876': 'Lillia'
-}
+};
 
 const RUNE = {
     '8000': 'perk-images/Styles/7201_Precision.png',
@@ -257,4 +257,6 @@ const RUNE = {
     '8439': 'perk-images/Styles/Resolve/VeteranAftershock/VeteranAftershock.png',
     '8465': 'perk-images/Styles/Resolve/Guardian/Guardian.png',
     '9923': 'perk-images/Styles/Domination/HailOfBlades/HailOfBlades.png'
-}
+};
+
+const POSITION = ['TOP', 'JUNGLE', 'MIDDLE', 'BOTTOM', 'SUPPORT', 'UNKNOWN', 'NONE'];
