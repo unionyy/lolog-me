@@ -127,6 +127,8 @@ function GetRecentGames(_index=0) {
                     $("#games-recent-log").add(gamesHtml);
                 }
             });
+    } else {
+        $("#games-recent-log").html('');
     }
     
 }
