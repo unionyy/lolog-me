@@ -156,6 +156,9 @@ const LANG = {
 		"Zyra": "자이라",	
 	},
 
+	score: "평점",
+	part: "킬관여",
+
 	Win: "승리",
 	Lose: "패배",
 	Remake: "다시하기",

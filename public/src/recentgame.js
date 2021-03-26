@@ -30,55 +30,68 @@ function GetRecentGames(_index=0) {
 
                     var score;
                     if(elem.deaths === 0) score = 'Perfect';
-                    else score = Math.ceil((elem.kills + elem.assists) * 100 / elem.deaths) / 100;
+                    else score = (Math.ceil((elem.kills + elem.assists) * 100 / elem.deaths) / 100).toFixed(2);
+
+                    var minCS = (Math.ceil((elem.minions + elem.jungle) * 600 / elem.duration) / 10).toFixed(1);
 
                     var timestamp = mini.attr('timestamp');
                     var itemHtml = ItemGen([elem.item0, elem.item1, elem.item2, elem.item3, elem.item4, elem.item5, elem.item6], FindCDN(timestamp));
 
                     /** Header */
                     gameHtml += `
-                        <div class="recent-header">
+                        <div class="recent-header recent-cell">
                             <div class="recent-type">${mini.find('.user-games-type').text()}</div>
                             <div class="recent-date">${mini.find('.user-games-date').text()}</div>
                             <div class="recent-win">${LANG[parsedWin.winText]}</div>
                             <div class="recent-duration">${Math.ceil(elem.duration/60)}:${(elem.duration % 60).toString().padStart(2,'0')}</div>
                         </div>
-                        <div class="recent-champ">
-                            <img src="${mini.find('.user-games-icon').attr('src')}" alt="${mini.find('.user-games-icon').attr('art')}" title="${mini.find('.user-games-icon').attr('title')}" />
-                            <span>${elem.champ_level}</span>
+                        <div class="recent-champ recent-cell">
+                            <img class="recent-champ-icon" src="${mini.find('.user-games-icon').attr('src')}" alt="${mini.find('.user-games-icon').attr('art')}" title="${mini.find('.user-games-icon').attr('title')}" />
+                            <div class="recent-champ-level">
+                                <span class="text-level">${elem.champ_level}</span>
+                            </div>
                         </div>
-                        <div class="recent-runespell">
+                        <div class="recent-runespell recent-cell">
                             <div class="recent-rune">
                                 <img class="rune-main" src="https://ddragon.leagueoflegends.com/cdn/img/${RUNE[elem.rune0]}" />
                                 <img class="rune-sub" src="https://ddragon.leagueoflegends.com/cdn/img/${RUNE[elem.rune1]}" />
                             </div>
                             <div class="recent-spell">
-                                <img class="spell1" src="${RIOTCDNURI + VERSION.latest}/img/spell/${SPELL[elem.spell1]}.png" />
-                                <img class="spell2" src="${RIOTCDNURI + VERSION.latest}/img/spell/${SPELL[elem.spell2]}.png" />
+                                <img class="recent-spell-img recent-spell-first" src="${RIOTCDNURI + VERSION.latest}/img/spell/${SPELL[elem.spell1]}.png" />
+                                <img class="recent-spell-img" src="${RIOTCDNURI + VERSION.latest}/img/spell/${SPELL[elem.spell2]}.png" />
                             </div>
                         </div>
-                        <div class="recent-kda">
+                        <div class="recent-kda recent-cell">
                             <div class="recent-kda-kda">
                                 <span class="text-kda">${elem.kills}</span>
                                 <span>/</span><span class="text-kda">${elem.deaths}</span>
                                 <span>/</span><span class="text-kda">${elem.assists}</span>
+                                <img class="icon-inline" src="/images/icon/mask-icon-offense.png" />
                             </div>
                             <div class="recent-score">
-                                <span class="text-score">${score}</span>
+                                <span class="text-score-lang">${LANG['score']}</span>
+                                <span class="text-score">${score}</span> 
+                            </div>
+                            <div class="recent-part">
+                                <span class="text-part-lang">${LANG['part']}</span>
                                 <span class="text-killpart">${killPart}%</span>
                             </div>
                             <div class="recent-medal">
                             </div>
                         </div>
-                        <div class="recent-etc">
+                        
+                        <div class="recent-etc recent-cell">
                             <div class="recent-items">
                                 ${itemHtml}
                             </div>
                             <div class="recent-cs">
-                                ${elem.minions + elem.jungle}
+                                <span>${elem.minions + elem.jungle}</span>
+                                <span>(${minCS})</span>
+                                <img class="icon-inline" src="/images/icon/mask-icon-cs.png" />
                             </div>
                             <div class="recent-gold">
-                                ${elem.gold}
+                                <span>${elem.gold.toLocaleString('ko-KR')}</span>
+                                <img class="icon-inline" src="/images/icon/mask-icon-gold.png" />
                             </div>
                         </div>
                         <div class="recent-detail"></div>

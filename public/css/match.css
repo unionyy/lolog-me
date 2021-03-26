@@ -182,7 +182,7 @@
     top: 10px;
     width: 14px;
     height: 14px;
-    background-color: black;
+    background-color: #011925;
     border-radius: 8px;
     padding: 1px;
 }
@@ -258,7 +258,7 @@
     float:left;
     width: 25px;
     height: 25px;
-    color: #011925;
+    background-color: #011925;
     border: solid 1px #463714;
     border-left: none;
 }

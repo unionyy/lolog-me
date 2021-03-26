@@ -2,16 +2,130 @@
     display: grid;
     grid-template-columns: auto 730px;
 }
+.recent-cell {
+    margin: 0px 10px 0px 10px;
+}
 .recent-game{
     display: inline-flex;
+    width: 100%;
+    align-items: center;
+    margin-bottom: 10px;
+
+    color: #24292ed0
 }
 .recent-game-Win{
-    background-color: #22c4d5d0;
+    background-color: #22c4d570;
 }
 .recent-game-Lose{
-    background-color: #e5133cd0;
+    background-color: #e5133c70;
 }
 
-.recent-rune{
+.icon-inline {
+    width: 18px;
+    height: 18px;
+    margin-left: 5px;
+    -webkit-filter: opacity(0.5) drop-shadow(0 0 0 #000000);
+    filter: invert(85%) sepia(50%) saturate(1000%) hue-rotate(130deg) brightness(95%) contrast(50%);
+}
+
+.recent-champ {
     position: relative;
+    align-content: center;
+    height: 60px;
+}
+.recent-champ-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+}
+.recent-champ-level {
+    position: absolute;
+    display: inline-flex;
+    float:left;
+    top: 40px;
+    left: 40px;
+    background-color: #24292e;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    align-items: center;
+    text-align: center;
+}
+.text-level {
+    color: white;
+    font-size: 0.8em;
+    width: 20px;
+}
+
+.recent-runespell{
+    align-items: center;
+}
+.recent-rune{
+    align-items: center;
+
+    position: relative;
+    width: 35px;
+    height: 25px;
+    text-align: left;
+    margin: auto;
+}
+.rune-main {
+    background-color: #011925;
+}
+
+.recent-spell{
+    margin: 5px;
+}
+.recent-spell-img{
+    float: left;
+    border: solid 1px #463714;
+    background-color: #011925;
+
+    width: 20px;
+    height: 20px;
+}
+.recent-spell-first {
+    border-right: none;
+}
+
+.recent-kda {
+    display: grid;
+    grid-template-columns: 50% 50%;
+
+    width: 200px;
+    line-height: 150%;
+    /* text-align: center; */
+}
+.recent-kda-kda {
+    display: inline-flex;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    font-size: 1.1em;
+    font-weight: 700;
+    margin: auto;
+    align-items: center;
+}
+.recent-score {
+    font-size: 0.8em;
+    font-weight: 700;
+}
+.recent-part {
+    color: #c44040;
+    font-size: 0.8em;
+    font-weight: 700;
+}
+
+.recent-etc {
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+.recent-items {
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+.recent-cs, .recent-gold{
+    display: inline-flex;
+    align-items: center;
+    margin-left: auto;
+    font-weight: 700;
 }

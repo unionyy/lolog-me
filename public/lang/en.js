@@ -156,6 +156,9 @@ const LANG = {
 		"Zyra": "Zyra",
 	},
 
+	score: "KDA",
+	part: "Kill P",
+
 	Win: "VICTORY",
 	Lose: "DEFEAT",
 	Remake: "REMAKE",
