@@ -37,16 +37,30 @@ function GetRecentGames(_index=0) {
                     var timestamp = mini.attr('timestamp');
                     var itemHtml = ItemGen([elem.item0, elem.item1, elem.item2, elem.item3, elem.item4, elem.item5, elem.item6], FindCDN(timestamp));
 
+                    /** Medal */
+                    var medalHtml = '';
+                    
+                    if(elem.multi_kill > 1 && elem.multi_kill < 7) {
+                        medalHtml += `<div class="medal"><span class="text-medal">${LANG['multi_kill_' + elem.multi_kill]}</span></div>`;
+                    } else if(elem.multi_kill >= 7) {
+                        medalHtml += `<div class="medal"><span class="text-medal">${elem.multi_kill + LANG['multi_kill_over']}</span></div>`;
+                    }
+
                     /** Header */
                     gameHtml += `
                         <div class="recent-header recent-cell">
-                            <div class="recent-type">${mini.find('.user-games-type').text()}</div>
-                            <div class="recent-date">${mini.find('.user-games-date').text()}</div>
-                            <div class="recent-win">${LANG[parsedWin.winText]}</div>
-                            <div class="recent-duration">${Math.ceil(elem.duration/60)}:${(elem.duration % 60).toString().padStart(2,'0')}</div>
+                            <div class="recent-win ${parsedWin.winText}">
+                                <div class="recent-rect ${parsedWin.winText}"></div>
+                                <span class="recent-win-text">${LANG[parsedWin.winText]}</span>
+                            </div>
+                            <div class="recent-mini">
+                                <div class="recent-type"><span>${mini.find('.user-games-type').text()}</span></div>
+                                <div class="recent-date"><span>${mini.find('.user-games-date').text()}</span></div>
+                            </div>
                         </div>
                         <div class="recent-champ recent-cell">
                             <img class="recent-champ-icon" src="${mini.find('.user-games-icon').attr('src')}" alt="${mini.find('.user-games-icon').attr('art')}" title="${mini.find('.user-games-icon').attr('title')}" />
+                            <div class="shadow recent-shadow ${parsedWin.winText}"></div>
                             <div class="recent-champ-level">
                                 <span class="text-level">${elem.champ_level}</span>
                             </div>
@@ -77,6 +91,7 @@ function GetRecentGames(_index=0) {
                                 <span class="text-killpart">${killPart}%</span>
                             </div>
                             <div class="recent-medal">
+                                ${medalHtml}
                             </div>
                         </div>
                         
@@ -85,8 +100,7 @@ function GetRecentGames(_index=0) {
                                 ${itemHtml}
                             </div>
                             <div class="recent-cs">
-                                <span>${elem.minions + elem.jungle}</span>
-                                <span>(${minCS})</span>
+                                <span>${elem.minions + elem.jungle} (${minCS})</span>
                                 <img class="icon-inline" src="/images/icon/mask-icon-cs.png" />
                             </div>
                             <div class="recent-gold">
@@ -94,7 +108,12 @@ function GetRecentGames(_index=0) {
                                 <img class="icon-inline" src="/images/icon/mask-icon-gold.png" />
                             </div>
                         </div>
-                        <div class="recent-detail"></div>
+                        <div class="recent-detail ${parsedWin.winText}">
+                            <div class="detail-arrow">
+                                <i class="arrow-${parsedWin.winText} fa fa-caret-up" style="display: none;"></i>
+                                <i class="arrow-${parsedWin.winText} fa fa-caret-down"></i>
+                            </div>
+                        </div>
                         `
                     
                     gameHtml += '</div>'

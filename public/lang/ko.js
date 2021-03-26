@@ -158,6 +158,12 @@ const LANG = {
 
 	score: "평점",
 	part: "킬관여",
+	multi_kill_2: "더블 킬",
+	multi_kill_3: "트리플 킬",
+	multi_kill_4: "쿼드라 킬",
+	multi_kill_5: "펜타 킬",
+	multi_kill_6: "헥사 킬",
+	multi_kill_over: "??? 킬",
 
 	Win: "승리",
 	Lose: "패배",

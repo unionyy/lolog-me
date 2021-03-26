@@ -158,6 +158,12 @@ const LANG = {
 
 	score: "KDA",
 	part: "Kill P",
+	multi_kill_2: "DOUBLE KILL",
+	multi_kill_3: "TRIPLE KILL",
+	multi_kill_4: "QUADRA KILL",
+	multi_kill_5: "PENTA KILL",
+	multi_kill_6: "HEXA KILL",
+	multi_kill_over: "??? KILL",
 
 	Win: "VICTORY",
 	Lose: "DEFEAT",

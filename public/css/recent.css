@@ -3,21 +3,84 @@
     grid-template-columns: auto 730px;
 }
 .recent-cell {
-    margin: 0px 10px 0px 10px;
+    margin: auto;
 }
 .recent-game{
-    display: inline-flex;
-    width: 100%;
+    display: grid;
+    grid-template-columns: 110px 65px 55px auto 200px 30px;
+    width: 680px;
+    height: 100px;
     align-items: center;
     margin-bottom: 10px;
 
-    color: #24292ed0
+    color: #24292ed0;
 }
 .recent-game-Win{
-    background-color: #22c4d570;
+    background-color: #22c4d560;
+    border: solid 1px #22c4d560;
+    border-right: none;
 }
 .recent-game-Lose{
-    background-color: #e5133c70;
+    background-color: #e5133c40;
+    border: solid 1px #e5133c40;
+    border-right: none;
+}
+.recent-game-Remake{
+    background-color: #80808040;
+    border: solid 1px #80808040;
+    border-right: none;
+}
+
+.recent-header {
+    display: grid;
+    grid-template-rows: 30px 70px;
+    width: 100%;
+    margin: 0;
+}
+.recent-win {
+    display: inline-flex;
+    font-size: 1.2em;
+    font-weight: 700;
+    align-self: center;
+    color: gray;
+}
+.recent-rect {
+    width: 0px;
+    height: 0px;
+    border-top: solid 30px gray;
+    border-right: solid 30px transparent;
+}
+.recent-win-text {
+    text-align: left;
+    margin-top: 5px;
+    margin-left: 5px;
+    white-space: nowrap;
+}
+.recent-rect.Win {
+    border-top-color: #018795;
+}
+.recent-rect.Lose {
+    border-top-color: #e5133c;
+}
+.recent-win.Win {
+    color: #018795;
+}
+.recent-win.Lose {
+    color: #e5133c;
+}
+.recent-mini {
+    align-self: center;
+}
+.recent-type {
+    font-weight: 700;
+    margin-left: 35px;
+    margin-bottom: 5px;
+    text-align: left;
+}
+.recent-date {
+    margin-left: 35px;
+    font-size: 0.8em;
+    text-align: left;
 }
 
 .icon-inline {
@@ -31,9 +94,20 @@
 .recent-champ {
     position: relative;
     align-content: center;
-    height: 60px;
+    width: 62px;
+    height: 62px;
+}
+.recent-shadow {
+    box-shadow: inset 0px 0px 0px 3px gray;
+}
+.recent-shadow.Win {
+    box-shadow: inset 0px 0px 0px 3px #018795;
+}
+.recent-shadow.Lose {
+    box-shadow: inset 0px 0px 0px 3px #e5133c;
 }
 .recent-champ-icon {
+    margin: 1px;
     width: 60px;
     height: 60px;
     border-radius: 30px;
@@ -68,6 +142,7 @@
     height: 25px;
     text-align: left;
     margin: auto;
+    margin-bottom: 6px;
 }
 .rune-main {
     background-color: #011925;
@@ -100,18 +175,38 @@
     display: inline-flex;
     grid-column-start: 1;
     grid-column-end: 3;
-    font-size: 1.1em;
+    font-size: 1.2em;
     font-weight: 700;
     margin: auto;
+    margin-bottom: 5px;
     align-items: center;
 }
 .recent-score {
-    font-size: 0.8em;
+    font-size: 1em;
     font-weight: 700;
+    margin-bottom: 5px;
 }
 .recent-part {
     color: #c44040;
+    font-size: 1em;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+.recent-medal {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    display: flex;
+}
+.medal {
+    margin: auto;
+    padding: 0px 10px 0px 10px;
+    background-color: #dd5656;
+    border-radius: 20px;
+    border: solid 1px #c44040;
+}
+.text-medal {
     font-size: 0.8em;
+    color: white;
     font-weight: 700;
 }
 
@@ -122,10 +217,37 @@
 .recent-items {
     grid-column-start: 1;
     grid-column-end: 3;
+    margin-bottom: 5px;
 }
 .recent-cs, .recent-gold{
     display: inline-flex;
     align-items: center;
     margin-left: auto;
     font-weight: 700;
+}
+
+.recent-detail {
+    height: 100%;
+    background-color: gray;
+    border: solid 1px gray;
+    display: flex;
+}
+.recent-detail.Win {
+    background-color: #22c4d560;
+    border-color: #22c4d560;
+}
+.recent-detail.Lose{
+    background-color: #e5133c40;
+    
+    border-color: #e5133c40;
+}
+.detail-arrow {
+    margin: auto;
+    margin-bottom: 0px;
+}
+.arrow-Win {
+    color: #018795;
+}
+.arrow-Lose {
+    color: #e5133c;
 }
