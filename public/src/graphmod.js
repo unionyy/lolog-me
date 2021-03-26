@@ -82,43 +82,50 @@ UpdateLog = function (_types, _date, _position, _champion) {
     }
 
     /** Page Controller */
-    var MAXLOG = 60;
-    if(matchMedia("only screen and (max-width: 550px)").matches) {
-        MAXLOG = 30;
-    }
-    const LogSize = $('.user-games-game.cur-game').length;
-    const LogPages = Math.ceil(LogSize/MAXLOG);
-    var curPage = 1;
-    
-    $('#controller-left').click(() => {
-        if(curPage > 1) {
-            curPage--;
-            ShowPage(curPage + 1);
-        }
-    });
-    $('#controller-right').click(() => {
-        if(curPage < LogPages) {
-            curPage++;
-            ShowPage(curPage - 1);
-        }
-    });
+    if(_date === 'all') {
+        $('#user-games-controller').css('display', 'flex');
 
-    function ShowPage(_prev) {
-        RefreshMatch();
-        $('#controller-text').text(` ${curPage} / ${LogPages} `);
+        var MAXLOG = 60;
+        if(matchMedia("only screen and (max-width: 550px)").matches) {
+            MAXLOG = 30;
+        }
+        const LogSize = $('.user-games-game.cur-game').length;
+        const LogPages = Math.ceil(LogSize/MAXLOG);
+        var curPage = 1;
         
-        $('.cur-game').slice(MAXLOG * (_prev - 1), MAXLOG * _prev).css('display', 'none');
-        $('.cur-game').slice(MAXLOG * (curPage - 1), MAXLOG * curPage).css('display', 'inline-block');
-
-        $('.controller-button').removeClass('button-active');
-        if(curPage > 1) {
-            $('#controller-left').addClass('button-active');
+        $('#controller-left').click(() => {
+            if(curPage > 1) {
+                curPage--;
+                ShowPage(curPage + 1);
+            }
+        });
+        $('#controller-right').click(() => {
+            if(curPage < LogPages) {
+                curPage++;
+                ShowPage(curPage - 1);
+            }
+        });
+    
+        function ShowPage(_prev) {
+            RefreshMatch();
+            $('#controller-text').text(` ${curPage} / ${LogPages} `);
+            
+            $('.cur-game').slice(MAXLOG * (_prev - 1), MAXLOG * _prev).css('display', 'none');
+            $('.cur-game').slice(MAXLOG * (curPage - 1), MAXLOG * curPage).css('display', 'inline-block');
+    
+            $('.controller-button').removeClass('button-active');
+            if(curPage > 1) {
+                $('#controller-left').addClass('button-active');
+            }
+            if(curPage < LogPages) {
+                $('#controller-right').addClass('button-active');
+            }
         }
-        if(curPage < LogPages) {
-            $('#controller-right').addClass('button-active');
-        }
+        ShowPage();
+    } else {
+        $('#user-games-controller').css('display', 'none');
+        $('.cur-game').css('display', 'inline-block');
     }
-    ShowPage();
 
     /** Print Count */
     $('#user-games-number').text(` ${count}${gameCount}`);
