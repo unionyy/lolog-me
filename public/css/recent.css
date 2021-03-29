@@ -260,3 +260,24 @@
 .arrow-Lose {
     color: #e5133c;
 }
+
+#recent-more {
+    height: 100px;
+    background-color: #24292e10;
+    display: flex;
+    cursor: pointer;
+}
+#recent-more:hover {
+    background-color: #24292e40;
+}
+#recent-more:hover .icon-more {
+    color: #24292e;
+}
+.icon-more, .icon-more-wait {
+    margin: auto;
+    font-size: 2em;
+    color: #24292ed0;
+}
+.hide {
+    display: none;
+}

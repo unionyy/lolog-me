@@ -1,10 +1,32 @@
 const MAXRECENTGAMES = 20;
 
+var curIndex = 0;
+
+$(document).ready(()=> {
+    AddMoreListener();
+})
+
+function AddMoreListener() {
+    $('.icon-more').removeClass('hide');
+    $('.icon-more-wait').addClass('hide');
+    $('#recent-more').one('click',function() {
+        GetRecentGames(curIndex + MAXRECENTGAMES);
+        $('.icon-more').addClass('hide');
+        $('.icon-more-wait').removeClass('hide');
+    });
+}
+
 function GetRecentGames(_index=0) {
+    curIndex = _index;
+    var isEnd = true;
     if($('.cur-game').length > 0) {
         var queryStr = '?';
         $('.cur-game').each((i, elem) => {
-            if(i < _index || i >= _index + MAXRECENTGAMES) return;
+            if(i < _index) return;
+            else if(i >= _index + MAXRECENTGAMES) {
+                isEnd = false;
+                return false;
+            }
     
             var q = 'm='+$(elem).attr('matchid')+'&';
             queryStr += q;
@@ -123,26 +145,34 @@ function GetRecentGames(_index=0) {
                 if(_index === 0) {
                     $("#games-recent-log").html(gamesHtml);
                 } else {
-                    $("#games-recent-log").add(gamesHtml);
+                    $("#games-recent-log").append(gamesHtml);
+                    if(isEnd) {
+                        $("#recent-more").css('display', 'none');
+                    } else {
+                        AddMoreListener();
+                    }
                 }
                 /** Recent Detail */
-                $('.recent-game-wrapper').each(function () {
-                    $(this).find('.recent-detail').click(async () => {
-                        if($(this).find('.recent-match').hasClass('match-hide')) {
-                            $(this).find('.recent-match').removeClass('match-hide');
-                            $(this).find('.detail-up').css('display', 'block');
-                            $(this).find('.detail-down').css('display', 'none');
-                            await $(this).find('.recent-match').html('<i class="match-loading fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>');
-                            GetMatch($(this).find('.recent-match'), {
-                                platform: $(this).attr('platform'),
-                                matchId: $(this).attr('matchId'),
-                                timestamp: $(this).attr('timestamp'),
-                                miniLog: $(this).find('.user-games-mini')
+                $('.recent-game-wrapper').each((i, elem) => {
+                    if(i < _index) return;
+                    else if(i >= _index + MAXRECENTGAMES) return false;
+            
+                    $(elem).find('.recent-detail').click(async () => {
+                        if($(elem).find('.recent-match').hasClass('match-hide')) {
+                            $(elem).find('.recent-match').removeClass('match-hide');
+                            $(elem).find('.detail-up').css('display', 'block');
+                            $(elem).find('.detail-down').css('display', 'none');
+                            await $(elem).find('.recent-match').html('<i class="match-loading fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>');
+                            GetMatch($(elem).find('.recent-match'), {
+                                platform: $(elem).attr('platform'),
+                                matchId: $(elem).attr('matchId'),
+                                timestamp: $(elem).attr('timestamp'),
+                                miniLog: $(elem).find('.user-games-mini')
                             });
                         } else {
-                            $(this).find('.recent-match').addClass('match-hide');
-                            $(this).find('.detail-up').css('display', 'none');
-                            $(this).find('.detail-down').css('display', 'block');
+                            $(elem).find('.recent-match').addClass('match-hide');
+                            $(elem).find('.detail-up').css('display', 'none');
+                            $(elem).find('.detail-down').css('display', 'block');
                         }
                     });
                 });
