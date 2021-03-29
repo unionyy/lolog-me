@@ -8,10 +8,15 @@
 .recent-game-wrapper {
     margin-bottom: 10px;
 }
+.recent-game-wrapper .match {
+    margin-top: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
 .recent-game{
     display: grid;
     grid-template-columns: 110px 65px 55px auto 200px 30px;
-    width: 680px;
+    width: 740;
     height: 100px;
     align-items: center;
     margin: auto;
