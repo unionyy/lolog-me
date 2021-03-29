@@ -62,13 +62,12 @@ function FindCDN(_timestamp) {
     return cdnuri
 }
 
-async function GetMatch(_this) {
-    await fetch(`/${$(_this).attr('platform')}/match/${$(_this).attr('matchId')}`)
-        .then(response => response.json(), err => {$("#match-inspecter").html('<span class="match-fail">Try Again</span>');})
+async function GetMatch(_container, _info) {
+    await fetch(`/${_info.platform}/match/${_info.matchId}`)
+        .then(response => response.json(), err => {_container.html('<span class="match-fail">Try Again</span>');})
         .then(data => {
             /** Find version */
-            var timestamp = $(_this).attr('timestamp');
-            var cdnuri = FindCDN(timestamp)
+            var cdnuri = FindCDN(_info.timestamp)
             
             var myTeam;
             for (team in data.teams) {
@@ -126,8 +125,9 @@ async function GetMatch(_this) {
                         isMe = ' is-me';
 
                         /** Add Class to mini log */
-                        var miniLog = $(_this).find('.user-games-mini');
-                        $(miniLog).addClass('log-' + winText);
+                        if(_info.miniLog) {
+                            $(_info.miniLog).addClass('log-' + winText);
+                        }
                     }
 
                     /** Rune Images */
@@ -233,7 +233,7 @@ async function GetMatch(_this) {
             }
 
             matchHtml += '</div>';
-            $("#match-inspecter").html(matchHtml);
+            _container.html(matchHtml);
         });
 }
 
@@ -262,12 +262,17 @@ $(document).ready(function() {
                 $(cur).find('.user-games-mini').addClass('cur-log');
                 $('#match-inspecter').css('top', $('#user-games-all').scrollTop() + $(cur).position().top + $(cur).find('.user-games-mini').height() + 4);
                 await $('#match-inspecter').html('<i class="match-loading fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>');
-                GetMatch(cur);
+                GetMatch($("#match-inspecter"), {
+                    platform:   $(cur).attr('platform'),
+                    matchId:    $(cur).attr('matchId'),
+                    timestamp:  $(cur).attr('timestamp'),
+                    miniLog:    $(cur).find('.user-games-mini')
+                });
             } else {
                 $('#match-inspecter').addClass('match-hide');
             }
         })
-    })
+    });    
 });
 
 function RefreshMatch() {

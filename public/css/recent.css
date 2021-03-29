@@ -1,9 +1,12 @@
 #user-games-recent{
     display: grid;
-    grid-template-columns: auto 730px;
+    grid-template-columns: auto 740px;
 }
 .recent-cell {
     margin: auto;
+}
+.recent-game-wrapper {
+    margin-bottom: 10px;
 }
 .recent-game{
     display: grid;
@@ -11,8 +14,7 @@
     width: 680px;
     height: 100px;
     align-items: center;
-    margin-bottom: 10px;
-
+    margin: auto;
     color: #24292ed0;
 }
 .recent-game-Win{
@@ -231,6 +233,8 @@
     background-color: gray;
     border: solid 1px gray;
     display: flex;
+
+    cursor: pointer;
 }
 .recent-detail.Win {
     background-color: #22c4d560;

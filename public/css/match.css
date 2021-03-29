@@ -1,6 +1,5 @@
-#match-inspecter {
+#match-inspecter, .recent-match {
     /* background-color: #24292e; */
-    position: absolute;
     width: 100%;
     height: 470px;
     display: flex;
@@ -8,9 +7,13 @@
     text-align: center;
     /* border-radius: 5px; */
 }
-#match-inspecter.match-hide {
+#match-inspecter {
+    position: absolute;
+}
+#match-inspecter.match-hide, .recent-match.match-hide{
     display: none;
 }
+
 .match-loading {
     margin: auto;
 }
