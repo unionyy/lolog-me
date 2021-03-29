@@ -18,12 +18,10 @@ function GetRecentGames(_index=0) {
             .then(data => {
 
                 var gamesHtml = '';
-                for(gameId in data) {
-                    var elem = data[gameId];
-
+                for(elem of data.data) {
                     var parsedWin = ParseWin(elem.win_my);
                     var gameHtml = `<div class="recent-game recent-game-${parsedWin.winText}">`;
-                    var mini = $(`.cur-game[matchid=${gameId}]`);
+                    var mini = $(`.cur-game[matchid=${elem.game_id}]`);
         
                     var killPart = 0;
                     if(elem.total_kills) killPart = Math.ceil((elem.kills + elem.assists) / elem.total_kills * 100);
