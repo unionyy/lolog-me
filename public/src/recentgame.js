@@ -40,7 +40,7 @@ function GetRecentGames(_index=0) {
                     var parsedWin = ParseWin(elem.win_my);
                     var mini = $(`.cur-game[matchid=${elem.game_id}]`);
                     var gameHtml = `<div class="recent-game-wrapper" platform="${mini.attr('platform')}" matchId="${mini.attr('matchId')}" timestamp="${mini.attr('timestamp')}">
-                        <div class="recent-game recent-game-${parsedWin.winText}" team="${parsedWin.teamText}">`;
+                        <div class="recent-game recent-game-${parsedWin.winText}" team="${parsedWin.teamText}" duration="${elem.duration}">`;
         
                     var killPart = 0;
                     if(elem.total_kills) killPart = Math.ceil((elem.kills + elem.assists) / elem.total_kills * 100);
@@ -152,6 +152,7 @@ function GetRecentGames(_index=0) {
                 /** Update Charts */
                 UpdateVictoryCharts();
                 UpdateTeamCharts();
+                UpdateDurationChart();
 
                 /** Recent Detail */
                 $('.recent-game-wrapper').each((i, elem) => {
@@ -247,7 +248,69 @@ function UpdateTeamCharts() {
           }
         };
 
-        var chart = new google.visualization.BarChart(document.getElementById('victory-blue'));
+        var chart = new google.visualization.BarChart(document.getElementById('victory-team'));
+        chart.draw(data, options);
+      }
+}
+
+function UpdateDurationChart() {
+    google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        
+        var games = ['games', 0, 0, 0, 0];
+        var wins = ['wins', 0, 0, 0, 0];
+        $('.recent-game').each((i, elem) => {
+            var duration = $(elem).attr('duration');
+            var i = 0;
+            if(duration < 301) {
+                return;
+            }else if(duration < 25 * 60) {
+                i = 1;
+            } else if(duration < 30 * 60) {
+                i = 2;
+            } else if(duration < 35 * 60) {
+                i = 3;
+            }  else {
+                i = 4;
+            }
+            games[i]++;
+            if($(elem).hasClass('recent-game-Win')) {
+                wins[i]++;
+            }
+        });
+
+        var dataG = [
+            ['Duration', 'Rate'],
+            ['0-25', wins[1]/games[1]],
+            ['25-30', wins[2]/games[2]],
+            ['30-35', wins[3]/games[3]],
+            ['35+', wins[4]/games[4]],
+        ];
+
+        var data = google.visualization.arrayToDataTable(dataG);
+
+        var options = {
+          backgroundColor: 'whitesmoke',
+          legend: 'none',
+        //   legend: { position: 'bottom' },
+        //   series: {
+        //     0: {targetAxisIndex: 0},
+        //     1: {targetAxisIndex: 1}
+        //   },
+        //   vAxes: {
+        //     // Adds titles to each axis.
+        //     0: {format: '#.##%'},
+        //     1: {}
+        //   },
+          vAxis: {format: '#.##%'},
+          dataOpacity: 0.5,
+          pointSize: 5,
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('victory-duration'));
+
         chart.draw(data, options);
       }
 }
