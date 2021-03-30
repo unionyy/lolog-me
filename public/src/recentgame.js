@@ -2,10 +2,6 @@ const MAXRECENTGAMES = 20;
 
 var curIndex = 0;
 
-$(document).ready(()=> {
-    AddMoreListener();
-})
-
 function AddMoreListener() {
     $('.icon-more').removeClass('hide');
     $('.icon-more-wait').addClass('hide');
@@ -146,11 +142,11 @@ function GetRecentGames(_index=0) {
                     $("#games-recent-log").html(gamesHtml);
                 } else {
                     $("#games-recent-log").append(gamesHtml);
-                    if(isEnd) {
-                        $("#recent-more").css('display', 'none');
-                    } else {
-                        AddMoreListener();
-                    }
+                }
+                if(isEnd) {
+                    $("#recent-more").css('display', 'none');
+                } else {
+                    AddMoreListener();
                 }
 
                 /** Update Charts */
@@ -219,5 +215,6 @@ function UpdateVictoryCharts() {
         chart.draw(data, options);
 
         $('#chart-victory-span').text(Math.round(wins * 100 /(wins + loses)) + '%');
+        $('#recent-victory').text(`${wins + loses}전 ${wins}승 ${loses}패`);
       }
 }
