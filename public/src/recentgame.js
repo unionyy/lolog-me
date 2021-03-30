@@ -229,7 +229,7 @@ function UpdateTeamCharts() {
         var winsB = $('.recent-game-Win[team=BlueTeam]').length;
         var winsR = $('.recent-game-Win[team=RedTeam]').length;
         var data = google.visualization.arrayToDataTable([
-          ['team', 'wins', 'loses'],
+          ['team', 'Victories', 'Defeats'],
           ['Blue', winsB, losesB],
           ['Red', winsR, losesR]
         ]);
