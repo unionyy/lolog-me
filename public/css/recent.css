@@ -281,3 +281,28 @@
 .hide {
     display: none;
 }
+
+/* Charts */
+#games-recent-charts {
+    display: block;
+}
+
+#chart-victory-wrapper {
+    position: relative;
+    width: 150px;
+    margin:auto;
+}
+#chart-victory-text {
+    position: absolute;
+    display: flex;
+    top: 0;
+    left: 0;
+    height: 150px;
+    width: 150px;
+}
+#chart-victory-span {
+    margin: auto;
+    font-size: 1.2em;
+    font-weight: 700;
+    color: #24292ed0;
+}

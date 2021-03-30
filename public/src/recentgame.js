@@ -152,6 +152,10 @@ function GetRecentGames(_index=0) {
                         AddMoreListener();
                     }
                 }
+
+                /** Update Charts */
+                UpdateVictoryCharts();
+
                 /** Recent Detail */
                 $('.recent-game-wrapper').each((i, elem) => {
                     if(i < _index) return;
@@ -181,4 +185,39 @@ function GetRecentGames(_index=0) {
     } else {
         $("#games-recent-log").html('');
     }
+}
+
+function UpdateVictoryCharts() {
+    google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var loses = $('.recent-game-Lose').length;
+        var wins = $('.recent-game-Win').length;
+        var data = google.visualization.arrayToDataTable([
+          ['Win', 'times'],
+          ['Defeat', loses],
+          ['Victory', wins]
+        ]);
+
+        var options = {
+          chartArea: {
+            width: 150,
+            height: 150
+          },
+          width: 150,
+          height: 150,
+          pieHole: 0.6,
+          backgroundColor: 'whitesmoke',
+          colors:['#f12f55','#22c4d5'],
+          tooltip: { trigger: 'none' },
+          pieSliceText: 'none',
+          enableInteractivity: false,
+          legend: 'none'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('chart-victory'));
+        chart.draw(data, options);
+
+        $('#chart-victory-span').text(Math.round(wins * 100 /(wins + loses)) + '%');
+      }
 }
