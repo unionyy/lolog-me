@@ -40,7 +40,7 @@ function GetRecentGames(_index=0) {
                     var parsedWin = ParseWin(elem.win_my);
                     var mini = $(`.cur-game[matchid=${elem.game_id}]`);
                     var gameHtml = `<div class="recent-game-wrapper" platform="${mini.attr('platform')}" matchId="${mini.attr('matchId')}" timestamp="${mini.attr('timestamp')}">
-                        <div class="recent-game recent-game-${parsedWin.winText}">`;
+                        <div class="recent-game recent-game-${parsedWin.winText}" team="${parsedWin.teamText}">`;
         
                     var killPart = 0;
                     if(elem.total_kills) killPart = Math.ceil((elem.kills + elem.assists) / elem.total_kills * 100);
@@ -151,6 +151,7 @@ function GetRecentGames(_index=0) {
 
                 /** Update Charts */
                 UpdateVictoryCharts();
+                UpdateTeamCharts();
 
                 /** Recent Detail */
                 $('.recent-game-wrapper').each((i, elem) => {
@@ -216,5 +217,37 @@ function UpdateVictoryCharts() {
 
         $('#chart-victory-span').text(Math.round(wins * 100 /(wins + loses)) + '%');
         $('#recent-victory').text(`${wins + loses}전 ${wins}승 ${loses}패`);
+      }
+}
+
+function UpdateTeamCharts() {
+    google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var losesB = $('.recent-game-Lose[team=BlueTeam]').length;
+        var losesR = $('.recent-game-Lose[team=RedTeam]').length;
+        var winsB = $('.recent-game-Win[team=BlueTeam]').length;
+        var winsR = $('.recent-game-Win[team=RedTeam]').length;
+        var data = google.visualization.arrayToDataTable([
+          ['team', 'wins', 'loses'],
+          ['Blue', winsB, losesB],
+          ['Red', winsR, losesR]
+        ]);
+
+        var options = {
+          pieHole: 0.6,
+          backgroundColor: 'whitesmoke',
+          colors:['#22c4d5', '#f12f55'],
+          legend: 'none',
+          bar: { groupWidth: '60%' },
+          isStacked: 'percent',
+          hAxis: {
+            minValue: 0,
+            ticks: [0, .5, 1]
+          }
+        };
+
+        var chart = new google.visualization.BarChart(document.getElementById('victory-blue'));
+        chart.draw(data, options);
       }
 }

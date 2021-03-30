@@ -241,7 +241,7 @@ app.get(`/:platform/user/:userName`, userLimiter, (req, res, next) => {
     }
   }, err => {
     console.log(err);
-    res.send('Error');
+    res.status(500).send('Error');
   })
 });
 
@@ -283,7 +283,7 @@ app.get(`/:platform/user/:userName/detail`, userLimiter, (req, res, next) => {
       }
     }, err => {
       console.log(err);
-      res.send('Error');
+      res.status(500).send('Error');
     })
   }
 });
