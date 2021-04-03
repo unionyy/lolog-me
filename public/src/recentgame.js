@@ -36,6 +36,12 @@ function GetRecentGames(_index=0) {
             .then(data => {
 
                 var gamesHtml = '';
+
+                var killSum = 0;
+                var deathSum = 0;
+                var assistSum = 0;
+                var killTotalSum = 0;
+
                 for(elem of data.data) {
                     var parsedWin = ParseWin(elem.win_my);
                     var mini = $(`.cur-game[matchid=${elem.game_id}]`);
@@ -136,13 +142,44 @@ function GetRecentGames(_index=0) {
                     gameHtml += '</div><div class="recent-match match-hide"></div></div>'
 
                     gamesHtml += gameHtml;
+
+                    /** Update KDA Sum */
+                    killSum += elem.kills;
+                    deathSum += elem.deaths;
+                    assistSum  += elem.assists;
+                    killTotalSum += elem.total_kills;
                 }
 
                 if(_index === 0) {
                     $("#games-recent-log").html(gamesHtml);
+
+                    $('#kda-sum-k').text(killSum);
+                    $('#kda-sum-d').text(deathSum);
+                    $('#kda-sum-a').text(assistSum);
+                    $('#part-sum').attr('total-kill', killTotalSum);
                 } else {
                     $("#games-recent-log").append(gamesHtml);
+
+                    $('#kda-sum-k').text(Number($('#kda-sum-k').text()) + killSum);
+                    $('#kda-sum-d').text(Number($('#kda-sum-d').text()) + deathSum);
+                    $('#kda-sum-a').text(Number($('#kda-sum-a').text()) + assistSum);
+                    $('#part-sum').attr('total-kill', Number($('#part-sum').attr('total-kill')) + killTotalSum);
                 }
+
+                /** Update Score */
+                var scoreSum = 0;
+                var partSum = 0;
+                var kk = Number($('#kda-sum-k').text());
+                var dd = Number($('#kda-sum-d').text());
+                var aa = Number($('#kda-sum-a').text());
+                var tt = Number($('#part-sum').attr('total-kill'));
+                if (dd === 0) scoreSum = 'Perfect';
+                else scoreSum = (Math.ceil((kk + aa) * 100 / dd) / 100).toFixed(2);
+                $('#score-sum').text(scoreSum);
+                /** Update Part */
+                if(tt) partSum = Math.ceil((kk + aa) / tt * 100);
+                $('#part-sum').text(partSum + '%');
+
                 if(isEnd) {
                     $("#recent-more").css('display', 'none');
                 } else {
@@ -178,7 +215,6 @@ function GetRecentGames(_index=0) {
                         }
                     });
                 });
-
             });
     } else {
         $("#games-recent-log").html('');

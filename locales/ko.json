@@ -54,7 +54,6 @@
 	"keywords_main": "lol graph, lolog, 리그오브레전드, 롤 전적 검색, 롤 전적 그래프, 롤로그",
 	"description_user": ", 최근 2년 롤 전적 그래프",
 	"show_on_riot": "라이엇 공식 홈페이지에서 보기",
-
 	"Aatrox": "아트록스",
 	"Ahri": "아리",
 	"Akali": "아칼리",
@@ -209,6 +208,7 @@
 	"Zilean": "질리언",
 	"Zoe": "조이",
 	"Zyra": "자이라",
-
-	"dev-blog": "개발자 블로그"
+	"dev-blog": "개발자 블로그",
+	"score": "평점",
+	"part": "킬관여"
 }

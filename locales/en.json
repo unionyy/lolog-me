@@ -54,7 +54,6 @@
 	"keywords_main": "lol, lol graph, summoner graph, lol history graph, lolog, league of legends history graph",
 	"description_user": ", 2 years League of Legends Match History Graph",
 	"show_on_riot": "Show on Riot Official Page",
-
 	"Aatrox": "Aatrox",
 	"Ahri": "Ahri",
 	"Akali": "Akali",
@@ -209,6 +208,7 @@
 	"Zilean": "Zilean",
 	"Zoe": "Zoe",
 	"Zyra": "Zyra",
-
-	"dev-blog": "Developer Blog"
+	"dev-blog": "Developer Blog",
+	"score": "KDA",
+	"part": "Kill P"
 }

@@ -295,6 +295,9 @@
 .text-kda {
     width: 30px;
 }
+.kda-sum {
+    width: 50px;
+}
 /* .text-kill-participation {
     width: 50px;
     font-size: 0.8em;
