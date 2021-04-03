@@ -183,6 +183,7 @@ function GetRecentGames(_index=0) {
                 if(isEnd) {
                     $("#recent-more").css('display', 'none');
                 } else {
+                    $("#recent-more").css('display', 'flex');
                     AddMoreListener();
                 }
 
