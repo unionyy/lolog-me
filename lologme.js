@@ -148,7 +148,27 @@ app.get('/', (req, res) => {
 
 app.get(`/search`, (req, res) => {
   //res.redirect(`/${urlencode.encode(req.body.platform)}/user/${urlencode.encode(req.body.username)}`);
-  res.redirect(`/${req.query.platform}/user/${req.query.username}`);
+  // res.redirect(`/${req.query.platform}/user/${req.query.username}`);
+
+  try{
+    var normName = NormalizeName(req.query.username);
+
+    var platform = req.query.platform;
+
+    if(PLATFORM_MY[platform] === undefined) {
+      throw 'unkown platform';
+    }
+
+    riot.Update(normName, platform, 86400000).then(data => {
+      res.redirect(`/${platform}/user/${normName}`);
+    }, err => {
+      console.log('riot Update Err');
+      next();
+    })
+  } catch (err) {
+    console.log('update Err');
+    next();
+  }
 });
 
 app.get(`/update`, (req, res, next) => {
