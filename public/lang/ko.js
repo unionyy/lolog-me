@@ -1,4 +1,5 @@
 const LANG = {
+	lang: 'ko_KR',
 	champ: {
 		"Aatrox": "아트록스",
 		"Ahri": "아리",

@@ -40,7 +40,7 @@ function ItemGen(_items, _cdnuri) {
         if(_items[i] === 0) {
             itemsHtml += `<rect class="${classStrCur}"></rect>`;
         } else {
-            itemsHtml += `<img class="${classStrCur}" src="${_cdnuri}/img/item/${_items[i]}.png" />`
+            itemsHtml += `<img class="${classStrCur}" src="${_cdnuri}/img/item/${_items[i]}.png" item-id="${_items[i]}"/>`
         }
     }
     return itemsHtml;
@@ -234,6 +234,7 @@ async function GetMatch(_container, _info) {
 
             matchHtml += '</div>';
             _container.html(matchHtml);
+            ItemTooltipster()
         });
 }
 

@@ -1,0 +1,44 @@
+#item-tooltips {
+    /* display: none; */
+}
+.item-tooltip {
+    display: block;
+}
+
+.item-header {
+    display: grid;
+    grid-template-columns: 50px auto;
+    margin-top: 10px;
+}
+.item-icon {
+    width: 40px;
+    height: 40px;
+    grid-row-start: 1;
+    grid-row-end: 3;
+    border: solid 1px #463714;
+}
+.item-name {
+    font-weight: 700;
+}
+.item-gold-icon {
+    color: yellow;
+    width: 14px;
+    height: 14px;
+    filter: opacity(0.5) drop-shadow(0 0 0 yellow);
+}
+.item-gold {
+    font-size: 0.9em;
+    font-weight: 700;
+}
+
+.item-description {
+    margin-top: 10px;
+    font-size: 0.8em;
+}
+stats {
+    
+    color: #22c4d5d0;
+}
+passive, active {
+    color: #fabe0a;
+}

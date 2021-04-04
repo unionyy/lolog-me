@@ -1,4 +1,5 @@
 const LANG = {
+	lang: 'en_US',
 	champ: {
 		"Aatrox": "Aatrox",
 		"Ahri": "Ahri",

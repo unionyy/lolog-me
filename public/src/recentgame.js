@@ -218,10 +218,8 @@ function GetRecentGames(_index=0) {
                 });
 
                 /** Tooltips */
-                $('.tooltip').tooltipster({
-                    theme: 'tooltipster-borderless',
-                    distance: 1
-                });
+                ItemTooltipster();
+                
             });
     } else {
         $("#games-recent-log").html('');
