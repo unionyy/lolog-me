@@ -30,7 +30,7 @@ function ItemTooltipster() {
                 $(elem).tooltipster({
                     theme: 'tooltipster-borderless',
                     distance: 1,
-                    delay: 0,
+                    delay: 100,
                     content: $(`#item-${itemId}`),
                     maxWidth: 300,
                     animationDuration: 0,
