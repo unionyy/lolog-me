@@ -48,7 +48,7 @@ app.use((req, res, next) => {
 const cspOptions = {
   directives: {
     ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-    "script-src": ["'self'", "*.googleapis.com",
+    "script-src": ["'self'", "https://code.jquery.com", 
               "https://www.googletagmanager.com", "https://www.google-analytics.com", "https://ssl.google-analytics.com", "https://tagmanager.google.com",
               "*.gstatic.com", (req, res) => `'nonce-${res.locals.cspNonce}'`],
     "img-src": ["'self'", "*.leagueoflegends.com", "ddragon.bangingheads.net", "www.googletagmanager.com", "https://www.google-analytics.com" , "https://*.gstatic.com", "https://www.gstatic.com", "data:"],
