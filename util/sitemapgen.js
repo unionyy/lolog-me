@@ -81,6 +81,8 @@ GetUsers().then(users=> {
 
         var date = new Date(user.update_time).toISOString().slice(0, 10);
         sitemap += `<lastmod>${date}</lastmod></url>`
+
+        console.log(date, url);
     }
     sitemap += '</urlset>';
 
