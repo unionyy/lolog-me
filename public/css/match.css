@@ -290,16 +290,7 @@
      1px -1px 0 #24292e,
      -1px 1px 0 #24292e,
       1px 1px 0 #24292e;
-}
-.vision-score span {
-    width: 100%;
-    color: white;
-    font-size: 0.8em;
-    text-shadow:
-    -1px -1px 0 #24292e,  
-     1px -1px 0 #24292e,
-     -1px 1px 0 #24292e,
-      1px 1px 0 #24292e;
+    cursor: default;
 }
 
 /* part-kda */

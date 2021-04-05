@@ -166,6 +166,11 @@ const LANG = {
 	multi_kill_6: "헥사 킬",
 	multi_kill_over: "??? 킬",
 
+	vision_score: "시야점수",
+	wards_buy:	"제어와드",
+	wards_place: "와드 설치",
+	wards_kill:	"와드 제거",
+
 	Win: "승리",
 	Lose: "패배",
 	Remake: "다시하기",

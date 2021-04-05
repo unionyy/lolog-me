@@ -2,6 +2,7 @@ function SetTooltips() {
     ItemTooltipster();
     SpellTooltipster();
     RuneTooltipster();
+    VisionTooltipster();
 }
 
 function ItemTooltipster() {
@@ -121,4 +122,16 @@ function RuneTooltipster() {
                 });
             });    
         });
+}
+
+function VisionTooltipster() {
+    $('.vision-score').not('.tooltipstered').tooltipster({
+        theme: 'tooltipster-borderless',
+        distance: 1,
+        delay: 100,
+        maxWidth: 300,
+        animationDuration: 0,
+        side: 'top',
+        contentAsHTML: true
+    });
 }

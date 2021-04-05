@@ -27,7 +27,7 @@
     width: 40px;
     height: 40px;
 }
-.item-name, .spell-name, .rune-name {
+.item-name, .spell-name, .rune-name, .vision-name {
     font-weight: 700;
 }
 .item-gold-icon {
@@ -41,7 +41,7 @@
     font-weight: 700;
 }
 
-.item-description, .spell-description, .rune-description {
+.item-description, .spell-description, .rune-description, .vision-description {
     margin-top: 10px;
     font-size: 0.8em;
     margin-bottom: 10px;
@@ -52,4 +52,8 @@ stats {
 }
 passive, active {
     color: #fabe0a;
+}
+deco {
+    color: #fabe0a;
+    font-weight: 700;
 }

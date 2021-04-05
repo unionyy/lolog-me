@@ -46,7 +46,13 @@ function ItemGen(_items, _cdnuri, _vision) {
         }
 
         if(i==='6') {
-            itemsHtml +=  `<span class="vision-score" title="Buy: ${_vision.buy}, Place: ${_vision.place}, Kill: ${_vision.kill}">${_vision.score}</span></div>`
+            itemsHtml +=  `<span class="vision-score" title="
+            <span class='vision-name'>${LANG.vision_score}: <deco>${_vision.score}</deco></span>
+            <p class='vision-description'>
+                ${LANG.wards_buy}: <deco>${_vision.buy}</deco><br>
+                ${LANG.wards_place}: <deco>${_vision.place}</deco><br>
+                ${LANG.wards_kill}: <deco>${_vision.kill}</deco></p>
+            ">${_vision.score}</span></div>`;
         }
     }
     return itemsHtml;

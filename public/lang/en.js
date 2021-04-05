@@ -166,6 +166,11 @@ const LANG = {
 	multi_kill_6: "HEXA KILL",
 	multi_kill_over: "??? KILL",
 
+	vision_score: "Vision Score",
+	wards_buy:	"Control Ward",
+	wards_place: "Wards Placed",
+	wards_kill:	"Wards Killed",
+
 	Win: "VICTORY",
 	Lose: "DEFEAT",
 	Remake: "REMAKE",
