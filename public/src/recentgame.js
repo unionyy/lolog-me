@@ -58,7 +58,13 @@ function GetRecentGames(_index=0) {
                     var minCS = (Math.ceil((elem.minions + elem.jungle) * 600 / elem.duration) / 10).toFixed(1);
 
                     var timestamp = mini.attr('timestamp');
-                    var itemHtml = ItemGen([elem.item0, elem.item1, elem.item2, elem.item3, elem.item4, elem.item5, elem.item6], FindCDN(timestamp));
+                    var visionData = {
+                        score: elem.vision_score,
+                        buy: elem.wards_bought,
+                        place: elem.wards_placed,
+                        kill: elem.wards_killed
+                    }
+                    var itemHtml = ItemGen([elem.item0, elem.item1, elem.item2, elem.item3, elem.item4, elem.item5, elem.item6], FindCDN(timestamp), visionData);
 
                     /** Medal */
                     var medalHtml = '';

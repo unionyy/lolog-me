@@ -28,7 +28,7 @@ function ParseWin(_winMy) {
     return {winText: winText, teamText: teamText};
 }
 
-function ItemGen(_items, _cdnuri) {
+function ItemGen(_items, _cdnuri, _vision) {
     /** Item Images */
     var itemsHtml = '';
     var classStr = 'item';
@@ -36,11 +36,17 @@ function ItemGen(_items, _cdnuri) {
         var classStrCur = classStr;
         if(i === '0') {
             classStrCur += ' item-first';
+        } else if(i==='6') {
+            itemsHtml += '<div class="item-vision">'
         }
         if(_items[i] === 0) {
             itemsHtml += `<rect class="${classStrCur}"></rect>`;
         } else {
             itemsHtml += `<img class="${classStrCur}" src="${_cdnuri}/img/item/${_items[i]}.png" item-id="${_items[i]}"/>`
+        }
+
+        if(i==='6') {
+            itemsHtml +=  `<span class="vision-score" title="Buy: ${_vision.buy}, Place: ${_vision.place}, Kill: ${_vision.kill}">${_vision.score}</span></div>`
         }
     }
     return itemsHtml;
@@ -141,7 +147,13 @@ async function GetMatch(_container, _info) {
                     }
 
                     /** Item Images */
-                    var itemsHtml = ItemGen(elem.stats.items, cdnuri);
+                    var visionData = {
+                        score: elem.stats.visionScore,
+                        buy: elem.stats.wardsBought,
+                        place: elem.stats.wardsPlaced,
+                        kill: elem.stats.wardsKilled
+                    }
+                    var itemsHtml = ItemGen(elem.stats.items, cdnuri, visionData);
 
                     /** Kill Participation */
                     var killPart = 0;
@@ -174,9 +186,6 @@ async function GetMatch(_container, _info) {
                         <div class="part-item cell">
                             <div class="inner-cell">
                                 ${itemsHtml}
-                                <div class="vision-score">
-                                    <span title="Buy: ${elem.stats.wardsBought}, Place: ${elem.stats.wardsPlaced}, Kill: ${elem.stats.wardsKilled}">${elem.stats.visionScore}</span>
-                                </div>
                             </div>
                         </div>
                         <div class="part-kda cell">

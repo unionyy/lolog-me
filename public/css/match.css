@@ -268,14 +268,28 @@
 .item-first {
     border-left: solid 1px #463714;
 }
+.item-vision {
+    position: relative;
+    float:left;
+    width: 27px;
+    height: 27px;
+}
 .vision-score {
     position: absolute;
-    display: flex;
-    left: 157px;
-    width: 25px;
-    height: 25px;
+    /* display: flex;
     align-items: flex-end;
-    text-align: center;
+    text-align: center; */
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, -100%);
+    font-size: 0.8em;
+    font-weight: 700;
+    color: white;
+    text-shadow:
+    -1px -1px 0 #24292e,  
+     1px -1px 0 #24292e,
+     -1px 1px 0 #24292e,
+      1px 1px 0 #24292e;
 }
 .vision-score span {
     width: 100%;
@@ -335,4 +349,7 @@
 .is-me .part-link {
     color: #fabe0a;
     font-weight: 600;
+}
+.is-me .vision-score {
+    color: #fabe0a;
 }
