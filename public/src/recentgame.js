@@ -90,8 +90,8 @@ function GetRecentGames(_index=0) {
                         </div>
                         <div class="recent-runespell recent-cell">
                             <div class="recent-rune">
-                                <img class="rune-main" src="https://ddragon.leagueoflegends.com/cdn/img/${RUNE[elem.rune0]}" />
-                                <img class="rune-sub" src="https://ddragon.leagueoflegends.com/cdn/img/${RUNE[elem.rune1]}" />
+                                <img class="rune-main rune" src="https://ddragon.leagueoflegends.com/cdn/img/${RUNE[elem.rune0]}" rune-id="${elem.rune0}" />
+                                <img class="rune-sub rune" src="https://ddragon.leagueoflegends.com/cdn/img/${RUNE[elem.rune1]}" rune-id="${elem.rune1}" />
                             </div>
                             <div class="recent-spell">
                                 <img class="recent-spell-img recent-spell-first spell" src="${RIOTCDNURI + VERSION.latest}/img/spell/${SPELL[elem.spell1]}.png" spell-name="${SPELL[elem.spell1]}"/>

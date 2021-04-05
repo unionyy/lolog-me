@@ -1,12 +1,11 @@
-const rune = require('./runesReforged.json');
+const rune = require('./runesReforgedKR.json');
 
 var codes = {};
 for(elem of rune) {
-    codes[elem.id] = elem.icon;
+    codes[elem.id] = {'name': elem.name};
 
     for(eelem of elem.slots[0].runes) {
-        codes[eelem.id] = eelem.icon;
+        codes[eelem.id] = {'name': eelem.name, 'description': eelem.longDesc};
     }
 }
-console.log(codes);
-
+console.log(JSON.stringify(codes));

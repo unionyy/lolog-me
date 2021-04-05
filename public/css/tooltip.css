@@ -1,23 +1,33 @@
-#item-tooltips {
+#item-tooltips, #spell-tooltips, #rune-tooltips {
     display: none;
 }
 .item-tooltip {
     display: block;
 }
 
-.item-header, .spell-tooltip {
+.item-header, .spell-header, .rune-header {
     display: grid;
     grid-template-columns: 50px auto;
     margin-top: 10px;
+    align-items: center;
 }
-.item-icon, .spell-icon {
+.item-icon {
     width: 40px;
     height: 40px;
     grid-row-start: 1;
     grid-row-end: 3;
     border: solid 1px #463714;
 }
-.item-name, .spell-name {
+.spell-icon {
+    width: 40px;
+    height: 40px;
+    border: solid 1px #463714;
+}
+.rune-icon {
+    width: 40px;
+    height: 40px;
+}
+.item-name, .spell-name, .rune-name {
     font-weight: 700;
 }
 .item-gold-icon {
@@ -31,9 +41,10 @@
     font-weight: 700;
 }
 
-.item-description, .spell-description {
+.item-description, .spell-description, .rune-description {
     margin-top: 10px;
     font-size: 0.8em;
+    margin-bottom: 10px;
 }
 stats {
     

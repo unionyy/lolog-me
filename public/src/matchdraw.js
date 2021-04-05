@@ -135,8 +135,8 @@ async function GetMatch(_container, _info) {
                     if(elem.stats.rune0 === 0) {
                         runeHtml += `<rect class="rune-main"></rect><rect class="rune-sub"></rect>`;
                     } else {
-                        runeHtml += `<img class="rune-main" src="https://ddragon.leagueoflegends.com/cdn/img/${RUNE[elem.stats.rune0]}" />
-                        <img class="rune-sub" src="https://ddragon.leagueoflegends.com/cdn/img/${RUNE[elem.stats.rune1]}" />`;
+                        runeHtml += `<img class="rune-main rune" src="https://ddragon.leagueoflegends.com/cdn/img/${RUNE[elem.stats.rune0]}" rune-id="${elem.stats.rune0}" />
+                        <img class="rune-sub rune" src="https://ddragon.leagueoflegends.com/cdn/img/${RUNE[elem.stats.rune1]}" rune-id="${elem.stats.rune1}" />`;
 
                     }
 
