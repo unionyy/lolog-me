@@ -94,8 +94,8 @@ function GetRecentGames(_index=0) {
                                 <img class="rune-sub" src="https://ddragon.leagueoflegends.com/cdn/img/${RUNE[elem.rune1]}" />
                             </div>
                             <div class="recent-spell">
-                                <img class="recent-spell-img recent-spell-first" src="${RIOTCDNURI + VERSION.latest}/img/spell/${SPELL[elem.spell1]}.png" />
-                                <img class="recent-spell-img" src="${RIOTCDNURI + VERSION.latest}/img/spell/${SPELL[elem.spell2]}.png" />
+                                <img class="recent-spell-img recent-spell-first spell" src="${RIOTCDNURI + VERSION.latest}/img/spell/${SPELL[elem.spell1]}.png" spell-name="${SPELL[elem.spell1]}"/>
+                                <img class="recent-spell-img spell" src="${RIOTCDNURI + VERSION.latest}/img/spell/${SPELL[elem.spell2]}.png" spell-name="${SPELL[elem.spell2]}"/>
                             </div>
                         </div>
                         <div class="recent-kda recent-cell">
@@ -218,8 +218,7 @@ function GetRecentGames(_index=0) {
                 });
 
                 /** Tooltips */
-                ItemTooltipster();
-                
+                SetTooltips();
             });
     } else {
         $("#games-recent-log").html('');

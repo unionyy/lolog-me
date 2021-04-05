@@ -154,8 +154,8 @@ async function GetMatch(_container, _info) {
                                     ${runeHtml}
                                 </div>
                                 <div class="part-spell">
-                                    <img class="spell1" src="${RIOTCDNURI + VERSION.latest}/img/spell/${SPELL[elem.spell1Id]}.png" />
-                                    <img class="spell2" src="${RIOTCDNURI + VERSION.latest}/img/spell/${SPELL[elem.spell2Id]}.png" />
+                                    <img class="spell1 spell" src="${RIOTCDNURI + VERSION.latest}/img/spell/${SPELL[elem.spell1Id]}.png" spell-name="${SPELL[elem.spell1Id]}" />
+                                    <img class="spell2 spell" src="${RIOTCDNURI + VERSION.latest}/img/spell/${SPELL[elem.spell2Id]}.png" spell-name="${SPELL[elem.spell2Id]}" />
                                 </div>
                                 <div class="part-level">
                                     <span>${elem.stats.champLevel}</span>     
@@ -234,7 +234,7 @@ async function GetMatch(_container, _info) {
 
             matchHtml += '</div>';
             _container.html(matchHtml);
-            ItemTooltipster()
+            SetTooltips();
         });
 }
 

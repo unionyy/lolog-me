@@ -5,19 +5,19 @@
     display: block;
 }
 
-.item-header {
+.item-header, .spell-tooltip {
     display: grid;
     grid-template-columns: 50px auto;
     margin-top: 10px;
 }
-.item-icon {
+.item-icon, .spell-icon {
     width: 40px;
     height: 40px;
     grid-row-start: 1;
     grid-row-end: 3;
     border: solid 1px #463714;
 }
-.item-name {
+.item-name, .spell-name {
     font-weight: 700;
 }
 .item-gold-icon {
@@ -31,7 +31,7 @@
     font-weight: 700;
 }
 
-.item-description {
+.item-description, .spell-description {
     margin-top: 10px;
     font-size: 0.8em;
 }
