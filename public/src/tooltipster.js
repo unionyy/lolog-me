@@ -4,6 +4,8 @@ $(document).ready(function() {
         plugins: ['follower'],
         anchor: 'bottom-center',
         offset: [0, 10],
-        arrow: true
+        arrow: true,
+        animationDuration: 0,
+        delay: 100
     });
 });
