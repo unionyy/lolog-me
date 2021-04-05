@@ -78,6 +78,12 @@
 .recent-mini {
     align-self: center;
 }
+.recent-duration {
+    margin-left: 35px;
+    font-size: 0.8em;
+    text-align: left;
+    margin-bottom: 5px;
+}
 .recent-type {
     font-weight: 700;
     margin-left: 35px;

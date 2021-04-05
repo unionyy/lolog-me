@@ -83,6 +83,7 @@ function GetRecentGames(_index=0) {
                                 <span class="recent-win-text">${LANG[parsedWin.winText]}</span>
                             </div>
                             <div class="recent-mini">
+                                <div class="recent-duration"><span>${Math.ceil(elem.duration/60)}:${(elem.duration % 60).toString().padStart(2,'0')}</span></div>
                                 <div class="recent-type"><span>${mini.find('.user-games-type').text()}</span></div>
                                 <div class="recent-date"><span>${mini.find('.user-games-date').text()}</span></div>
                             </div>
