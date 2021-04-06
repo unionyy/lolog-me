@@ -351,9 +351,9 @@ function UpdateDurationChart() {
         //     0: {format: '#.##%'},
         //     1: {}
         //   },
-          vAxis: {format: '#.##%'},
+          vAxis: {format: '#.##%', baseline: 0.5, baselineColor: 'red', gridlines: {minSpacing: 20}},
           dataOpacity: 0.5,
-          pointSize: 5,
+          pointSize: 5
         };
 
         var chart = new google.visualization.LineChart(document.getElementById('victory-duration'));
