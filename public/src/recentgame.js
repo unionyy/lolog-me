@@ -336,9 +336,9 @@ function UpdateDurationChart() {
             ['35+', wins[4]/games[4]],
         ];
 
-        for(i = 1; i < 5; i++) {
-            console.log(wins[i], games[i])
-        }
+        // for(i = 1; i < 5; i++) {
+        //     console.log(wins[i], games[i])
+        // }
 
         var data = google.visualization.arrayToDataTable(dataG);
 
