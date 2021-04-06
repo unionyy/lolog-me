@@ -5,6 +5,7 @@ var curIndex = 0;
 function AddMoreListener() {
     $('.icon-more').removeClass('hide');
     $('.icon-more-wait').addClass('hide');
+    $('#recent-more').off();
     $('#recent-more').one('click',function() {
         GetRecentGames(curIndex + MAXRECENTGAMES);
         $('.icon-more').addClass('hide');
