@@ -1,0 +1,18 @@
+-전투 Combat
+KDA KDA Ratio
+킬관여 Kill Participation
+팀원보조 Utility Score
+데스당 피해량 Demage per Death
+기여한 피해량 Damage Share
+
+-맵장악 Team Play
+목표물 제어 지원율	Object Control Ratio
+시간당 시야 점수 Vision Score Per Hour
+공격로 지원 점수 Roam Dominance Score
+킬 전환율 Kill Conversion Ration
+
+- Income
+골드당 피해량 Damage Per Gold
+초반 골드 우위Early Gold Advanatge
+초반 CS 우위 Early CS Advantage
+분당 CS CS Per Minute
