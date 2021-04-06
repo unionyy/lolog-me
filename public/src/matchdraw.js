@@ -163,7 +163,7 @@ async function GetMatch(_container, _info) {
 
                     /** Kill Participation */
                     var killPart = 0;
-                    if(data.teams[team].kills) killPart = Math.ceil((elem.stats.kills + elem.stats.assists) / data.teams[team].kills * 100);
+                    if(data.teams[team].kills) killPart = Math.round((elem.stats.kills + elem.stats.assists) / data.teams[team].kills * 100);
 
                     var partHtml = `<li class="team-part${isMe}">
                         <div class="part-champ cell">
@@ -231,7 +231,7 @@ async function GetMatch(_container, _info) {
                         <span>${LANG[data.teams[myTeam].win]}</span>
                     </div>
                     <div class="match-header-duration">
-                        <span>${Math.ceil(data.duration/60)}:${(data.duration % 60).toString().padStart(2,'0')}</span>
+                        <span>${Math.floor(data.duration/60)}:${(data.duration % 60).toString().padStart(2,'0')}</span>
                     </div>
                 </div>`;
 

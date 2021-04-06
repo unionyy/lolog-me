@@ -49,13 +49,13 @@ function GetRecentGames(_index=0) {
                         <div class="recent-game recent-game-${parsedWin.winText}" team="${parsedWin.teamText}" duration="${elem.duration}">`;
         
                     var killPart = 0;
-                    if(elem.total_kills) killPart = Math.ceil((elem.kills + elem.assists) / elem.total_kills * 100);
+                    if(elem.total_kills) killPart = Math.round((elem.kills + elem.assists) / elem.total_kills * 100);
 
                     var score;
                     if(elem.deaths === 0) score = 'Perfect';
-                    else score = (Math.ceil((elem.kills + elem.assists) * 100 / elem.deaths) / 100).toFixed(2);
+                    else score = (Math.round((elem.kills + elem.assists) * 100 / elem.deaths) / 100).toFixed(2);
 
-                    var minCS = (Math.ceil((elem.minions + elem.jungle) * 600 / elem.duration) / 10).toFixed(1);
+                    var minCS = (Math.round((elem.minions + elem.jungle) * 600 / elem.duration) / 10).toFixed(1);
 
                     var timestamp = mini.attr('timestamp');
                     var visionData = {
@@ -83,7 +83,7 @@ function GetRecentGames(_index=0) {
                                 <span class="recent-win-text">${LANG[parsedWin.winText]}</span>
                             </div>
                             <div class="recent-mini">
-                                <div class="recent-duration"><span>${Math.ceil(elem.duration/60)}:${(elem.duration % 60).toString().padStart(2,'0')}</span></div>
+                                <div class="recent-duration"><span>${Math.round(elem.duration/60)}:${(elem.duration % 60).toString().padStart(2,'0')}</span></div>
                                 <div class="recent-type"><span>${mini.find('.user-games-type').text()}</span></div>
                                 <div class="recent-date"><span>${mini.find('.user-games-date').text()}</span></div>
                             </div>
@@ -181,10 +181,10 @@ function GetRecentGames(_index=0) {
                 var aa = Number($('#kda-sum-a').text());
                 var tt = Number($('#part-sum').attr('total-kill'));
                 if (dd === 0) scoreSum = 'Perfect';
-                else scoreSum = (Math.ceil((kk + aa) * 100 / dd) / 100).toFixed(2);
+                else scoreSum = (Math.round((kk + aa) * 100 / dd) / 100).toFixed(2);
                 $('#score-sum').text(scoreSum);
                 /** Update Part */
-                if(tt) partSum = Math.ceil((kk + aa) / tt * 100);
+                if(tt) partSum = Math.round((kk + aa) / tt * 100);
                 $('#part-sum').text(partSum + '%');
 
                 if(isEnd) {
@@ -335,6 +335,10 @@ function UpdateDurationChart() {
             ['30-35', wins[3]/games[3]],
             ['35+', wins[4]/games[4]],
         ];
+
+        for(i = 1; i < 5; i++) {
+            console.log(wins[i], games[i])
+        }
 
         var data = google.visualization.arrayToDataTable(dataG);
 
