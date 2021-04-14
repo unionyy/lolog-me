@@ -284,7 +284,11 @@ function UpdateTeamCharts() {
         ]);
 
         var options = {
-          pieHole: 0.6,
+            chartArea: {
+                width: 180,
+                height: 100
+              },
+              height: 130,
           backgroundColor: 'whitesmoke',
           colors:['#22c4d5', '#f12f55'],
           legend: 'none',
@@ -344,6 +348,12 @@ function UpdateDurationChart() {
         var data = google.visualization.arrayToDataTable(dataG);
 
         var options = {
+          
+            chartArea: {
+                width: 180,
+                height: 100
+              },
+              height: 130,
           backgroundColor: 'whitesmoke',
           legend: 'none',
         //   legend: { position: 'bottom' },

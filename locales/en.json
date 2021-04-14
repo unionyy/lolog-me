@@ -210,5 +210,7 @@
 	"Zyra": "Zyra",
 	"dev-blog": "Developer Blog",
 	"score": "KDA",
-	"part": "Kill P"
+	"part": "Kill P",
+	"team_rate": "WR by Team",
+	"duration_rate": "WR by Game Length"
 }

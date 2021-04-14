@@ -210,5 +210,7 @@
 	"Zyra": "자이라",
 	"dev-blog": "개발자 블로그",
 	"score": "평점",
-	"part": "킬관여"
+	"part": "킬관여",
+	"team_rate": "팀별 승률",
+	"duration_rate": "게임 길이별 승률"
 }

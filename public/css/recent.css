@@ -292,10 +292,14 @@
 #games-recent-charts {
     display: block;
 }
-#recent-victory {
+.recent-chart-text {
     font-size: 1.2em;
     font-weight: 700;
     color: #24292ed0;
+}
+.margin-top {
+    display: block;
+    margin-top: 30px;
 }
 #chart-victory-wrapper {
     position: relative;
