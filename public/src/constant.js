@@ -3,7 +3,8 @@ const RIOTCDNURI = 'https://ddragon.leagueoflegends.com/cdn/';
 const BANANACDN = 'https://ddragon.bangingheads.net/cdn/';
 
 const VERSION = {
-    latest:     "11.7.1",
+    latest:     "11.8.1",
+    "11.8.1":   "1618387200",
     "11.7.1":   "1617174000",
     "11.6.1":   "1615964400",
     "11.5.1":   "1614758400",
@@ -232,7 +233,8 @@ const CHAMPION = {
     '555': 'Pyke',
     '777': 'Yone',
     '875': 'Sett',
-    '876': 'Lillia'
+    '876': 'Lillia',
+    '887': 'Gwen'
 };
 
 const RUNE = {
