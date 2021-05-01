@@ -36,7 +36,15 @@ if(matchMedia("only screen and (max-width: 550px)").matches) {
     chartOptions.height = 140;
     chartOptions.tooltip.trigger = 'none';
 
-    $('html').animate({scrollTop : 133});
+    window.addEventListener("load", function() {
+        setTimeout(function() {
+          var scrollPos = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+          if (scrollPos < 133) {
+            window.scrollTo(0,133);
+          }
+        }, 0);
+      });
+    // $('html').animate({scrollTop : 133});
 }
 
 UpdateLog = function (_types, _date, _position, _champion) {
