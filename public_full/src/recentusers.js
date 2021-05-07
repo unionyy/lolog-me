@@ -1,7 +1,7 @@
 $('document').ready(() => {
     /** Default cursor for title */
     if($('#title-main').length) {
-        $('#searchbox-box').focus()
+        $('#searchbox-box').focus();
     }
 
     /** Check mouse on */
@@ -11,13 +11,13 @@ $('document').ready(() => {
         } else {
             HideRecentUsers();
         }
-    })
+    });
 
     /** Change Recent Users */
     $('#searchbox-platform').change(() => {
         GetRecentUsers();
-    })
-})
+    });
+});
 
 function ShowRecentUsers() {
     $('#recent-users').css('display', 'block');
@@ -28,7 +28,7 @@ function ShowRecentUsers() {
 }
 
 function HideRecentUsers() {
-    const radius = $('#searchbox-platform').css('border-top-left-radius')
+    const radius = $('#searchbox-platform').css('border-top-left-radius');
 
     $('#recent-users').css('display', 'none');
     $('#searchbox-platform').css('border-bottom-left-radius', radius);
@@ -41,7 +41,7 @@ function GetRecentUsers() {
     var recentUsersHtml = '';
     var platform = $('#searchbox-platform option:selected').val();
 
-    var recentUsers
+    var recentUsers;
     try{
         recentUsers = JSON.parse(`${getCookie('recent-lologme-' + platform).slice(2)}`);
     } catch(err) {
@@ -59,29 +59,29 @@ function GetRecentUsers() {
 
         recentUsersHtml += `
         <div class="recent-user">
-            <a class="recent-link" href="/${platform}/user/${user}" name="${user}">
+            <a class="recent-link" href="/search?platform=${platform}&username=${user}" name="${user}">
                 ${user}
             </a>
             <span class="recent-delete" name="${user}"><i class="fa fa-times recent-pop" aria-hidden="true"></i></span>
-        </div>`
+        </div>`;
     }
 
     $('#recent-container').html(recentUsersHtml);
 
     $('.recent-link').click(function() {
         $('#searchbox-box').val($(this).attr('name'));
-    })
+    });
 
     $('.recent-delete').click(function() {
-        RemoveRecentUsers($(this).attr('name'))
-    })
+        RemoveRecentUsers($(this).attr('name'));
+    });
 }
 
 function RemoveRecentUsers(_user) {
     /** Recent Users */
     var platform = $('#searchbox-platform option:selected').val();
 
-    var recentUsers
+    var recentUsers;
     try{
         recentUsers = JSON.parse(`${getCookie('recent-lologme-' + platform).slice(2)}`);
     } catch(err) {

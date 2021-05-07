@@ -1,49 +1,93 @@
-async function GetMatch(_this) {
-    await fetch(`/${$(_this).attr('platform')}/match/${$(_this).attr('matchId')}`)
-        .then(response => response.json(), err => {$("#match-inspecter").html('<span class="match-fail">Try Again</span>');})
+function ParseWin(_winMy) {
+    /** Win or Lose */
+    var winText;
+    switch(_winMy % 10) {
+        case 1:
+            winText = 'Win';
+            break;
+        case 2:
+            winText = 'Lose';
+            break;
+        case 3:
+            winText = 'Remake';
+            break;
+        default:
+            winText = 'Unkown';
+            break;
+    }
+    /** Team define */
+    var teamText;
+    if(_winMy < 10) {
+        teamText = 'Unkown';
+    } else if(_winMy < 20) {
+        teamText = 'BlueTeam';
+    } else {
+        teamText = 'RedTeam';
+    }
+
+    return {winText: winText, teamText: teamText};
+}
+
+function ItemGen(_items, _cdnuri, _vision) {
+    /** Item Images */
+    var itemsHtml = '';
+    var classStr = 'item';
+    for(i in _items) {
+        var classStrCur = classStr;
+        if(i === '0') {
+            classStrCur += ' item-first';
+        } else if(i==='6') {
+            itemsHtml += '<div class="item-vision">';
+        }
+        if(_items[i] === 0) {
+            itemsHtml += `<rect class="${classStrCur}"></rect>`;
+        } else {
+            itemsHtml += `<img class="${classStrCur}" src="${_cdnuri}/img/item/${_items[i]}.png" item-id="${_items[i]}"/>`
+        }
+
+        if(i==='6') {
+            itemsHtml +=  `<span class="vision-score" title="
+            <span class='vision-name'>${LANG.vision_score}: <deco>${_vision.score}</deco></span>
+            <p class='vision-description'>
+                ${LANG.wards_buy}: <deco>${_vision.buy}</deco><br>
+                ${LANG.wards_place}: <deco>${_vision.place}</deco><br>
+                ${LANG.wards_kill}: <deco>${_vision.kill}</deco></p>
+            ">${_vision.score}</span></div>`;
+        }
+    }
+    return itemsHtml;
+}
+
+function FindCDN(_timestamp) {
+    /** Find version */
+    var cdnuri = BANANACDN;
+    for(version in VERSION) {
+        if(version === 'latest') continue;
+
+        if(version === '10.19.1') cdnuri = RIOTCDNURI;
+
+        if(VERSION[version] < _timestamp) {
+            cdnuri += version;
+            break;
+        }
+    }
+    return cdnuri
+}
+
+async function GetMatch(_container, _info) {
+    await fetch(`/${_info.platform}/match/${_info.matchId}`)
+        .then(response => response.json(), err => {_container.html('<span class="match-fail">Try Again</span>');})
         .then(data => {
-            var cdnuri = BANANACDN;
-
             /** Find version */
-            var timestamp = $(_this).attr('timestamp');
-            for(version in VERSION) {
-                if(version === 'latest') continue;
-
-                if(version === '10.19.1') cdnuri = RIOTCDNURI;
-
-                if(VERSION[version] < timestamp) {
-                    cdnuri += version;
-                    break;
-                }
-            }
+            var cdnuri = FindCDN(_info.timestamp);
             
             var myTeam;
             for (team in data.teams) {
+                var parsedWin = ParseWin(data.teams[team].win);
                 /** Win or Lose */
-                var winText;
-                switch(data.teams[team].win % 10) {
-                    case 1:
-                        winText = 'Win';
-                        break;
-                    case 2:
-                        winText = 'Lose';
-                        break;
-                    case 3:
-                        winText = 'Remake';
-                        break;
-                    default:
-                        winText = 'Unkown';
-                        break;
-                }
+                var winText = parsedWin.winText;
                 /** Team define */
-                var teamText;
-                if(data.teams[team].win < 10) {
-                    teamText = 'Unkown';
-                } else if(data.teams[team].win < 20) {
-                    teamText = 'BlueTeam';
-                } else {
-                    teamText = 'RedTeam';
-                }
+                var teamText = parsedWin.teamText;
 
                 data.teams[team].win = winText;
 
@@ -93,39 +137,43 @@ async function GetMatch(_this) {
                         isMe = ' is-me';
 
                         /** Add Class to mini log */
-                        var miniLog = $(_this).find('.user-games-mini');
-                        $(miniLog).addClass('cur-log');
-                        $(miniLog).addClass('log-' + winText);
+                        if(_info.miniLog) {
+                            $(_info.miniLog).addClass('log-' + winText);
+                        }
+                    }
+
+                    /** Rune Images */
+                    var runeHtml = '';
+                    if(elem.stats.rune0 === 0) {
+                        runeHtml += `<rect class="rune-main"></rect><rect class="rune-sub"></rect>`;
+                    } else {
+                        runeHtml += `<img class="rune-main rune" src="https://ddragon.leagueoflegends.com/cdn/img/${RUNE[elem.stats.rune0]}" rune-id="${elem.stats.rune0}" />
+                        <img class="rune-sub rune" src="https://ddragon.leagueoflegends.com/cdn/img/${RUNE[elem.stats.rune1]}" rune-id="${elem.stats.rune1}" />`;
+
                     }
 
                     /** Item Images */
-                    var itemsHtml = '';
-                    var classStr = 'item';
-                    for(i in elem.stats.items) {
-                        var classStrCur = classStr;
-                        if(i === '0') {
-                            classStrCur += ' item-first';
-                        }
-                        if(elem.stats.items[i] === 0) {
-                            itemsHtml += `<rect class="${classStrCur}"></rect>`;
-                        } else {
-                            itemsHtml += `<img class="${classStrCur}" src="${cdnuri}/img/item/${elem.stats.items[i]}.png" />`
-                        }
-                    }
+                    var visionData = {
+                        score: elem.stats.visionScore,
+                        buy: elem.stats.wardsBought,
+                        place: elem.stats.wardsPlaced,
+                        kill: elem.stats.wardsKilled
+                    };
+                    var itemsHtml = ItemGen(elem.stats.items, cdnuri, visionData);
+
                     /** Kill Participation */
                     var killPart = 0;
-                    if(data.teams[team].kills) killPart = Math.ceil((elem.stats.kills + elem.stats.assists) / data.teams[team].kills * 100);
+                    if(data.teams[team].kills) killPart = Math.round((elem.stats.kills + elem.stats.assists) / data.teams[team].kills * 100);
 
                     var partHtml = `<li class="team-part${isMe}">
                         <div class="part-champ cell">
                             <div class="inner-cell">
                                 <div class="part-rune">
-                                    <img class="rune-main" src="https://ddragon.leagueoflegends.com/cdn/img/${RUNE[elem.stats.rune0]}" />
-                                    <img class="rune-sub" src="https://ddragon.leagueoflegends.com/cdn/img/${RUNE[elem.stats.rune1]}" />
+                                    ${runeHtml}
                                 </div>
                                 <div class="part-spell">
-                                    <img class="spell1" src="${RIOTCDNURI + VERSION.latest}/img/spell/${SPELL[elem.spell1Id]}.png" />
-                                    <img class="spell2" src="${RIOTCDNURI + VERSION.latest}/img/spell/${SPELL[elem.spell2Id]}.png" />
+                                    <img class="spell1 spell" src="${RIOTCDNURI + VERSION.latest}/img/spell/${SPELL[elem.spell1Id]}.png" spell-name="${SPELL[elem.spell1Id]}" />
+                                    <img class="spell2 spell" src="${RIOTCDNURI + VERSION.latest}/img/spell/${SPELL[elem.spell2Id]}.png" spell-name="${SPELL[elem.spell2Id]}" />
                                 </div>
                                 <div class="part-level">
                                     <span>${elem.stats.champLevel}</span>     
@@ -144,9 +192,6 @@ async function GetMatch(_this) {
                         <div class="part-item cell">
                             <div class="inner-cell">
                                 ${itemsHtml}
-                                <div class="vision-score">
-                                    <span title="Buy: ${elem.stats.wardsBought}, Place: ${elem.stats.wardsPlaced}, Kill: ${elem.stats.wardsKilled}">${elem.stats.visionScore}</span>
-                                </div>
                             </div>
                         </div>
                         <div class="part-kda cell">
@@ -186,7 +231,7 @@ async function GetMatch(_this) {
                         <span>${LANG[data.teams[myTeam].win]}</span>
                     </div>
                     <div class="match-header-duration">
-                        <span>${Math.ceil(data.duration/60)}:${(data.duration % 60).toString().padStart(2,'0')}</span>
+                        <span>${Math.floor(data.duration/60)}:${(data.duration % 60).toString().padStart(2,'0')}</span>
                     </div>
                 </div>`;
 
@@ -203,40 +248,55 @@ async function GetMatch(_this) {
             }
 
             matchHtml += '</div>';
-            $("#match-inspecter").html(matchHtml);
+            _container.html(matchHtml);
+            SetTooltips();
         });
 }
 
-var currentMatch;
+var currentMatch = [];
 $(document).ready(function() {
     $('.user-games-game').each(function() {
         $(this).find('.user-games-mini').click(async () => {
             /** Init Class */
-            $(currentMatch).find('.user-games-mini').removeClass('cur-log');
+            if(currentMatch[0]) {
+                if(currentMatch[0] !== this) {
+                    currentMatch.push(this);
+                }
 
-            if(this === currentMatch) {
-                RefreshMatch();
-            }else {
-                await $('#match-inspecter').removeClass('match-hide');
-                await $('#match-inspecter').html('<i class="match-loading fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>');
-                await $(this).css('height', $(this).find('.user-games-mini').height() + $('#match-inspecter').height() + 4);
-                await $(currentMatch).css('height', $(this).find('.user-games-mini').height());
-                await $('#match-inspecter').css('top', $('#user-games-body').scrollTop() + $(this).position().top + $(this).find('.user-games-mini').height() + 4);
-                await GetMatch(this);
-                
-                currentMatch = this;
+                $(currentMatch[0]).find('.user-games-mini').removeClass('cur-log');
+                $(currentMatch[0]).css('height', $(this).find('.user-games-mini').height());
+
+                currentMatch.splice(0, 1);
+            } else {
+                currentMatch.push(this);
             }
 
+            if(currentMatch[0]) {
+                var cur = currentMatch[0];
+                $('#match-inspecter').removeClass('match-hide');
+                $(cur).css('height', $(cur).find('.user-games-mini').height() + $('#match-inspecter').height() + 4);
+                $(cur).find('.user-games-mini').addClass('cur-log');
+                $('#match-inspecter').css('top', $('#user-games-all').scrollTop() + $(cur).position().top + $(cur).find('.user-games-mini').height() + 4);
+                await $('#match-inspecter').html('<i class="match-loading fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>');
+                GetMatch($("#match-inspecter"), {
+                    platform:   $(cur).attr('platform'),
+                    matchId:    $(cur).attr('matchId'),
+                    timestamp:  $(cur).attr('timestamp'),
+                    miniLog:    $(cur).find('.user-games-mini')
+                });
+            } else {
+                $('#match-inspecter').addClass('match-hide');
+            }
         })
-    })
+    });    
 });
 
 function RefreshMatch() {
-    if(currentMatch) {
-        $('#match-inspecter').html('');
-        $('#match-inspecter').addClass('match-hide');
-        $(currentMatch).css('height', $(currentMatch).find('.user-games-mini').height());
-        $(currentMatch).find('.user-games-mini').removeClass('cur-log');
-        currentMatch = undefined;
+    $('#match-inspecter').html('');
+    $('#match-inspecter').addClass('match-hide');
+    for (elem of currentMatch) {
+        $(elem).css('height', $(elem).find('.user-games-mini').height());
+        $(elem).find('.user-games-mini').removeClass('cur-log');
     }
+    currentMatch = [];
 }

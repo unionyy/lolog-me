@@ -8,7 +8,7 @@ var championG;
 
 var gameCount;
 
-const chartOptions = {
+var chartOptions = {
     pieHole: 0.45,
     chartArea: {
       width: 400,
@@ -36,7 +36,15 @@ if(matchMedia("only screen and (max-width: 550px)").matches) {
     chartOptions.height = 140;
     chartOptions.tooltip.trigger = 'none';
 
-    $('html').animate({scrollTop : 133});
+    window.addEventListener("load", function() {
+        setTimeout(function() {
+          var scrollPos = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+          if (scrollPos < 133) {
+            window.scrollTo(0,133);
+          }
+        }, 0);
+      });
+    // $('html').animate({scrollTop : 133});
 }
 
 UpdateLog = function (_types, _date, _position, _champion) {
@@ -81,7 +89,51 @@ UpdateLog = function (_types, _date, _position, _champion) {
         }
     }
 
-    $('.user-games-game.cur-game').slice(0, 90).css('display', 'inline-block');
+    /** Page Controller */
+    if(_date === 'all') {
+        $('#user-games-controller').css('display', 'flex');
+
+        var MAXLOG = 60;
+        if(matchMedia("only screen and (max-width: 550px)").matches) {
+            MAXLOG = 30;
+        }
+        const LogSize = $('.user-games-game.cur-game').length;
+        const LogPages = Math.ceil(LogSize/MAXLOG);
+        var curPage = 1;
+        
+        $('#controller-left').click(() => {
+            if(curPage > 1) {
+                curPage--;
+                ShowPage(curPage + 1);
+            }
+        });
+        $('#controller-right').click(() => {
+            if(curPage < LogPages) {
+                curPage++;
+                ShowPage(curPage - 1);
+            }
+        });
+    
+        function ShowPage(_prev) {
+            RefreshMatch();
+            $('#controller-text').text(` ${curPage} / ${LogPages} `);
+            
+            $('.cur-game').slice(MAXLOG * (_prev - 1), MAXLOG * _prev).css('display', 'none');
+            $('.cur-game').slice(MAXLOG * (curPage - 1), MAXLOG * curPage).css('display', 'inline-block');
+    
+            $('.controller-button').removeClass('button-active');
+            if(curPage > 1) {
+                $('#controller-left').addClass('button-active');
+            }
+            if(curPage < LogPages) {
+                $('#controller-right').addClass('button-active');
+            }
+        }
+        ShowPage();
+    } else {
+        $('#user-games-controller').css('display', 'none');
+        $('.cur-game').css('display', 'inline-block');
+    }
 
     /** Print Count */
     $('#user-games-number').text(` ${count}${gameCount}`);
@@ -90,7 +142,10 @@ UpdateLog = function (_types, _date, _position, _champion) {
     } else {
         $('#user-games-refresh').css('display', 'inline');
     }
-}
+
+    /** Update Recent Game */
+    GetRecentGames();
+};
 
 GetTypes = function() {
     var types = [];
@@ -110,7 +165,7 @@ GetTypes = function() {
     }
 
     return types
-}
+};
 
 Change = function (_init, __game_count) {
     gameCount = __game_count;
@@ -226,7 +281,7 @@ Change = function (_init, __game_count) {
     //     $('#user-games-number').text(`${dateplay}${__game_count}`);
     //     $('#user-games-period').text(` (${date})`);
     // }
-}
+};
 
 function UpdatePositionChart(__game_count) {
     $('#charts-lane-img').removeAttr('src');
@@ -234,7 +289,7 @@ function UpdatePositionChart(__game_count) {
     var positions = {
         
     };
-    for(elem in LANG) {
+    for(elem of POSITION) {
         positions[elem] = 0;
     }
     $(`.user-games-game.cur-game`).each((i, elem) => {
