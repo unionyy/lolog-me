@@ -99,6 +99,7 @@ async function GetMatch(_container, _info) {
                                 <span class="text-team text-${teamText} text-color-${winText}">${LANG[teamText]}</span>
                             </div>
                         </div>
+                        <div class="for-mobile col-dummy"></div>
                         <div class="col-name cell">
                             <div class="inner-cell-header">
                                 <span class="text-kda-header text-color-${winText}">${data.teams[team].kills}</span><span class="text-color-${winText}">/</span>

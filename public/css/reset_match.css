@@ -1,0 +1,30 @@
+@media only screen and (max-width: 550px){
+    .match {
+        width: 100%;
+    }
+
+    .text-gold-header {
+        display: none;
+    }
+    .for-mobile {
+        display: block;
+    }
+    .col-item, .col-kda, .col-cs, .col-gold {
+        display: none;
+    }
+    .col-name {
+        column-span: inherit;
+    }
+    
+    /* part-name */
+    .part-name {
+        width: 120px;
+    }
+    .part-link {
+        width: 80px;
+    }
+    
+    .part-item, .part-gold, .part-cs {
+        display: none;
+    }
+}

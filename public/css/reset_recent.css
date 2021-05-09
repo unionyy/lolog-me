@@ -1,0 +1,39 @@
+@media only screen and (max-width: 550px){
+    #user-games-recent{
+        display: block;
+    }
+    #games-recent-charts {
+        display: none;
+    }
+    .recent-game-wrapper {
+        margin-bottom: 5px;
+    }
+    .recent-game{
+        grid-template-columns: 10px 65px 55px auto 0px 30px;
+        width: 100%;
+        height: 100px;
+    }
+    
+    .recent-header {
+        display: flex;
+        margin-bottom: auto;
+    }
+    .recent-rect {
+        border-top: solid 15px gray;
+        border-right: solid 15px transparent;
+    }
+    .recent-win-text {
+        display: none;
+    }
+    .recent-mini {
+        display: none;
+        align-self: center;
+    }
+    
+    .recent-items {
+        display: none;
+    }
+    .recent-cs, .recent-gold{
+        display: none;
+    }
+}

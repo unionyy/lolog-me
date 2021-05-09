@@ -1,3 +1,7 @@
+.for-mobile {
+    display: none;
+}
+
 #match-inspecter, .recent-match {
     /* background-color: #24292e; */
     width: 100%;
