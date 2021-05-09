@@ -15,8 +15,32 @@
     }
     
     .recent-header {
-        display: flex;
+        display: inline-flex;
+        height: 100%;
+
+        grid-column-start: 1;
+        grid-column-end: 4;
+    }
+    .recent-win {
         margin-bottom: auto;
+    }
+    .recent-champ {
+        grid-row-start: 2;
+        grid-column-start: 2;
+    }
+    .recent-runespell {
+        grid-row-start: 2;
+        grid-column-start: 3;
+    }
+    .recent-kda {
+        grid-column-start: 4;
+        grid-row-start: 1;
+        grid-row-end: 3;
+    }
+    .recent-detail {
+        grid-column-start: 6;
+        grid-row-start: 1;
+        grid-row-end: 3;
     }
     .recent-rect {
         border-top: solid 15px gray;
@@ -26,8 +50,21 @@
         display: none;
     }
     .recent-mini {
+        display: inline-flex;
+    }
+   .recent-type {
+        margin: auto;
+        text-align: center;
+        white-space:nowrap;
+        width: 60px;
+    }
+    .recent-date {
+        margin: auto;
+        width: 55px;
+        white-space:nowrap;
+    }
+    .recent-duration {
         display: none;
-        align-self: center;
     }
     
     .recent-items {
