@@ -45,14 +45,19 @@
 
 /* HEADER */
 .match-header {
-    display: inline-flex;
+    display: grid;
+    grid-template-columns: auto 100px;
     width: 100%;
-    text-align: left;
-    align-items: flex-end;
-    margin-left: 5px;
 
     color: #f0e6d2;
 
+}
+.match-header-left {
+    display: inline-flex;
+    
+    text-align: left;
+    align-items: flex-end;
+    margin-left: 5px;
 }
 .win-rect.Win {
     color: #22c4d5d0;

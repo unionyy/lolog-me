@@ -220,5 +220,7 @@ const LANG = {
 	"wednesday": "W",
 	"thursday": "T",
 	"friday": "F",
-	"saturday": "S"
+	"saturday": "S",
+
+	"graph": "GRAPHS"
 }

@@ -221,5 +221,7 @@ const LANG = {
 	"friday": "금",
 	"saturday": "토",
 
-    "game_count": "판"
+    "game_count": "판",
+
+	"graph": "그래프"
 }

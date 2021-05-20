@@ -227,13 +227,16 @@ async function GetMatch(_container, _info) {
 
             /** Header */
             var headerHtml = `<div class="match-header">
-                    <div class="match-header-win">
-                        <i class="fa fa-circle win-rect ${data.teams[myTeam].win}" aria-hidden="true"></i>
-                        <span>${LANG[data.teams[myTeam].win]}</span>
+                    <div class="match-header-left">
+                        <div class="match-header-win">
+                            <i class="fa fa-circle win-rect ${data.teams[myTeam].win}" aria-hidden="true"></i>
+                            <span>${LANG[data.teams[myTeam].win]}</span>
+                        </div>
+                        <div class="match-header-duration">
+                            <span>${Math.floor(data.duration/60)}:${(data.duration % 60).toString().padStart(2,'0')}</span>
+                        </div>
                     </div>
-                    <div class="match-header-duration">
-                        <span>${Math.floor(data.duration/60)}:${(data.duration % 60).toString().padStart(2,'0')}</span>
-                    </div>
+                    <div><span>${LANG['graph']}</span></div>
                 </div>`;
 
             var matchHtml = `<div class="match ${data.teams[myTeam].win}">` + headerHtml;
