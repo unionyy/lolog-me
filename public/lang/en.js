@@ -223,5 +223,6 @@ const LANG = {
 	"saturday": "S",
 
 	"graph": "GRAPH",
-	"stats": "STATS"
+	"stats": "STATS",
+	"dmg_to_champ": "Total Damage to Champions"
 }

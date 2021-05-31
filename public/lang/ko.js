@@ -224,5 +224,6 @@ const LANG = {
     "game_count": "판",
 
 	"graph": "그래프",
-	"stats": "통계"
+	"stats": "통계",
+	"dmg_to_champ": "챔피언에게 가한 총 피해량"
 }

@@ -125,7 +125,7 @@ async function GetMatch(_container, _info) {
                         <div class="col-gold cell"><div class="inner-cell-header">
                         <span><img class="icon-header" src="/images/icon/mask-icon-gold.png" /></span>
                         </div></div>
-                        <div class="col-damage cell part-hide"><div class="inner-cell-header">Damage</div></div>
+                        <div class="col-damage cell part-hide"><div class="inner-cell-header">${LANG['dmg_to_champ']}</div></div>
                     </header>
                     <ul class="team-container">`;
                 for (elem of data.teams[team].participants) {
