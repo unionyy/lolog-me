@@ -223,5 +223,6 @@ const LANG = {
 
     "game_count": "판",
 
-	"graph": "그래프"
+	"graph": "그래프",
+	"stats": "통계"
 }

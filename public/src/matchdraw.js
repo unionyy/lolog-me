@@ -116,18 +116,16 @@ async function GetMatch(_container, _info) {
                         </div>
                         <div class="col-kda cell">
                             <div class="inner-cell-header padding-cell">
-                            <img class="icon-header" src="/images/icon/mask-icon-offense.png" />
+                            <span><img class="icon-header" src="/images/icon/mask-icon-offense.png" /></span>
                             </div>
                         </div>
                         <div class="col-cs cell"><div class="inner-cell-header padding-cell">
-                            <img class="icon-header" src="/images/icon/mask-icon-cs.png" />
+                            <span><img class="icon-header" src="/images/icon/mask-icon-cs.png" /></span>
                         </div></div>
                         <div class="col-gold cell"><div class="inner-cell-header">
-                            <img class="icon-header" src="/images/icon/mask-icon-gold.png" />
+                        <span><img class="icon-header" src="/images/icon/mask-icon-gold.png" /></span>
                         </div></div>
-                        <!--
-                        <div class="col-damage cell"><div class="inner-cell-header">Damage</div></div>
-                        -->
+                        <div class="col-damage cell part-hide"><div class="inner-cell-header">Damage</div></div>
                     </header>
                     <ul class="team-container">`;
                 for (elem of data.teams[team].participants) {
@@ -212,11 +210,12 @@ async function GetMatch(_container, _info) {
                                 <span class="text-gold">${elem.stats.gold.toLocaleString('ko-KR')}</span>
                             </div>
                         </div>
-                        <!-- <div class="part-damage cell">
+                        <div class="part-damage part-hide cell">
                             <div class="inner-cell">
+                                <div class="damage-box ${winText}" data-dmg="${elem.stats.deal}"></div>
                                 <span class="text-damage" title="${elem.stats.deal.toLocaleString('ko-KR')}/${elem.stats.dealTotal.toLocaleString('ko-KR')}">${elem.stats.deal.toLocaleString('ko-KR')}</span>
                             </div>
-                        </div>-->
+                        </div>
                         </li>`;
                     teamHtml += partHtml;
                 }
@@ -236,7 +235,12 @@ async function GetMatch(_container, _info) {
                             <span>${Math.floor(data.duration/60)}:${(data.duration % 60).toString().padStart(2,'0')}</span>
                         </div>
                     </div>
-                    <div><span>${LANG['graph']}</span></div>
+                    <div class="match-header-graph">
+                        <div class="header-button">
+                            <span class="header-graph-text">${LANG['graph']}</span>
+                            <span class="header-stats-text part-hide">${LANG['stats']}</span>
+                        </div>
+                    </div>
                 </div>`;
 
             var matchHtml = `<div class="match ${data.teams[myTeam].win}">` + headerHtml;
@@ -253,6 +257,53 @@ async function GetMatch(_container, _info) {
 
             matchHtml += '</div>';
             _container.html(matchHtml);
+            
+            /** Graph Button */
+            maxDmg = 0;
+            _container.find('.damage-box').each((i, elem) => {
+                if(Number($(elem).attr('data-dmg')) > maxDmg) {
+                    maxDmg = Number($(elem).attr('data-dmg'));
+                }
+            });
+            _container.find('.damage-box').each((i, elem) => {
+                $(elem).css('width', `${400 * $(elem).attr('data-dmg') / maxDmg}`);
+            });
+
+            _container.find('.match-header-graph').click(async() => {
+                if(_container.find('.part-damage').hasClass('part-hide')) {
+                    _container.find('.part-damage').removeClass('part-hide');
+                    _container.find('.part-item').addClass('part-hide');
+                    _container.find('.part-kda').addClass('part-hide');
+                    _container.find('.part-cs').addClass('part-hide');
+                    _container.find('.part-gold').addClass('part-hide');
+
+                    _container.find('.col-damage').removeClass('part-hide');
+                    _container.find('.col-item').addClass('part-hide');
+                    _container.find('.col-kda').addClass('part-hide');
+                    _container.find('.col-cs').addClass('part-hide');
+                    _container.find('.col-gold').addClass('part-hide');
+
+                    _container.find('.header-stats-text').removeClass('part-hide');
+                    _container.find('.header-graph-text').addClass('part-hide');
+                } else {
+                    _container.find('.part-damage').addClass('part-hide');
+                    _container.find('.part-item').removeClass('part-hide');
+                    _container.find('.part-kda').removeClass('part-hide');
+                    _container.find('.part-cs').removeClass('part-hide');
+                    _container.find('.part-gold').removeClass('part-hide');
+
+                    _container.find('.col-damage').addClass('part-hide');
+                    _container.find('.col-item').removeClass('part-hide');
+                    _container.find('.col-kda').removeClass('part-hide');
+                    _container.find('.col-cs').removeClass('part-hide');
+                    _container.find('.col-gold').removeClass('part-hide');
+
+                    _container.find('.header-graph-text').removeClass('part-hide');
+                    _container.find('.header-stats-text').addClass('part-hide');
+                }
+                
+            });
+
             SetTooltips();
         });
 }
