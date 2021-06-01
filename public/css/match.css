@@ -45,14 +45,19 @@
 
 /* HEADER */
 .match-header {
-    display: inline-flex;
+    display: grid;
+    grid-template-columns: auto 100px;
     width: 100%;
-    text-align: left;
-    align-items: flex-end;
-    margin-left: 5px;
 
     color: #f0e6d2;
 
+}
+.match-header-left {
+    display: inline-flex;
+    
+    text-align: left;
+    align-items: flex-end;
+    margin-left: 5px;
 }
 .win-rect.Win {
     color: #22c4d5d0;
@@ -73,6 +78,18 @@
 .match-header-duration {
     
     margin-left: 5px;
+}
+.header-button {
+    margin: 2px;
+    background-color: #24292e;
+    padding: 3px;
+    align-items: center;
+    box-shadow: inset 0px 0px 0px 2px #fabe0a;
+    color:#fabe0a;
+    font-weight: 700;
+}
+.header-button:hover {
+    cursor: pointer;
 }
 
 .cur-log {
@@ -333,6 +350,23 @@
     text-align: left;
     width: 80px;
 } */
+.part-damage {
+    width: 484px;
+}
+.damage-box  {
+    height: 20px;
+    background-color: #22c4d5d0;
+    margin-right: 10px;
+}
+.damage-box.Win  {
+    background-color: #22c4d5d0;
+}
+.damage-box.Lose  {
+    background-color: #e5133cd0;
+}
+.part-hide {
+    display: none;
+}
 
 /* Me */
 .is-me {

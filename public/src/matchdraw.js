@@ -1,8 +1,386 @@
-function ParseWin(_winMy){var winText;switch(_winMy%10){case 1:winText='Win';break;case 2:winText='Lose';break;case 3:winText='Remake';break;default:winText='Unkown';break}var teamText;if(_winMy<10){teamText='Unkown'}else if(_winMy<20){teamText='BlueTeam'}else{teamText='RedTeam'}return{winText:winText,teamText:teamText}}function ItemGen(_items,_cdnuri,_vision){var itemsHtml='';var classStr='item';for(i in _items){var classStrCur=classStr;if(i==='0'){classStrCur+=' item-first'}else if(i==='6'){itemsHtml+='<div class="item-vision">'}if(_items[i]===0){itemsHtml+=`<rect class="${classStrCur}"></rect>`}else{itemsHtml+=`<img class="${classStrCur}"src="${_cdnuri}/img/item/${_items[i]}.png"item-id="${_items[i]}"/>`}if(i==='6'){itemsHtml+=`<span class="vision-score"title="
+function ParseWin(_winMy) {
+    /** Win or Lose */
+    var winText;
+    switch(_winMy % 10) {
+        case 1:
+            winText = 'Win';
+            break;
+        case 2:
+            winText = 'Lose';
+            break;
+        case 3:
+            winText = 'Remake';
+            break;
+        default:
+            winText = 'Unkown';
+            break;
+    }
+    /** Team define */
+    var teamText;
+    if(_winMy < 10) {
+        teamText = 'Unkown';
+    } else if(_winMy < 20) {
+        teamText = 'BlueTeam';
+    } else {
+        teamText = 'RedTeam';
+    }
+
+    return {winText: winText, teamText: teamText};
+}
+
+function ItemGen(_items, _cdnuri, _vision) {
+    /** Item Images */
+    var itemsHtml = '';
+    var classStr = 'item';
+    for(i in _items) {
+        var classStrCur = classStr;
+        if(i === '0') {
+            classStrCur += ' item-first';
+        } else if(i==='6') {
+            itemsHtml += '<div class="item-vision">';
+        }
+        if(_items[i] === 0) {
+            itemsHtml += `<rect class="${classStrCur}"></rect>`;
+        } else {
+            itemsHtml += `<img class="${classStrCur}" src="${_cdnuri}/img/item/${_items[i]}.png" item-id="${_items[i]}"/>`
+        }
+
+        if(i==='6') {
+            itemsHtml +=  `<span class="vision-score" title="
             <span class='vision-name'>${LANG.vision_score}: <deco>${_vision.score}</deco></span>
             <p class='vision-description'>
                 ${LANG.wards_buy}: <deco>${_vision.buy}</deco><br>
                 ${LANG.wards_place}: <deco>${_vision.place}</deco><br>
                 ${LANG.wards_kill}: <deco>${_vision.kill}</deco></p>
-            ">${_vision.score}</span></div>`}}return itemsHtml}function FindCDN(_timestamp){var cdnuri=BANANACDN;for(version in VERSION){if(version==='latest')continue;if(version==='10.19.1')cdnuri=RIOTCDNURI;if(VERSION[version]<_timestamp){cdnuri+=version;break}}return cdnuri}async function GetMatch(_container,_info){await fetch(`/${_info.platform}/match/${_info.matchId}`).then(response=>response.json(),err=>{_container.html('<span class="match-fail">Try Again</span>')}).then(data=>{var cdnuri=FindCDN(_info.timestamp);var myTeam;for(team in data.teams){var parsedWin=ParseWin(data.teams[team].win);var winText=parsedWin.winText;var teamText=parsedWin.teamText;data.teams[team].win=winText;var teamHtml=`<div class="team ${winText}"><header class="team-header"><div class="col-champ cell"><div class="inner-cell-header header-team"><span class="text-team text-${teamText} text-color-${winText}">${LANG[teamText]}</span></div></div>
-            <div class="for-mobile col-dummy"></div><div class="col-name cell"><div class="inner-cell-header"><span class="text-kda-header text-color-${winText}">${data.teams[team].kills}</span><span class="text-color-${winText}">/</span><span class="text-kda-header text-color-${winText}">${data.teams[team].deaths}</span><span class="text-color-${winText}">/</span><span class="text-kda-header text-color-${winText}">${data.teams[team].assists}</span><img class="icon-header ${winText}"src="/images/icon/mask-icon-offense.png"/></div></div><div class="col-item cell"><div class="inner-cell-header"><span class="text-gold-header">${data.teams[team].gold.toLocaleString('ko-KR')}</span><img class="icon-header"src="/images/icon/mask-icon-gold.png"/></div></div><div class="col-kda cell"><div class="inner-cell-header padding-cell"><img class="icon-header"src="/images/icon/mask-icon-offense.png"/></div></div><div class="col-cs cell"><div class="inner-cell-header padding-cell"><img class="icon-header"src="/images/icon/mask-icon-cs.png"/></div></div><div class="col-gold cell"><div class="inner-cell-header"><img class="icon-header"src="/images/icon/mask-icon-gold.png"/></div></div><!--<div class="col-damage cell"><div class="inner-cell-header">Damage</div></div>--></header><ul class="team-container">`;for(elem of data.teams[team].participants){var isMe='';if($('#user-profile-name').attr('accountId')===elem.id.accountId){myTeam=team;isMe=' is-me';if(_info.miniLog){$(_info.miniLog).addClass('log-'+winText)}}var runeHtml='';if(elem.stats.rune0===0){runeHtml+=`<rect class="rune-main"></rect><rect class="rune-sub"></rect>`}else{runeHtml+=`<img class="rune-main rune"src="https://ddragon.leagueoflegends.com/cdn/img/${RUNE[elem.stats.rune0]}"rune-id="${elem.stats.rune0}"/><img class="rune-sub rune"src="https://ddragon.leagueoflegends.com/cdn/img/${RUNE[elem.stats.rune1]}"rune-id="${elem.stats.rune1}"/>`}var visionData={score:elem.stats.visionScore,buy:elem.stats.wardsBought,place:elem.stats.wardsPlaced,kill:elem.stats.wardsKilled};var itemsHtml=ItemGen(elem.stats.items,cdnuri,visionData);var killPart=0;if(data.teams[team].kills)killPart=Math.round((elem.stats.kills+elem.stats.assists)/data.teams[team].kills*100);var partHtml=`<li class="team-part${isMe}"><div class="part-champ cell"><div class="inner-cell"><div class="part-rune">${runeHtml}</div><div class="part-spell"><img class="spell1 spell"src="${RIOTCDNURI + VERSION.latest}/img/spell/${SPELL[elem.spell1Id]}.png"spell-name="${SPELL[elem.spell1Id]}"/><img class="spell2 spell"src="${RIOTCDNURI + VERSION.latest}/img/spell/${SPELL[elem.spell2Id]}.png"spell-name="${SPELL[elem.spell2Id]}"/></div><div class="part-level"><span>${elem.stats.champLevel}</span></div></div></div><div class="part-name cell"><div class="inner-cell"><div class="part-icon"><img src="${RIOTCDNURI + VERSION.latest}/img/champion/${CHAMPION[elem.champ]}.png"alt="${CHAMPION[elem.champ]}"title="${CHAMPION[elem.championId]}"/><div class="shadow"></div></div><a class="part-link"href="/${elem.id.platform.toLowerCase()}/id/${elem.id.accountId}">${elem.id.name}</a></div></div><div class="part-item cell"><div class="inner-cell">${itemsHtml}</div></div><div class="part-kda cell"><div class="inner-cell padding-cell"title="(${killPart}%)"><span class="text-kda">${elem.stats.kills}</span><span>/</span><span class="text-kda">${elem.stats.deaths}</span><span>/</span><span class="text-kda">${elem.stats.assists}</span></div></div><div class="part-cs cell"><div class="inner-cell padding-cell"><span class="text-cs"title="${elem.stats.minions} + ${elem.stats.jungle} (${((elem.stats.minions + elem.stats.jungle)/(data.duration/60)).toFixed(1)})">${elem.stats.minions+elem.stats.jungle}</span></div></div><div class="part-gold cell"><div class="inner-cell padding-cell"><span class="text-gold">${elem.stats.gold.toLocaleString('ko-KR')}</span></div></div><!--<div class="part-damage cell"><div class="inner-cell"><span class="text-damage"title="${elem.stats.deal.toLocaleString('ko-KR')}/${elem.stats.dealTotal.toLocaleString('ko-KR')}">${elem.stats.deal.toLocaleString('ko-KR')}</span></div></div>--></li>`;teamHtml+=partHtml}teamHtml+='</ul></div>';data.teams[team].html=teamHtml}var headerHtml=`<div class="match-header"><div class="match-header-win"><i class="fa fa-circle win-rect ${data.teams[myTeam].win}"aria-hidden="true"></i><span>${LANG[data.teams[myTeam].win]}</span></div><div class="match-header-duration"><span>${Math.floor(data.duration/60)}:${(data.duration%60).toString().padStart(2,'0')}</span></div></div>`;var matchHtml=`<div class="match ${data.teams[myTeam].win}">`+headerHtml;if(data.teams[myTeam]){matchHtml+=data.teams[myTeam].html}for(team in data.teams){if(team!==myTeam){matchHtml+=data.teams[team].html}}matchHtml+='</div>';_container.html(matchHtml);SetTooltips()})}var currentMatch=[];$(document).ready(function(){$('.user-games-game').each(function(){$(this).find('.user-games-mini').click(async()=>{if(currentMatch[0]){if(currentMatch[0]!==this){currentMatch.push(this)}$(currentMatch[0]).find('.user-games-mini').removeClass('cur-log');$(currentMatch[0]).css('height',$(this).find('.user-games-mini').height());currentMatch.splice(0,1)}else{currentMatch.push(this)}if(currentMatch[0]){var cur=currentMatch[0];$('#match-inspecter').removeClass('match-hide');$(cur).css('height',$(cur).find('.user-games-mini').height()+$('#match-inspecter').height()+4);$(cur).find('.user-games-mini').addClass('cur-log');$('#match-inspecter').css('top',$('#user-games-all').scrollTop()+$(cur).position().top+$(cur).find('.user-games-mini').height()+4);await $('#match-inspecter').html('<i class="match-loading fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>');GetMatch($("#match-inspecter"),{platform:$(cur).attr('platform'),matchId:$(cur).attr('matchId'),timestamp:$(cur).attr('timestamp'),miniLog:$(cur).find('.user-games-mini')})}else{$('#match-inspecter').addClass('match-hide')}})})});function RefreshMatch(){$('#match-inspecter').html('');$('#match-inspecter').addClass('match-hide');for(elem of currentMatch){$(elem).css('height',$(elem).find('.user-games-mini').height());$(elem).find('.user-games-mini').removeClass('cur-log')}currentMatch=[]}
+            ">${_vision.score}</span></div>`;
+        }
+    }
+    return itemsHtml;
+}
+
+function FindCDN(_timestamp) {
+    /** Find version */
+    var cdnuri = BANANACDN;
+    for(version in VERSION) {
+        if(version === 'latest') continue;
+
+        if(version === '10.19.1') cdnuri = RIOTCDNURI;
+
+        if(VERSION[version] < _timestamp) {
+            cdnuri += version;
+            break;
+        }
+    }
+    return cdnuri
+}
+
+async function GetMatch(_container, _info) {
+    await fetch(`/${_info.platform}/match/${_info.matchId}`)
+        .then(response => response.json(), err => {_container.html('<span class="match-fail">Try Again</span>');})
+        .then(data => {
+            /** Find version */
+            var cdnuri = FindCDN(_info.timestamp);
+            
+            var myTeam;
+            for (team in data.teams) {
+                var parsedWin = ParseWin(data.teams[team].win);
+                /** Win or Lose */
+                var winText = parsedWin.winText;
+                /** Team define */
+                var teamText = parsedWin.teamText;
+
+                data.teams[team].win = winText;
+
+                var teamHtml = `
+                <div class="team ${winText}">
+                    <header class="team-header">
+                        <div class="col-champ cell">
+                            <div class="inner-cell-header header-team">
+                                <span class="text-team text-${teamText} text-color-${winText}">${LANG[teamText]}</span>
+                            </div>
+                        </div>
+                        <div class="for-mobile col-dummy"></div>
+                        <div class="col-name cell">
+                            <div class="inner-cell-header">
+                                <span class="text-kda-header text-color-${winText}">${data.teams[team].kills}</span><span class="text-color-${winText}">/</span>
+                                <span class="text-kda-header text-color-${winText}">${data.teams[team].deaths}</span><span class="text-color-${winText}">/</span>
+                                <span class="text-kda-header text-color-${winText}">${data.teams[team].assists}</span>
+                                <img class="icon-header ${winText}" src="/images/icon/mask-icon-offense.png" />
+                            </div>
+                        </div>
+                        <div class="col-item cell">
+                            <div class="inner-cell-header">
+                                <span class="text-gold-header">${data.teams[team].gold.toLocaleString('ko-KR')}</span>
+                                <img class="icon-header" src="/images/icon/mask-icon-gold.png" />
+                            </div>
+                        </div>
+                        <div class="col-kda cell">
+                            <div class="inner-cell-header padding-cell">
+                            <span><img class="icon-header" src="/images/icon/mask-icon-offense.png" /></span>
+                            </div>
+                        </div>
+                        <div class="col-cs cell"><div class="inner-cell-header padding-cell">
+                            <span><img class="icon-header" src="/images/icon/mask-icon-cs.png" /></span>
+                        </div></div>
+                        <div class="col-gold cell"><div class="inner-cell-header">
+                        <span><img class="icon-header" src="/images/icon/mask-icon-gold.png" /></span>
+                        </div></div>
+                        <div class="col-damage cell part-hide"><div class="inner-cell-header">${LANG['dmg_to_champ']}</div></div>
+                    </header>
+                    <ul class="team-container">`;
+                for (elem of data.teams[team].participants) {
+                    /** Current User */
+                    var isMe = '';
+                    if($('#user-profile-name').attr('accountId') === elem.id.accountId) {
+                        myTeam = team;
+                        isMe = ' is-me';
+
+                        /** Add Class to mini log */
+                        if(_info.miniLog) {
+                            $(_info.miniLog).addClass('log-' + winText);
+                        }
+                    }
+
+                    /** Rune Images */
+                    var runeHtml = '';
+                    if(elem.stats.rune0 === 0) {
+                        runeHtml += `<rect class="rune-main"></rect><rect class="rune-sub"></rect>`;
+                    } else {
+                        runeHtml += `<img class="rune-main rune" src="https://ddragon.leagueoflegends.com/cdn/img/${RUNE[elem.stats.rune0]}" rune-id="${elem.stats.rune0}" />
+                        <img class="rune-sub rune" src="https://ddragon.leagueoflegends.com/cdn/img/${RUNE[elem.stats.rune1]}" rune-id="${elem.stats.rune1}" />`;
+
+                    }
+
+                    /** Item Images */
+                    var visionData = {
+                        score: elem.stats.visionScore,
+                        buy: elem.stats.wardsBought,
+                        place: elem.stats.wardsPlaced,
+                        kill: elem.stats.wardsKilled
+                    };
+                    var itemsHtml = ItemGen(elem.stats.items, cdnuri, visionData);
+
+                    /** Kill Participation */
+                    var killPart = 0;
+                    if(data.teams[team].kills) killPart = Math.round((elem.stats.kills + elem.stats.assists) / data.teams[team].kills * 100);
+
+                    var partHtml = `<li class="team-part${isMe}" data-deal="${elem.stats.deal}">
+                        <div class="part-champ cell">
+                            <div class="inner-cell">
+                                <div class="part-rune">
+                                    ${runeHtml}
+                                </div>
+                                <div class="part-spell">
+                                    <img class="spell1 spell" src="${RIOTCDNURI + VERSION.latest}/img/spell/${SPELL[elem.spell1Id]}.png" spell-name="${SPELL[elem.spell1Id]}" />
+                                    <img class="spell2 spell" src="${RIOTCDNURI + VERSION.latest}/img/spell/${SPELL[elem.spell2Id]}.png" spell-name="${SPELL[elem.spell2Id]}" />
+                                </div>
+                                <div class="part-level">
+                                    <span>${elem.stats.champLevel}</span>     
+                                </div>
+                            </div>
+                        </div>
+                        <div class="part-name cell">
+                            <div class="inner-cell">
+                                <div class="part-icon">
+                                    <img src="${RIOTCDNURI + VERSION.latest}/img/champion/${CHAMPION[elem.champ]}.png" alt="${CHAMPION[elem.champ]}" title="${CHAMPION[elem.championId]}" />
+                                    <div class="shadow"></div>
+                                </div>
+                                <a class="part-link" href="/${elem.id.platform.toLowerCase()}/id/${elem.id.accountId}">${elem.id.name}</a>
+                            </div>
+                        </div>
+                        <div class="part-item cell">
+                            <div class="inner-cell">
+                                ${itemsHtml}
+                            </div>
+                        </div>
+                        <div class="part-kda cell">
+                            <div class="inner-cell padding-cell" title="(${killPart}%)">
+                                <span class="text-kda">${elem.stats.kills}</span>
+                                <span>/</span><span class="text-kda">${elem.stats.deaths}</span>
+                                <span>/</span><span class="text-kda">${elem.stats.assists}</span>
+                            </div>
+                        </div>
+                        <div class="part-cs cell">
+                            <div class="inner-cell padding-cell">
+                                <span class="text-cs" title="${elem.stats.minions} + ${elem.stats.jungle} (${((elem.stats.minions + elem.stats.jungle)/(data.duration/60)).toFixed(1)})">${elem.stats.minions + elem.stats.jungle}</span>
+                            </div>
+                        </div>
+                        <div class="part-gold cell">
+                            <div class="inner-cell padding-cell">
+                                <span class="text-gold">${elem.stats.gold.toLocaleString('ko-KR')}</span>
+                            </div>
+                        </div>
+                        <div class="part-damage part-hide cell">
+                            <div class="inner-cell">
+                                <div class="damage-box ${winText}" data-dmg="${elem.stats.deal}"></div>
+                                <span class="text-damage" title="${elem.stats.deal.toLocaleString('ko-KR')}/${elem.stats.dealTotal.toLocaleString('ko-KR')}">${elem.stats.deal.toLocaleString('ko-KR')}</span>
+                            </div>
+                        </div>
+                        </li>`;
+                    teamHtml += partHtml;
+                }
+                teamHtml += '</ul></div>';
+
+                data.teams[team].html = teamHtml;
+            }
+
+            /** Header */
+            var headerHtml = `<div class="match-header">
+                    <div class="match-header-left">
+                        <div class="match-header-win">
+                            <i class="fa fa-circle win-rect ${data.teams[myTeam].win}" aria-hidden="true"></i>
+                            <span>${LANG[data.teams[myTeam].win]}</span>
+                        </div>
+                        <div class="match-header-duration">
+                            <span>${Math.floor(data.duration/60)}:${(data.duration % 60).toString().padStart(2,'0')}</span>
+                        </div>
+                    </div>
+                    <div class="match-header-graph">
+                        <div class="header-button">
+                            <span class="header-graph-text">${LANG['graph']}</span>
+                            <span class="header-stats-text part-hide">${LANG['stats']}</span>
+                        </div>
+                    </div>
+                </div>`;
+
+            var matchHtml = `<div class="match ${data.teams[myTeam].win}">` + headerHtml;
+            /** Input & Order teams */
+            if(data.teams[myTeam]) {
+                matchHtml += data.teams[myTeam].html;
+            }
+
+            for(team in data.teams) {
+                if (team !== myTeam) {
+                    matchHtml += data.teams[team].html;
+                }
+            }
+
+            matchHtml += '</div>';
+            _container.html(matchHtml);
+            
+            /** Graph Button */
+            maxDmg = 0;
+            _container.find('.damage-box').each((i, elem) => {
+                if(Number($(elem).attr('data-dmg')) > maxDmg) {
+                    maxDmg = Number($(elem).attr('data-dmg'));
+                }
+            });
+
+            _container.find('.match-header-graph').click(async() => {
+                if(_container.find('.part-damage').hasClass('part-hide')) {
+                    _container.find('.part-damage').removeClass('part-hide');
+                    _container.find('.part-item').addClass('part-hide');
+                    _container.find('.part-kda').addClass('part-hide');
+                    _container.find('.part-cs').addClass('part-hide');
+                    _container.find('.part-gold').addClass('part-hide');
+
+                    _container.find('.col-damage').removeClass('part-hide');
+                    _container.find('.col-item').addClass('part-hide');
+                    _container.find('.col-kda').addClass('part-hide');
+                    _container.find('.col-cs').addClass('part-hide');
+                    _container.find('.col-gold').addClass('part-hide');
+
+                    _container.find('.header-stats-text').removeClass('part-hide');
+                    _container.find('.header-graph-text').addClass('part-hide');
+
+                    var barWdt = 400;
+                    /** Mobile */
+                    if(matchMedia("only screen and (max-width: 550px)").matches) {
+                        _container.find('.part-champ').addClass('mobile-hide');
+                        _container.find('.part-link').addClass('mobile-hide');
+
+                        _container.find('.part-name .inner-cell').css('float', 'right');
+                        _container.find('.part-icon').css('margin-right', '10px');
+                        _container.find('.header-team').css('width', '70');
+
+                        _container.find('.col-dummy').addClass('mobile-hide');
+                        _container.find('.col-name').addClass('mobile-hide');
+
+                        barWdt = 200;
+                    }
+
+                    _container.find('.damage-box').each((i, elem) => {
+                        $(elem).css('width', `${barWdt * $(elem).attr('data-dmg') / maxDmg}`);
+                    });
+                    
+                } else {
+                    _container.find('.part-damage').addClass('part-hide');
+                    _container.find('.part-item').removeClass('part-hide');
+                    _container.find('.part-kda').removeClass('part-hide');
+                    _container.find('.part-cs').removeClass('part-hide');
+                    _container.find('.part-gold').removeClass('part-hide');
+
+                    _container.find('.col-damage').addClass('part-hide');
+                    _container.find('.col-item').removeClass('part-hide');
+                    _container.find('.col-kda').removeClass('part-hide');
+                    _container.find('.col-cs').removeClass('part-hide');
+                    _container.find('.col-gold').removeClass('part-hide');
+
+                    _container.find('.header-graph-text').removeClass('part-hide');
+                    _container.find('.header-stats-text').addClass('part-hide');
+
+                    /** Mobile */
+                    if(matchMedia("only screen and (max-width: 550px)").matches) {
+                        _container.find('.part-champ').removeClass('mobile-hide');
+                        _container.find('.part-link').removeClass('mobile-hide');
+                    
+                        _container.find('.col-dummy').removeClass('mobile-hide');
+                        _container.find('.col-name').removeClass('mobile-hide');
+                    }
+                    _container.find('.part-name .inner-cell').css('float', 'left');
+                    _container.find('.header-team').css('width', '');
+                }
+                
+            });
+
+            SetTooltips();
+        });
+}
+
+var currentMatch = [];
+$(document).ready(function() {
+    $('.user-games-game').each(function() {
+        $(this).find('.user-games-mini').click(async () => {
+            /** Init Class */
+            if(currentMatch[0]) {
+                if(currentMatch[0] !== this) {
+                    currentMatch.push(this);
+                }
+
+                $(currentMatch[0]).find('.user-games-mini').removeClass('cur-log');
+                $(currentMatch[0]).css('height', $(this).find('.user-games-mini').height());
+
+                currentMatch.splice(0, 1);
+            } else {
+                currentMatch.push(this);
+            }
+
+            if(currentMatch[0]) {
+                var cur = currentMatch[0];
+                $('#match-inspecter').removeClass('match-hide');
+                $(cur).css('height', $(cur).find('.user-games-mini').height() + $('#match-inspecter').height() + 4);
+                $(cur).find('.user-games-mini').addClass('cur-log');
+                $('#match-inspecter').css('top', $('#user-games-all').scrollTop() + $(cur).position().top + $(cur).find('.user-games-mini').height() + 4);
+                await $('#match-inspecter').html('<i class="match-loading fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>');
+                GetMatch($("#match-inspecter"), {
+                    platform:   $(cur).attr('platform'),
+                    matchId:    $(cur).attr('matchId'),
+                    timestamp:  $(cur).attr('timestamp'),
+                    miniLog:    $(cur).find('.user-games-mini')
+                });
+            } else {
+                $('#match-inspecter').addClass('match-hide');
+            }
+        })
+    });    
+});
+
+function RefreshMatch() {
+    $('#match-inspecter').html('');
+    $('#match-inspecter').addClass('match-hide');
+    for (elem of currentMatch) {
+        $(elem).css('height', $(elem).find('.user-games-mini').height());
+        $(elem).find('.user-games-mini').removeClass('cur-log');
+    }
+    currentMatch = [];
+}

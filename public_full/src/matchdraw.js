@@ -166,7 +166,7 @@ async function GetMatch(_container, _info) {
                     var killPart = 0;
                     if(data.teams[team].kills) killPart = Math.round((elem.stats.kills + elem.stats.assists) / data.teams[team].kills * 100);
 
-                    var partHtml = `<li class="team-part${isMe}">
+                    var partHtml = `<li class="team-part${isMe}" data-deal="${elem.stats.deal}">
                         <div class="part-champ cell">
                             <div class="inner-cell">
                                 <div class="part-rune">

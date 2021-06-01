@@ -221,5 +221,9 @@ const LANG = {
 	"friday": "금",
 	"saturday": "토",
 
-    "game_count": "판"
+    "game_count": "판",
+
+	"graph": "그래프",
+	"stats": "통계",
+	"dmg_to_champ": "챔피언에게 가한 총 피해량"
 }
