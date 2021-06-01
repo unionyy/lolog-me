@@ -1,13 +1,17 @@
 @media only screen and (max-width: 550px){
+    .for-mobile {
+        display: block;
+    }
+    .mobile-hide {
+        display: none;
+    }
+
     .match {
         width: 100%;
     }
 
     .text-gold-header {
         display: none;
-    }
-    .for-mobile {
-        display: block;
     }
     .col-item, .col-kda, .col-cs, .col-gold {
         display: none;
@@ -26,5 +30,9 @@
     
     .part-item, .part-gold, .part-cs {
         display: none;
+    }
+
+    .part-damage {
+        width: 100%;
     }
 }

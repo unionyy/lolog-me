@@ -265,9 +265,6 @@ async function GetMatch(_container, _info) {
                     maxDmg = Number($(elem).attr('data-dmg'));
                 }
             });
-            _container.find('.damage-box').each((i, elem) => {
-                $(elem).css('width', `${400 * $(elem).attr('data-dmg') / maxDmg}`);
-            });
 
             _container.find('.match-header-graph').click(async() => {
                 if(_container.find('.part-damage').hasClass('part-hide')) {
@@ -285,6 +282,27 @@ async function GetMatch(_container, _info) {
 
                     _container.find('.header-stats-text').removeClass('part-hide');
                     _container.find('.header-graph-text').addClass('part-hide');
+
+                    var barWdt = 400;
+                    /** Mobile */
+                    if(matchMedia("only screen and (max-width: 550px)").matches) {
+                        _container.find('.part-champ').addClass('mobile-hide');
+                        _container.find('.part-link').addClass('mobile-hide');
+
+                        _container.find('.part-name .inner-cell').css('float', 'right');
+                        _container.find('.part-icon').css('margin-right', '10px');
+                        _container.find('.header-team').css('width', '70');
+
+                        _container.find('.col-dummy').addClass('mobile-hide');
+                        _container.find('.col-name').addClass('mobile-hide');
+
+                        barWdt = 200;
+                    }
+
+                    _container.find('.damage-box').each((i, elem) => {
+                        $(elem).css('width', `${barWdt * $(elem).attr('data-dmg') / maxDmg}`);
+                    });
+                    
                 } else {
                     _container.find('.part-damage').addClass('part-hide');
                     _container.find('.part-item').removeClass('part-hide');
@@ -300,6 +318,17 @@ async function GetMatch(_container, _info) {
 
                     _container.find('.header-graph-text').removeClass('part-hide');
                     _container.find('.header-stats-text').addClass('part-hide');
+
+                    /** Mobile */
+                    if(matchMedia("only screen and (max-width: 550px)").matches) {
+                        _container.find('.part-champ').removeClass('mobile-hide');
+                        _container.find('.part-link').removeClass('mobile-hide');
+                    
+                        _container.find('.col-dummy').removeClass('mobile-hide');
+                        _container.find('.col-name').removeClass('mobile-hide');
+                    }
+                    _container.find('.part-name .inner-cell').css('float', 'left');
+                    _container.find('.header-team').css('width', '');
                 }
                 
             });
