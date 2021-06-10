@@ -60,7 +60,7 @@ function ItemGen(_items, _cdnuri, _vision) {
 
 function FindCDN(_timestamp) {
     /** Find version */
-    var cdnuri = BANANACDN;
+    var cdnuri = RIOTCDNURI;
     for(version in VERSION) {
         if(version === 'latest') continue;
 
@@ -71,6 +71,7 @@ function FindCDN(_timestamp) {
             break;
         }
     }
+
     return cdnuri
 }
 
