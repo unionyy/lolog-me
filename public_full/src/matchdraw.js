@@ -64,8 +64,6 @@ function FindCDN(_timestamp) {
     for(version in VERSION) {
         if(version === 'latest') continue;
 
-        if(version === '10.19.1') cdnuri = RIOTCDNURI;
-
         if(VERSION[version] < _timestamp) {
             cdnuri += version;
             break;
