@@ -212,15 +212,14 @@
 }
 .medal {
     margin: auto;
-    padding: 0px 10px 0px 10px;
-    background-color: #dd5656;
-    border-radius: 20px;
-    border: solid 1px #c44040;
+    /* padding: 0px 10px 0px 10px; */
+    /* background-color: #dd5656; */
+    /* border-radius: 20px; */
+    /* border: solid 1px #c44040; */
 }
-.text-medal {
-    font-size: 0.8em;
-    color: white;
-    font-weight: 700;
+.medal-icon {
+    width: 1.2em;
+    height: 1.2em;
 }
 
 .recent-etc {
