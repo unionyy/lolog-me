@@ -69,7 +69,7 @@ var sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <url>
 <loc>https://lolog.me/</loc>
 <lastmod>2021-02-26</lastmod>
-</url>
+</url>\n
 `;
 GetUsers().then(users=> {
     for(user of users) {
@@ -80,11 +80,11 @@ GetUsers().then(users=> {
         sitemap += `<url><loc>${url}</loc>`;
 
         var date = new Date(user.update_time).toISOString().slice(0, 10);
-        sitemap += `<lastmod>${date}</lastmod></url>`
+        sitemap += `<lastmod>${date}</lastmod></url>\n`
 
         console.log(date, url);
     }
-    sitemap += '</urlset>\n';
+    sitemap += '</urlset>';
 
     fs.writeFile('public/sitemap.xml', sitemap, 'utf8', function(error){
         console.log('write end')
