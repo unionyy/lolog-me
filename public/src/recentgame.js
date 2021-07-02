@@ -75,15 +75,14 @@ function GetRecentGames(_index=0) {
                     switch(elem.multi_kill) {
                         case 0:
                         case 1: break;
-                        case 2: mki = 'rare'; break;
-                        case 3: mki = 'epic'; break;
-                        case 4: mki = 'legendary'; break;
-                        case 5: mki = 'mythic'; break;
-                        default: mki = 'ultimate'; break;
+                        default: mki = 'kill' + elem.multi_kill; break;
+                    }
+                    if(elem.multi_kill > 5) {
+                        mki = 'kill5';
                     }
                     if(mki) {
                         medalHtml = `<div class="medal">`;
-                        medalHtml += `<img class="medal-icon tooltip" src="/images/gem/${mki}.png" title="${LANG['multi_kill_' + elem.multi_kill]}" />`;
+                        medalHtml += `<img class="medal-icon tooltip" src="/images/kill/${mki}.png" title="${LANG['multi_kill_' + elem.multi_kill]}" />`;
                         medalHtml += `</div>`;
                     }
                     
