@@ -84,7 +84,7 @@ GetUsers().then(users=> {
 
         console.log(date, url);
     }
-    sitemap += '</urlset>';
+    sitemap += '</urlset>\n';
 
     fs.writeFile('public/sitemap.xml', sitemap, 'utf8', function(error){
         console.log('write end')
