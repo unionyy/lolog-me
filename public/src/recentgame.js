@@ -77,8 +77,8 @@ function GetRecentGames(_index=0) {
                         case 1: break;
                         default: mki = 'kill' + elem.multi_kill; break;
                     }
-                    if(elem.multi_kill > 5) {
-                        mki = 'kill5';
+                    if(elem.multi_kill > 6) {
+                        mki = 'kill6';
                     }
                     if(mki) {
                         medalHtml = `<div class="medal">`;

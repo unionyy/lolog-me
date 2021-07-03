@@ -213,13 +213,17 @@
 .medal {
     margin: auto;
     /* padding: 0px 10px 0px 10px; */
-    /* background-color: #dd5656; */
-    /* border-radius: 20px; */
+    /* background-color: #24292e;
+    border-radius: 20px; */
     /* border: solid 1px #c44040; */
+    width: 25px;
+    height: 25px;
 }
 .medal-icon {
-    width: 31px;
-    height: 28px;
+    /* background-color: #24292e;
+    border-radius: 20px; */
+    width: 25px;
+    height: 25px;
 }
 
 .recent-etc {
