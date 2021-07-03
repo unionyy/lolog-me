@@ -22,3 +22,5 @@ ALTER TABLE games DROP multi_kill;
 ALTER TABLE games DROP vision_score;
 
 TRUNCATE participants;
+
+ALTER TABLE participants ADD best_player tinyint UNSIGNED NOT NULL default 0;

@@ -79,5 +79,7 @@ CREATE TABLE participants (
     wards_placed smallint   UNSIGNED    NOT NULL,
     wards_killed smallint   UNSIGNED    NOT NULL,
 
+    best_player tinyint     UNSIGNED    NOT NULL,
+
     CONSTRAINT id_my_game PRIMARY KEY (id_my, game_id DESC)
 );
