@@ -224,5 +224,8 @@ const LANG = {
 
 	"graph": "GRAPH",
 	"stats": "STATS",
-	"dmg_to_champ": "Total Damage to Champions"
+	"dmg_to_champ": "Total Damage to Champions",
+	"best_dealer": "Best Dealer",
+	"best_part": "1st Kill Participation",
+	"best_vision": "1st Vision Score"
 }

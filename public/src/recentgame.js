@@ -81,8 +81,26 @@ function GetRecentGames(_index=0) {
                         mki = 'kill6';
                     }
                     if(mki) {
-                        medalHtml = `<div class="medal">`;
+                        medalHtml += `<div class="medal">`;
                         medalHtml += `<img class="medal-icon tooltip" src="/images/kill/${mki}.png" title="${LANG['multi_kill_' + elem.multi_kill]}" />`;
+                        medalHtml += `</div>`;
+                    }
+                    // Best Dealer
+                    if(elem.best_player % 2) {
+                        medalHtml += `<div class="medal">`;
+                        medalHtml += `<img class="medal-icon tooltip" src="/images/medals/dealer.png" title="${LANG['best_dealer']}" />`;
+                        medalHtml += `</div>`;
+                    }
+                    // Best Kill Participation
+                    if(parseInt(elem.best_player / 2) % 2) {
+                        medalHtml += `<div class="medal">`;
+                        medalHtml += `<img class="medal-icon tooltip" src="/images/medals/part.png" title="${LANG['best_part']}" />`;
+                        medalHtml += `</div>`;
+                    }
+                    // Best Vision Score
+                    if(parseInt(elem.best_player / 4) % 2) {
+                        medalHtml += `<div class="medal">`;
+                        medalHtml += `<img class="medal-icon tooltip" src="/images/medals/ward.png" title="${LANG['best_vision']}" />`;
                         medalHtml += `</div>`;
                     }
                     

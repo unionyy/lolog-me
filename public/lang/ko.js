@@ -225,5 +225,8 @@ const LANG = {
 
 	"graph": "그래프",
 	"stats": "통계",
-	"dmg_to_champ": "챔피언에게 가한 총 피해량"
+	"dmg_to_champ": "챔피언에게 가한 총 피해량",
+	"best_dealer": "딜량 1위",
+	"best_part": "킬관여 1위",
+	"best_vision": "시야점수 1위"
 }
