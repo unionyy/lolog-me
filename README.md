@@ -1,13 +1,15 @@
+# LoLog.me
+League of Legends Match History Website
+
 # To-Do List
-* Make Configure to Optimize: graph generator, log generator?
 * Process 승급전
-* Show Match
-* Show Recent or Log
-* Image Inside a Chart
-* Chart for mobile
+* Multi-Search
+* Ranking
 
-
-* Multi-Search => ok
+* Show Match => ok
+* Show Recent or Log => ok
+* Image Inside a Chart => ok
+* Chart for mobile => ok
 * Custom search => ok
 * Update beginIndex problem => ok
 * Champion count => ok
