@@ -3,7 +3,9 @@ const RIOTCDNURI = 'https://ddragon.leagueoflegends.com/cdn/';
 const BANANACDN = 'https://ddragon.bangingheads.net/cdn/';
 
 const VERSION = {
-    latest:     "11.13.1",
+    latest:     "11.15.1",
+    "11.15.1":  "1626854400",
+    "11.14.1":  "1625727600",
     "11.13.1":  "1624431600",
     "11.12.1":  "1623222000",
     "11.11.1":  "1622012400",
@@ -204,6 +206,7 @@ const CHAMPION = {
     '161': 'Velkoz',
     '163': 'Taliyah',
     '164': 'Camille',
+    '166': 'Akshan',
     '201': 'Braum',
     '202': 'Jhin',
     '203': 'Kindred',

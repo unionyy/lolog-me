@@ -4,6 +4,7 @@ const LANG = {
 		"Aatrox": "Aatrox",
 		"Ahri": "Ahri",
 		"Akali": "Akali",
+		"Akshan": "Akshan",
 		"Alistar": "Alistar",
 		"Amumu": "Amumu",
 		"Anivia": "Anivia",
