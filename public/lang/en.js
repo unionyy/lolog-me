@@ -197,6 +197,7 @@ const LANG = {
 	"icon_aram": "ARAM",
 	"icon_flex": "R_Flex",
 	"icon_nbg": "Blitz",
+	"icon_usb": "UltBook",
 	"icon_urf": "URF",
 	"icon_ofa": "OFA",
 	"icon_ai": "AI",

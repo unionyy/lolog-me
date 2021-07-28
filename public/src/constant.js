@@ -83,7 +83,8 @@ const SPELL = {
     '30': 'SummonerPoroRecall',
     '31': 'SummonerPoroThrow',
     '32': 'SummonerSnowball',
-    '39': 'SummonerSnowURFSnowball_Mark'
+    '39': 'SummonerSnowURFSnowball_Mark',
+    '54': 'Summoner_UltBook_Placeholder'
 };
 
 const CHAMPION = {

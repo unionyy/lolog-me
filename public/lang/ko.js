@@ -196,6 +196,7 @@ const LANG = {
 	"icon_aram": "칼바람",
 	"icon_flex": "자랭",
 	"icon_nbg": "돌넥",
+	"icon_usb": "궁주문서",
 	"icon_urf": "URF",
 	"icon_ofa": "단일",
 	"icon_ai": "AI대전",
