@@ -34,6 +34,7 @@ $('.user-games-game').each((i, elem) => {
             "data-count-ai"   : 0, // 봇전
             "data-count-ofa"  : 0, // 
             "data-count-nbg"  : 0,
+            "data-count-usb"  : 0, // Ultimate Spellbook
             "data-count-tut"  : 0,
             "data-count-clash"  : 0,
             "data-count-poro"  : 0,

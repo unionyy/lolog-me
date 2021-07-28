@@ -1,5 +1,5 @@
 const TYPES = ['solo', 'flex', 'norm', 'aram', 'urf', 'ai'];
-const ETC = ['ofa', 'nbg', 'tut', 'clash', 'poro', 'etc'];
+const ETC = ['ofa', 'nbg', 'usb', 'tut', 'clash', 'poro', 'etc'];
 
 var typesG;
 var dateG;
