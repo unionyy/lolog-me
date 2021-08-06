@@ -3,4 +3,5 @@ Disallow: /*/match/
 Disallow: /*/id/
 Disallow: /update
 Disallow: /search
+Disallow: /*/user/*?*
 Sitemap: https://lolog.me/sitemap.xml
