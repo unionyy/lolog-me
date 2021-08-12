@@ -289,6 +289,7 @@ app.get(`/:platform/shortcut/:userName`, userLimiter, (req, res, next) => {
 
       /** Get 5 Games */
       gameIds = [];
+      data.userData.game_count = data.gameData.length;
       data.gameData = data.gameData.splice(0, 5);
       for(game of data.gameData) {
         gameIds.push(game.game_id);
