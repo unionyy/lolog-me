@@ -277,33 +277,39 @@ app.get(`/:platform/shortcut/:userName`, userLimiter, (req, res, next) => {
 
   console.log("Shortcut: ", platform, normName);
 
-  riot.SearchCustom(normName, platform, undefined, undefined).then(data => {
-    if (!data) {
-      res.status(404).send("Not Found");
-    } else {
-      /** Remove data */
-      delete data.userData.id_my;
-      delete data.userData.account_id;
-      delete data.userData.summoner_id;
-      delete data.userData.puuid;
-
-      /** Get 5 Games */
-      gameIds = [];
-      data.userData.game_count = data.gameData.length;
-      data.gameData = data.gameData.splice(0, 5);
-      for(game of data.gameData) {
-        gameIds.push(game.game_id);
-        delete game.id_my;
-      }
-      riot.SearchDetail(normName, platform, gameIds).then(data2 => {
-        if (data2) {
-          data.partData = data2.data;
+  /** Update every 10min */
+  riot.Update(normName, platform, 600000).then(() => {
+    riot.SearchCustom(normName, platform, undefined, undefined).then(data => {
+      if (!data) {
+        res.status(404).send("Not Found");
+      } else {
+        /** Remove data */
+        delete data.userData.id_my;
+        delete data.userData.account_id;
+        delete data.userData.summoner_id;
+        delete data.userData.puuid;
+  
+        /** Get 5 Games */
+        gameIds = [];
+        data.userData.game_count = data.gameData.length;
+        data.gameData = data.gameData.splice(0, 5);
+        for(game of data.gameData) {
+          gameIds.push(game.game_id);
+          delete game.id_my;
         }
-        res.json(data);
-      }, err => {
-        throw err;
-      });
-    }
+        riot.SearchDetail(normName, platform, gameIds).then(data2 => {
+          if (data2) {
+            data.partData = data2.data;
+          }
+          res.json(data);
+        }, err => {
+          throw err;
+        });
+      }
+    }, err => {
+      throw err;
+    });
+
   }, err => {
     console.log(err);
     res.status(500).send('Error');
