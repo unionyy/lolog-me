@@ -281,7 +281,7 @@ app.get(`/:platform/shortcut/:userName`, userLimiter, (req, res, next) => {
   riot.Update(normName, platform, 600000).then(() => {
     riot.SearchCustom(normName, platform, undefined, undefined).then(data => {
       if (!data) {
-        res.status(404).send("Not Found");
+        res.status(404).json({error: 404, msg: "Not Found"});
       } else {
         /** Remove data */
         delete data.userData.id_my;
