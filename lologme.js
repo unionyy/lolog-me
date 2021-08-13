@@ -26,7 +26,6 @@ const riot = require('./lib/riot.js');
 
 /** Config */
 const config = require('./config.json');
-const sanitize = require('sanitize-html');
 if(config['isDevelop']) {
   template.RemoveGtag();
 }
@@ -290,6 +289,7 @@ app.get(`/:platform/shortcut/:userName`, userLimiter, (req, res, next) => {
         delete data.userData.puuid;
   
         /** Get 5 Games */
+        if(!Array.isArray(data.gameData))data.gameData = [];
         gameIds = [];
         data.userData.game_count = data.gameData.length;
         data.gameData = data.gameData.splice(0, 5);
