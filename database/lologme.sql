@@ -32,20 +32,20 @@ CREATE TABLE users (
     UNIQUE INDEX platform_name (platform_my, norm_name)
 );
 
-CREATE TABLE games (
-    game_id     bigint      UNSIGNED    NOT NULL,
+CREATE TABLE matches (
+    match_id     bigint      UNSIGNED    NOT NULL,
     platform_my tinyint     UNSIGNED    NOT NULL,
 
-    play_time   timestamp   NOT NULL,
+    start_time  timestamp   NOT NULL,
     duration    smallint    UNSIGNED    NOT NULL,
-    queue_type  smallint    UNSIGNED    NOT NULL,
+    queue_id    smallint    UNSIGNED    NOT NULL,
 
-    CONSTRAINT pk_id_platform PRIMARY KEY (game_id, platform_my DESC)
+    CONSTRAINT pk_id_platform PRIMARY KEY (match_id, platform_my DESC)
 );
 
 CREATE TABLE participants (
     id_my       int         UNSIGNED    NOT NULL,
-    game_id     bigint      UNSIGNED    NOT NULL,
+    match_id     bigint      UNSIGNED    NOT NULL,
 
     champion    smallint    UNSIGNED    NOT NULL,
     lane_my     tinyint     UNSIGNED    NOT NULL,
@@ -72,11 +72,13 @@ CREATE TABLE participants (
     minions     smallint    UNSIGNED    NOT NULL,
     jungle      smallint    UNSIGNED    NOT NULL,
     gold        int         UNSIGNED    NOT NULL,
+    damage_champ int        UNSIGNED    NOT NULL,
+    damage_total int        UNSIGNED    NOT NULL,
     multi_kill  tinyint     UNSIGNED    NOT NULL,
     vision_score smallint   UNSIGNED    NOT NULL,
     wards_bought smallint   UNSIGNED    NOT NULL,
     wards_placed smallint   UNSIGNED    NOT NULL,
     wards_killed smallint   UNSIGNED    NOT NULL,
 
-    CONSTRAINT id_my_game PRIMARY KEY (id_my, game_id)
+    CONSTRAINT id_my_match PRIMARY KEY (id_my, match_id)
 );
