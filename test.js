@@ -1,7 +1,8 @@
 const api = require("./lib/riot-api");
+const riot = require("./lib/riot-data");
 const { token } = require("./secure/riot.json");
 
-async function test() {
+async function apitest() {
     // Init
     const config = { token   : token };
     api.SetGlobalConfig(config);
@@ -38,4 +39,15 @@ async function test() {
     console.log(match);
 }
 
-test();
+async function riotDataTest() {
+    await riot.Init();
+    const a = await riot.SearchSummonerName("hideonbush", "kr");
+    //console.log(a);
+    const b = await riot.SearchMatchList(a.puuid, "kr");
+    //console.log(b);
+    const c = await riot.SearchMatches(a.id_my, b.slice(11, 13));
+    console.log(c);
+}
+
+//apitest();
+riotDataTest();

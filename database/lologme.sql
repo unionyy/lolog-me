@@ -42,7 +42,7 @@ CREATE TABLE matches (
     duration    smallint    UNSIGNED    NOT NULL,
     queue_id    smallint    UNSIGNED    NOT NULL,
 
-    CONSTRAINT pk_id_platform PRIMARY KEY (match_id, platform_my DESC)
+    CONSTRAINT pk_id_platform PRIMARY KEY (match_id, platform_my)
 );
 
 CREATE TABLE participants (
@@ -70,18 +70,19 @@ CREATE TABLE participants (
     item4       smallint    UNSIGNED    NOT NULL,
     item5       smallint    UNSIGNED    NOT NULL,
     item6       smallint    UNSIGNED    NOT NULL,
+    
     minion_killed smallint  UNSIGNED    NOT NULL,
     jungle_killed smallint  UNSIGNED    NOT NULL,
     gold_earned int         UNSIGNED    NOT NULL,
     damage_champ int        UNSIGNED    NOT NULL,
     damage_total int        UNSIGNED    NOT NULL,
     multi_kill  tinyint     UNSIGNED    NOT NULL,
+    
     vision_score smallint   UNSIGNED    NOT NULL,
     wards_bought smallint   UNSIGNED    NOT NULL,
     wards_placed smallint   UNSIGNED    NOT NULL,
     wards_killed smallint   UNSIGNED    NOT NULL,
     wards_placed_detector smallint UNSIGNED NOT NULL,
-
 
     CONSTRAINT id_my_match PRIMARY KEY (id_my, match_id)
 );
