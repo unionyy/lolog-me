@@ -48,6 +48,7 @@ CREATE TABLE matches (
 CREATE TABLE participants (
     id_my       int         UNSIGNED    NOT NULL,
     match_id    bigint      UNSIGNED    NOT NULL,
+    platform_my tinyint     UNSIGNED    NOT NULL,
 
     win_my      tinyint     UNSIGNED    NOT NULL,
     total_kills smallint    UNSIGNED    NOT NULL,
@@ -58,7 +59,7 @@ CREATE TABLE participants (
     spell2_id   tinyint     UNSIGNED    NOT NULL,
     rune_main_id smallint   UNSIGNED    NOT NULL,
     rune_sub_style smallint UNSIGNED    NOT NULL,
-    position    tinyint   UNSIGNED      NOT NULL,
+    position_my tinyint   UNSIGNED      NOT NULL,
     
     kills       tinyint     UNSIGNED    NOT NULL,
     deaths      tinyint     UNSIGNED    NOT NULL,
@@ -84,5 +85,5 @@ CREATE TABLE participants (
     wards_killed smallint   UNSIGNED    NOT NULL,
     wards_placed_detector smallint UNSIGNED NOT NULL,
 
-    CONSTRAINT id_my_match PRIMARY KEY (id_my, match_id)
+    CONSTRAINT id_my_match PRIMARY KEY (id_my, match_id, platform_my)
 );

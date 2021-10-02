@@ -46,7 +46,9 @@ async function riotDataTest() {
     const b = await riot.SearchMatchList(a.puuid, "kr");
     //console.log(b);
     const c = await riot.SearchMatches(a.id_my, b.slice(11, 13));
-    console.log(c);
+    //console.log(c);
+    const d = await riot.SearchMatchDetail(b.slice(11,12)[0]);
+    console.log(d);
 }
 
 //apitest();
