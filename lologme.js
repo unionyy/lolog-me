@@ -21,8 +21,9 @@ const i18n = new I18n({
 })
 
 
-const template = require('./lib/template.js');
-const riot = require('./lib/riot.js');
+const template = require('./lib/template');
+const riotData = require('./lib/riot-data');
+var riot;
 
 /** Config */
 const config = require('./config.json');
@@ -263,6 +264,51 @@ app.get(`/:platform/user/:userName`, userLimiter, (req, res, next) => {
     res.status(500).send('Error');
   })
 });
+app.get(`/:platform/test/:userName`, userLimiter, (req, res, next) => {
+  var platform = urlencode.decode(req.params.platform);
+  var begin = req.query.begin;
+  var end = req.query.end;
+
+
+  // Varify query
+  if(PLATFORM_MY[platform] === undefined) {
+    next();
+  }
+
+  res.cookie('platform-lologme', platform, { maxAge: 3000000000 });
+
+  // var ip = req.header('x-forwarded-for');
+  var normName = NormalizeName(urlencode.decode(req.params.userName));
+
+  console.log(platform, normName);
+
+  riotData.SearchSummonerName(normName, platform).then(data => {
+    if (!data) {
+      res.status(404).send(template.HTMLmsg(`"${req.params.userName}" ${res.__('user_not_found')}`, res.__, req.cookies['platform-lologme'], res.locals.cspNonce));
+    } else {
+      /** Save Recent Users Cookies */
+      let recentUsers = req.cookies['recent-lologme-' + platform]
+      if(!recentUsers) recentUsers = [];
+      try {
+        for(i in recentUsers) {
+          if(recentUsers[i] === data.summoner_name) {
+            recentUsers.splice(i, 1);
+            break;
+          }
+        }
+      } catch(err) {
+        recentUsers = [];
+      }
+      recentUsers.unshift(data.summoner_name);
+      res.cookie('recent-lologme-' + platform, recentUsers, { maxAge: 3000000000 });
+
+      res.send(template.HTMLuser({userData: data, gameData:[]}, res.__, platform, res.locals.cspNonce));
+    }
+  }, err => {
+    console.log(err);
+    res.status(500).send('Error');
+  })
+});
 
 app.get(`/:platform/shortcut/:userName`, userLimiter, (req, res, next) => {
   var platform = urlencode.decode(req.params.platform);
@@ -396,7 +442,7 @@ app.use(function (req, res, next) {
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
-  riot.Init().then(()=> {
+  riotData.Init().then(()=> {
     // riot.Search('devil', 'kr').then(data=> {
     //   console.log(data);
     // })
