@@ -1,3 +1,5 @@
+/** Get Games from /matches & Render */
+
 const MAXRECENTGAMES = 20;
 
 var curIndex = 0;
