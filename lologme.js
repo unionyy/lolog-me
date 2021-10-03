@@ -266,14 +266,9 @@ app.get(`/:platform/user/:userName`, userLimiter, (req, res, next) => {
 });
 app.get(`/:platform/test/:userName`, userLimiter, (req, res, next) => {
   var platform = urlencode.decode(req.params.platform);
-  var begin = req.query.begin;
-  var end = req.query.end;
-
 
   // Varify query
-  if(PLATFORM_MY[platform] === undefined) {
-    next();
-  }
+  if(PLATFORM_MY[platform] === undefined) next();
 
   res.cookie('platform-lologme', platform, { maxAge: 3000000000 });
 
@@ -282,8 +277,8 @@ app.get(`/:platform/test/:userName`, userLimiter, (req, res, next) => {
 
   console.log(platform, normName);
 
-  riotData.SearchSummonerName(normName, platform).then(data => {
-    if (!data) {
+  riotData.SearchSummonerName(normName, platform).then(summonerData => {
+    if (!summonerData) {
       res.status(404).send(template.HTMLmsg(`"${req.params.userName}" ${res.__('user_not_found')}`, res.__, req.cookies['platform-lologme'], res.locals.cspNonce));
     } else {
       /** Save Recent Users Cookies */
@@ -291,7 +286,7 @@ app.get(`/:platform/test/:userName`, userLimiter, (req, res, next) => {
       if(!recentUsers) recentUsers = [];
       try {
         for(i in recentUsers) {
-          if(recentUsers[i] === data.summoner_name) {
+          if(recentUsers[i] === summonerData.summoner_name) {
             recentUsers.splice(i, 1);
             break;
           }
@@ -299,10 +294,12 @@ app.get(`/:platform/test/:userName`, userLimiter, (req, res, next) => {
       } catch(err) {
         recentUsers = [];
       }
-      recentUsers.unshift(data.summoner_name);
+      recentUsers.unshift(summonerData.summoner_name);
       res.cookie('recent-lologme-' + platform, recentUsers, { maxAge: 3000000000 });
 
-      res.send(template.HTMLuser({userData: data, gameData:[]}, res.__, platform, res.locals.cspNonce));
+      riotData.SearchMatchList(summonerData.puuid, platform).then(matchList => {
+        res.send(template.HTMLuser(summonerData, matchList, res.__, platform, res.locals.cspNonce));
+      });
     }
   }, err => {
     console.log(err);
@@ -362,37 +359,48 @@ app.get(`/:platform/shortcut/:userName`, userLimiter, (req, res, next) => {
   });
 });
 
-app.get(`/:platform/user/:userName/detail`, userLimiter, (req, res, next) => {
+function verifyMatchId(_matchId) {
+  try{
+    const splitedMatchId = _matchId.split('_');
+    const platform = splitedMatchId[0].toLowerCase();
+    if(PLATFORM_MY[platform] === undefined) return false;
+    if(isNaN(splitedMatchId[1])) return false;
+  } catch(err) {
+    return false;
+  }
+  return true;
+}
+
+app.get(`/:platform/matches`, userLimiter, (req, res, next) => {
   var platform = urlencode.decode(req.params.platform);
 
-  // Varify query
-  if(PLATFORM_MY[platform] === undefined) {
-    next();
-  }
+  /** Verify Platform */
+  if(PLATFORM_MY[platform] === undefined) { next(); return; }
 
-  var normName = NormalizeName(urlencode.decode(req.params.userName));
+  /** Verify idmy */
+  const idMy = req.query.idmy;
+  if(isNaN(idMy)) { next(); return; }
 
-  /** Varify Game Ids */
-  var gameIds = [];
+  /** Verify Match Ids */
+  const matchIds = [];
   if(Array.isArray(req.query.m)) {
     if(req.query.m.length <= 20) {
-      for(gameId of req.query.m) {
-        if(!isNaN(gameId)) {
-          gameIds.push(gameId);
+      for(const matchId of req.query.m) {
+        if(verifyMatchId(matchId)) {
+          matchIds.push(matchId);
         }
       }
     }
   } else {
-    if(!isNaN(req.query.m)) {
-      gameIds.push(req.query.m);
+    if(verifyMatchId(req.query.m)) {
+      matchIds.push(req.query.m);
     }
   }
 
-  if(gameIds.length === 0) {
+  if(matchIds.length === 0) {
     res.status(404).send(template.HTMLmsg(`404 Not Found`, res.__, req.cookies['platform-lologme'], res.locals.cspNonce));
   } else {
-    riot.SearchDetail(normName, platform, gameIds).then(data => {
-
+    riotData.SearchMatches(idMy, matchIds).then(data => {
       if (!data) {
         res.status(404).send(template.HTMLmsg(`404 Not Found`, res.__, req.cookies['platform-lologme'], res.locals.cspNonce));
       } else {
@@ -401,7 +409,7 @@ app.get(`/:platform/user/:userName/detail`, userLimiter, (req, res, next) => {
     }, err => {
       console.log(err);
       res.status(500).send('Error');
-    })
+    });
   }
 });
 
