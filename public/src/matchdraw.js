@@ -203,7 +203,7 @@ async function GetMatch(_container, _info) {
                                     <img src="${RIOTCDNURI + VERSION.latest}/img/champion/${CHAMPION[stat.champ_id]}.png" alt="${CHAMPION[stat.champ_id]}" title="${CHAMPION[stat.champ_id]}" />
                                     <div class="shadow"></div>
                                 </div>
-                                <a class="part-link" href="/link">미구현</a>
+                                <a class="part-link" href="/id/${stat.id_my}">${stat.summoner_name}</a>
                             </div>
                         </div>
                         <div class="part-item cell">
