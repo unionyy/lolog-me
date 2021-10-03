@@ -43,8 +43,9 @@ function GetRecentGames(_index=0) {
                 let killTotalSum = 0;
                 for(let i = _index; i < user_totalMatchList.length; i++) {
                     if(i >= _index + MAXRECENTGAMES) break;
-                    const matchId = user_totalMatchList[i].split('_')[1];
-                    const platform = user_totalMatchList[i].split('_')[0].toLowerCase();
+                    const matchIdFull = user_totalMatchList[i];
+                    const matchId = matchIdFull.split('_')[1];
+                    const platform = matchIdFull.split('_')[0].toLowerCase();
                     const match =  matches[matchId];
                     const stat = match.participant;
                     const parsedWin = ParseWin(stat.win_my);
@@ -81,7 +82,7 @@ function GetRecentGames(_index=0) {
 
                     const dateString = month  + '-' + day;
 
-                    let matchHtml = `<div class="recent-game-wrapper" platform="${platform}" matchId="${matchId}" timestamp="${match.start_time}">
+                    let matchHtml = `<div class="recent-game-wrapper" platform="${platform}" matchId="${matchIdFull}" timestamp=${match.start_time}>
                         <div class="recent-game recent-game-${parsedWin.winText}" team="${parsedWin.teamText}" duration="${match.duration}">`;
 
                     /** Header */

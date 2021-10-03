@@ -1,3 +1,5 @@
+/** Get Match from /match & Render */
+
 function ParseWin(_winMy) {
     /** Win or Lose */
     var winText;
@@ -59,6 +61,7 @@ function ItemGen(_items, _cdnuri, _vision) {
 }
 
 function FindCDN(_timestamp) {
+    _timestamp = new Date(_timestamp);
     /** Find version */
     var cdnuri = RIOTCDNURI;
     for(version in VERSION) {
@@ -76,21 +79,42 @@ function FindCDN(_timestamp) {
 async function GetMatch(_container, _info) {
     await fetch(`/${_info.platform}/match/${_info.matchId}`)
         .then(response => response.json(), err => {_container.html('<span class="match-fail">Try Again</span>');})
-        .then(data => {
+        .then(matchData => {
             /** Find version */
-            var cdnuri = FindCDN(_info.timestamp);
+            const cdnuri = FindCDN(_info.timestamp);
             
-            var myTeam;
-            for (team in data.teams) {
-                var parsedWin = ParseWin(data.teams[team].win);
+            /** Seperate Team */
+            let myTeam;
+            const teams = {};
+            for(participant of matchData.participants) {
+                const winMy = participant.win_my
+                if(teams[winMy]) {
+                    teams[winMy].participants.push(participant);
+                    teams[winMy].kills += participant.kills;
+                    teams[winMy].deaths += participant.deaths;
+                    teams[winMy].assists += participant.assists;
+                    teams[winMy].gold_earned += participant.gold_earned;
+                }
+                else teams[winMy] = {
+                    participants: [participant],
+                    kills: participant.kills,
+                    deaths: participant.deaths,
+                    assists: participant.assists,
+                    gold_earned: participant.gold_earned
+                };
+            }
+
+            for (teamId in teams) {
+                const team = teams[teamId];
+                const parsedWin = ParseWin(teamId);
                 /** Win or Lose */
-                var winText = parsedWin.winText;
+                const winText = parsedWin.winText;
                 /** Team define */
-                var teamText = parsedWin.teamText;
+                const teamText = parsedWin.teamText;
 
-                data.teams[team].win = winText;
+                team.win = winText;
 
-                var teamHtml = `
+                let teamHtml = `
                 <div class="team ${winText}">
                     <header class="team-header">
                         <div class="col-champ cell">
@@ -101,15 +125,15 @@ async function GetMatch(_container, _info) {
                         <div class="for-mobile col-dummy"></div>
                         <div class="col-name cell">
                             <div class="inner-cell-header">
-                                <span class="text-kda-header text-color-${winText}">${data.teams[team].kills}</span><span class="text-color-${winText}">/</span>
-                                <span class="text-kda-header text-color-${winText}">${data.teams[team].deaths}</span><span class="text-color-${winText}">/</span>
-                                <span class="text-kda-header text-color-${winText}">${data.teams[team].assists}</span>
+                                <span class="text-kda-header text-color-${winText}">${team.kills}</span><span class="text-color-${winText}">/</span>
+                                <span class="text-kda-header text-color-${winText}">${team.deaths}</span><span class="text-color-${winText}">/</span>
+                                <span class="text-kda-header text-color-${winText}">${team.assists}</span>
                                 <img class="icon-header ${winText}" src="/images/icon/mask-icon-offense.png" />
                             </div>
                         </div>
                         <div class="col-item cell">
                             <div class="inner-cell-header">
-                                <span class="text-gold-header">${data.teams[team].gold.toLocaleString('ko-KR')}</span>
+                                <span class="text-gold-header">${team.gold_earned.toLocaleString('ko-KR')}</span>
                                 <img class="icon-header" src="/images/icon/mask-icon-gold.png" />
                             </div>
                         </div>
@@ -127,64 +151,59 @@ async function GetMatch(_container, _info) {
                         <div class="col-damage cell part-hide"><div class="inner-cell-header">${LANG['dmg_to_champ']}</div></div>
                     </header>
                     <ul class="team-container">`;
-                for (elem of data.teams[team].participants) {
+                for (const stat of team.participants) {
                     /** Current User */
-                    var isMe = '';
-                    if($('#user-profile-name').attr('accountId') === elem.id.accountId) {
-                        myTeam = team;
+                    let isMe = '';
+                    if(stat.id_my === user_idMy) {
+                        myTeam = stat.win_my;
                         isMe = ' is-me';
-
-                        /** Add Class to mini log */
-                        if(_info.miniLog) {
-                            $(_info.miniLog).addClass('log-' + winText);
-                        }
                     }
 
                     /** Rune Images */
-                    var runeHtml = '';
-                    if(elem.stats.rune0 === 0) {
+                    let runeHtml = '';
+                    if(stat.rune_main_id === 0) {
                         runeHtml += `<rect class="rune-main"></rect><rect class="rune-sub"></rect>`;
                     } else {
-                        runeHtml += `<img class="rune-main rune" src="https://ddragon.leagueoflegends.com/cdn/img/${RUNE[elem.stats.rune0]}" rune-id="${elem.stats.rune0}" />
-                        <img class="rune-sub rune" src="https://ddragon.leagueoflegends.com/cdn/img/${RUNE[elem.stats.rune1]}" rune-id="${elem.stats.rune1}" />`;
+                        runeHtml += `<img class="rune-main rune" src="https://ddragon.leagueoflegends.com/cdn/img/${RUNE[stat.rune_main_id]}" rune-id="${stat.rune_main_id}" />
+                        <img class="rune-sub rune" src="https://ddragon.leagueoflegends.com/cdn/img/${RUNE[stat.rune_sub_style]}" rune-id="${stat.rune_sub_style}" />`;
 
                     }
 
                     /** Item Images */
-                    var visionData = {
-                        score: elem.stats.visionScore,
-                        buy: elem.stats.wardsBought,
-                        place: elem.stats.wardsPlaced,
-                        kill: elem.stats.wardsKilled
+                    let visionData = {
+                        score: stat.vision_score,
+                        buy: stat.wards_bought,
+                        place: stat.wards_placed,
+                        kill: stat.wards_killed
                     };
-                    var itemsHtml = ItemGen(elem.stats.items, cdnuri, visionData);
+                    let itemsHtml = ItemGen([stat.item0, stat.item1, stat.item2, stat.item3, stat.item4, stat.item5, stat.item6], cdnuri, visionData);
 
                     /** Kill Participation */
-                    var killPart = 0;
-                    if(data.teams[team].kills) killPart = Math.round((elem.stats.kills + elem.stats.assists) / data.teams[team].kills * 100);
+                    let killPart = 0;
+                    if(stat.total_kills) killPart = Math.round((stat.kills + stat.assists) / stat.total_kills * 100);
 
-                    var partHtml = `<li class="team-part${isMe}" data-deal="${elem.stats.deal}">
+                    let partHtml = `<li class="team-part${isMe}" data-deal="${stat.damage_champ}">
                         <div class="part-champ cell">
                             <div class="inner-cell">
                                 <div class="part-rune">
                                     ${runeHtml}
                                 </div>
                                 <div class="part-spell">
-                                    <img class="spell1 spell" src="${RIOTCDNURI + VERSION.latest}/img/spell/${SPELL[elem.spell1Id]}.png" spell-name="${SPELL[elem.spell1Id]}" />
-                                    <img class="spell2 spell" src="${RIOTCDNURI + VERSION.latest}/img/spell/${SPELL[elem.spell2Id]}.png" spell-name="${SPELL[elem.spell2Id]}" />
+                                    <img class="spell1 spell" src="${RIOTCDNURI + VERSION.latest}/img/spell/${SPELL[stat.spell1_id]}.png" spell-name="${SPELL[stat.spell1_id]}" />
+                                    <img class="spell2 spell" src="${RIOTCDNURI + VERSION.latest}/img/spell/${SPELL[stat.spell2_id]}.png" spell-name="${SPELL[stat.spell2_id]}" />
                                 </div>
                                 <div class="part-level">
-                                    <span>${elem.stats.champLevel}</span>     
+                                    <span>${stat.champ_level}</span>     
                                 </div>
                             </div>
                         </div>
                         <div class="part-name cell">
                             <div class="inner-cell">
                                 <div class="part-icon">
-                                    <img src="${RIOTCDNURI + VERSION.latest}/img/champion/${CHAMPION[elem.champ]}.png" alt="${CHAMPION[elem.champ]}" title="${CHAMPION[elem.championId]}" />
+                                    <img src="${RIOTCDNURI + VERSION.latest}/img/champion/${CHAMPION[stat.champ_id]}.png" alt="${CHAMPION[stat.champ_id]}" title="${CHAMPION[stat.champ_id]}" />
                                     <div class="shadow"></div>
                                 </div>
-                                <a class="part-link" href="/${elem.id.platform.toLowerCase()}/id/${elem.id.accountId}">${elem.id.name}</a>
+                                <a class="part-link" href="/link">미구현</a>
                             </div>
                         </div>
                         <div class="part-item cell">
@@ -194,25 +213,25 @@ async function GetMatch(_container, _info) {
                         </div>
                         <div class="part-kda cell">
                             <div class="inner-cell padding-cell" title="(${killPart}%)">
-                                <span class="text-kda">${elem.stats.kills}</span>
-                                <span>/</span><span class="text-kda">${elem.stats.deaths}</span>
-                                <span>/</span><span class="text-kda">${elem.stats.assists}</span>
+                                <span class="text-kda">${stat.kills}</span>
+                                <span>/</span><span class="text-kda">${stat.deaths}</span>
+                                <span>/</span><span class="text-kda">${stat.assists}</span>
                             </div>
                         </div>
                         <div class="part-cs cell">
                             <div class="inner-cell padding-cell">
-                                <span class="text-cs" title="${elem.stats.minions} + ${elem.stats.jungle} (${((elem.stats.minions + elem.stats.jungle)/(data.duration/60)).toFixed(1)})">${elem.stats.minions + elem.stats.jungle}</span>
+                                <span class="text-cs" title="${stat.minion_killed} + ${stat.jungle_killed} (${((stat.minion_killed + stat.jungle_killed)/(matchData.duration/60)).toFixed(1)})">${stat.minion_killed + stat.jungle_killed}</span>
                             </div>
                         </div>
                         <div class="part-gold cell">
                             <div class="inner-cell padding-cell">
-                                <span class="text-gold">${elem.stats.gold.toLocaleString('ko-KR')}</span>
+                                <span class="text-gold">${stat.gold_earned.toLocaleString('ko-KR')}</span>
                             </div>
                         </div>
                         <div class="part-damage part-hide cell">
                             <div class="inner-cell">
-                                <div class="damage-box ${winText}" data-dmg="${elem.stats.deal}"></div>
-                                <span class="text-damage" title="${elem.stats.deal.toLocaleString('ko-KR')}/${elem.stats.dealTotal.toLocaleString('ko-KR')}">${elem.stats.deal.toLocaleString('ko-KR')}</span>
+                                <div class="damage-box ${winText}" data-dmg="${stat.damage_champ}"></div>
+                                <span class="text-damage" title="${stat.damage_champ.toLocaleString('ko-KR')}/${stat.damage_total.toLocaleString('ko-KR')}">${stat.damage_champ.toLocaleString('ko-KR')}</span>
                             </div>
                         </div>
                         </li>`;
@@ -220,18 +239,18 @@ async function GetMatch(_container, _info) {
                 }
                 teamHtml += '</ul></div>';
 
-                data.teams[team].html = teamHtml;
+                team.html = teamHtml;
             }
 
             /** Header */
-            var headerHtml = `<div class="match-header">
+            let headerHtml = `<div class="match-header">
                     <div class="match-header-left">
                         <div class="match-header-win">
-                            <i class="fa fa-circle win-rect ${data.teams[myTeam].win}" aria-hidden="true"></i>
-                            <span>${LANG[data.teams[myTeam].win]}</span>
+                            <i class="fa fa-circle win-rect ${teams[myTeam].win}" aria-hidden="true"></i>
+                            <span>${LANG[teams[myTeam].win]}</span>
                         </div>
                         <div class="match-header-duration">
-                            <span>${Math.floor(data.duration/60)}:${(data.duration % 60).toString().padStart(2,'0')}</span>
+                            <span>${Math.floor(matchData.duration/60)}:${(matchData.duration % 60).toString().padStart(2,'0')}</span>
                         </div>
                     </div>
                     <div class="match-header-graph">
@@ -242,15 +261,16 @@ async function GetMatch(_container, _info) {
                     </div>
                 </div>`;
 
-            var matchHtml = `<div class="match ${data.teams[myTeam].win}">` + headerHtml;
-            /** Input & Order teams */
-            if(data.teams[myTeam]) {
-                matchHtml += data.teams[myTeam].html;
+            let matchHtml = `<div class="match ${teams[myTeam].win}">` + headerHtml;
+
+            /** Input & Order teams (My Team First) */
+            if(teams[myTeam]) {
+                matchHtml += teams[myTeam].html;
             }
 
-            for(team in data.teams) {
-                if (team !== myTeam) {
-                    matchHtml += data.teams[team].html;
+            for(teamId in teams) {
+                if (teamId != myTeam) {
+                    matchHtml += teams[teamId].html;
                 }
             }
 
@@ -282,7 +302,7 @@ async function GetMatch(_container, _info) {
                     _container.find('.header-stats-text').removeClass('part-hide');
                     _container.find('.header-graph-text').addClass('part-hide');
 
-                    var barWdt = 400;
+                    let barWdt = 400;
                     /** Mobile */
                     if(matchMedia("only screen and (max-width: 550px)").matches) {
                         _container.find('.part-champ').addClass('mobile-hide');
@@ -336,7 +356,7 @@ async function GetMatch(_container, _info) {
         });
 }
 
-var currentMatch = [];
+const currentMatch = [];
 $(document).ready(function() {
     $('.user-games-game').each(function() {
         $(this).find('.user-games-mini').click(async () => {
@@ -370,7 +390,7 @@ $(document).ready(function() {
             } else {
                 $('#match-inspecter').addClass('match-hide');
             }
-        })
+        });
     });    
 });
 

@@ -416,17 +416,18 @@ app.get(`/:platform/matches`, userLimiter, (req, res, next) => {
 app.get(`/:platform/match/:matchId`, matchLimiter, (req, res, next) => {
   var platform = urlencode.decode(req.params.platform);
 
-  // Varify query
-  if(PLATFORM_MY[platform] === undefined) {
-    next();
-  }
+  /** Verify query */
+  if(PLATFORM_MY[platform] === undefined) { next(); return; }
 
-  riot.GetGame(req.params.matchId, platform).then((data) => {
-    res.json(data);
+  /** Verify Match Id */
+  if(!verifyMatchId(req.params.matchId)) { next(); return; }
+
+  riotData.SearchMatchDetail(req.params.matchId).then((matchData) => {
+    res.json(matchData);
   }, (err) => {
     console.log(err);
     next();
-  })
+  });
 })
 
 // app.get(`/:platform/match/:matchId`, (req, res) => {
