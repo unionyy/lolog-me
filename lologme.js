@@ -1,3 +1,12 @@
+/***********  lologme.js ***********
+ * 
+ * Index of LoLog-me
+ * - Handle All Interactions with Users
+ * - Verify & Parse User Inputs
+ * - Send HTTP Requests
+ * - Used Web Framework: ExpressJS
+ ***********************************/
+
 const { PLATFORM_MY, PLATFORMS } = require('./lib/constant');
 
 const express = require('express');
@@ -22,9 +31,8 @@ const i18n = new I18n({
 
 const template = require('./lib/template');
 const riotData = require('./lib/riot-data');
-var riot;
 
-const { NormalizeName } = require('./lib/util');
+const { NormalizeName, VerifyMatchId } = require('./lib/util');
 const shortcut = require('./lib/shortcut');
 
 /** Config */
@@ -101,7 +109,7 @@ app.use((req, res, next) => {
 
 app.use(i18n.init);
 
-const userLimiter = rateLimit({
+const rateLimit10 = rateLimit({
   windowMs: 10 * 1000,
   max: 10,
   handler: function  (req, res, next) {
@@ -112,7 +120,7 @@ const userLimiter = rateLimit({
     res.status(options.statusCode).send(template.HTMLmsg(res.__('rate_limit'), res.__, req.cookies['platform-lologme'], res.locals.cspNonce));
   }
 });
-const matchLimiter = rateLimit({
+const rateLimit100 = rateLimit({
   windowMs: 10 * 1000,
   max: 100,
   handler: function  (req, res, next) {
@@ -125,11 +133,11 @@ const matchLimiter = rateLimit({
 });
 
 
-app.get('/', (req, res) => {
+app.get('/', rateLimit10, (req, res) => {
   res.send(template.HTMLindex(res.__, req.cookies['platform-lologme'], res.locals.cspNonce));
 });
 
-app.get(`/search`, (req, res) => {
+app.get(`/search`, rateLimit10, (req, res) => {
   try{
     var normName = NormalizeName(req.query.username);
 
@@ -146,7 +154,7 @@ app.get(`/search`, (req, res) => {
   }
 });
 
-app.get(`/update/:idmy`, (req, res, next) => {
+app.get(`/update/:idmy`, rateLimit10, (req, res, next) => {
   const idMy = urlencode.decode(req.params.idmy);
 
   // Varify idMy
@@ -161,7 +169,7 @@ app.get(`/update/:idmy`, (req, res, next) => {
   });
 });
 
-app.get(`/id/:idmy`, userLimiter, (req, res, next) => {
+app.get(`/id/:idmy`, rateLimit10, (req, res, next) => {
   const idMy = urlencode.decode(req.params.idmy);
 
   // Varify idMy
@@ -176,7 +184,7 @@ app.get(`/id/:idmy`, userLimiter, (req, res, next) => {
   });
 });
 
-app.get(`/:platform/user/:userName`, userLimiter, (req, res, next) => {
+app.get(`/:platform/user/:userName`, rateLimit10, (req, res, next) => {
   var platform = urlencode.decode(req.params.platform);
 
   // Verify query
@@ -219,7 +227,7 @@ app.get(`/:platform/user/:userName`, userLimiter, (req, res, next) => {
   });
 });
 
-app.get(`/:platform/shortcut/:userName`, userLimiter, (req, res, next) => {
+app.get(`/:platform/shortcut/:userName`, rateLimit100, (req, res, next) => {
   var platform = urlencode.decode(req.params.platform);
 
   // Verify query
@@ -238,20 +246,7 @@ app.get(`/:platform/shortcut/:userName`, userLimiter, (req, res, next) => {
   });
 });
 
-function verifyMatchId(_matchId) {
-  try{
-    const matchId = urlencode.decode(_matchId);
-    const splitedMatchId = matchId.split('_');
-    const platform = splitedMatchId[0].toLowerCase();
-    if(PLATFORM_MY[platform] === undefined) return false;
-    if(isNaN(splitedMatchId[1])) return false;
-  } catch(err) {
-    return false;
-  }
-  return true;
-}
-
-app.get(`/:platform/matches`, userLimiter, (req, res, next) => {
+app.get(`/:platform/matches`, rateLimit10, (req, res, next) => {
   var platform = urlencode.decode(req.params.platform);
 
   /** Verify Platform */
@@ -266,13 +261,13 @@ app.get(`/:platform/matches`, userLimiter, (req, res, next) => {
   if(Array.isArray(req.query.m)) {
     if(req.query.m.length <= 20) {
       for(const matchId of req.query.m) {
-        if(verifyMatchId(matchId)) {
-          matchIds.push(matchId);
+        if(VerifyMatchId(matchId)) {
+        matchIds.push(matchId);
         }
       }
     }
   } else {
-    if(verifyMatchId(req.query.m)) {
+    if(VerifyMatchId(req.query.m)) {
       matchIds.push(req.query.m);
     }
   }
@@ -293,14 +288,14 @@ app.get(`/:platform/matches`, userLimiter, (req, res, next) => {
   }
 });
 
-app.get(`/:platform/match/:matchId`, matchLimiter, (req, res, next) => {
+app.get(`/:platform/match/:matchId`, rateLimit10, (req, res, next) => {
   var platform = urlencode.decode(req.params.platform);
 
   /** Verify query */
   if(PLATFORM_MY[platform] === undefined) { next(); return; }
 
   /** Verify Match Id */
-  if(!verifyMatchId(req.params.matchId)) { next(); return; }
+  if(!VerifyMatchId(req.params.matchId)) { next(); return; }
 
   riotData.SearchMatchDetail(req.params.matchId).then((matchData) => {
     res.json(matchData);
@@ -310,7 +305,7 @@ app.get(`/:platform/match/:matchId`, matchLimiter, (req, res, next) => {
   });
 })
 
-//Error Handling
+//Error Handle
 app.use(function (err, req, res, next) {
   console.error(err.stack)
   res.status(500).send('Something broke!')
