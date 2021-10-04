@@ -46,7 +46,7 @@ const cspOptions = {
               "*.gstatic.com", (req, res) => `'nonce-${res.locals.cspNonce}'`],
     "img-src": ["'self'", "*.leagueoflegends.com", "ddragon.bangingheads.net", "www.googletagmanager.com", "https://www.google-analytics.com" , "https://*.gstatic.com", "https://www.gstatic.com", "data:"],
    
-    "connect-src": ["'self'", "https://www.google-analytics.com", "https://ddragon.leagueoflegends.com"]
+    "connect-src": ["'self'", "https://www.google-analytics.com", "https://ddragon.leagueoflegends.com", "https://ddragon.bangingheads.net/cdn/"]
   }
 }
 

@@ -6,8 +6,8 @@ function SetTooltips() {
 }
 
 function ItemTooltipster() {
-    var itemUri = RIOTCDNURI+VERSION.latest+'/img/item/';
-    fetch(RIOTCDNURI+VERSION.latest+'/data/'+LANG.lang+'/item.json')
+    var itemUri = BANANACDN+VERSION.latest+'/img/item/';
+    fetch(BANANACDN+VERSION.latest+'/data/'+LANG.lang+'/item.json')
         .then(response => response.json(), err => {console.log(err);})
         .then(data => {
             var $target = $('.item').not('.tooltipstered');

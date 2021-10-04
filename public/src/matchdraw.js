@@ -60,10 +60,10 @@ function ItemGen(_items, _cdnuri, _vision) {
     return itemsHtml;
 }
 
-function FindCDN(_timestamp) {
+function FindCDN(_timestamp, _base) {
     _timestamp = new Date(_timestamp);
     /** Find version */
-    var cdnuri = RIOTCDNURI;
+    var cdnuri = _base;
     for(version in VERSION) {
         if(version === 'latest') continue;
 
@@ -81,7 +81,7 @@ async function GetMatch(_container, _info) {
         .then(response => response.json(), err => {_container.html('<span class="match-fail">Try Again</span>');})
         .then(matchData => {
             /** Find version */
-            const cdnuri = FindCDN(_info.timestamp);
+            const cdnuri = FindCDN(_info.timestamp, BANANACDN);
             
             /** Seperate Team */
             let myTeam;
