@@ -25,6 +25,7 @@ const riotData = require('./lib/riot-data');
 var riot;
 
 const { NormalizeName } = require('./lib/util');
+const shortcut = require('./lib/shortcut');
 
 /** Config */
 const config = require('./config.json');
@@ -147,7 +148,7 @@ app.get(`/search`, (req, res) => {
 });
 
 app.get(`/update/:idmy`, (req, res, next) => {
-  const idMy = req.params.idmy;
+  const idMy = urlencode.decode(req.params.idmy);
 
   // Varify idMy
   if(isNaN(idMy)) { next(); return; }
@@ -162,7 +163,7 @@ app.get(`/update/:idmy`, (req, res, next) => {
 });
 
 app.get(`/id/:idmy`, userLimiter, (req, res, next) => {
-  const idMy = req.params.idmy;
+  const idMy = urlencode.decode(req.params.idmy);
 
   // Varify idMy
   if(isNaN(idMy)) { next(); return; }
@@ -216,55 +217,22 @@ app.get(`/:platform/user/:userName`, userLimiter, (req, res, next) => {
   }, err => {
     console.log(err);
     res.status(500).send('Error');
-  })
+  });
 });
 
 app.get(`/:platform/shortcut/:userName`, userLimiter, (req, res, next) => {
   var platform = urlencode.decode(req.params.platform);
 
-  // Varify query
-  if(PLATFORM_MY[platform] === undefined) {
-    next();
-  }
+  // Verify query
+  if(PLATFORM_MY[platform] === undefined) { next(); return; }
 
   var normName = NormalizeName(urlencode.decode(req.params.userName));
 
   console.log("Shortcut: ", platform, normName);
 
-  /** Update every 10min */
-  riot.Update(normName, platform, 600000).then(() => {
-    riot.SearchCustom(normName, platform, undefined, undefined).then(data => {
-      if (!data) {
-        res.status(404).json({error: 404, msg: "Not Found"});
-      } else {
-        /** Remove data */
-        delete data.userData.id_my;
-        delete data.userData.account_id;
-        delete data.userData.summoner_id;
-        delete data.userData.puuid;
-  
-        /** Get 5 Games */
-        if(!Array.isArray(data.gameData))data.gameData = [];
-        gameIds = [];
-        data.userData.game_count = data.gameData.length;
-        data.gameData = data.gameData.splice(0, 5);
-        for(game of data.gameData) {
-          gameIds.push(game.game_id);
-          delete game.id_my;
-        }
-        riot.SearchDetail(normName, platform, gameIds).then(data2 => {
-          if (data2) {
-            data.partData = data2.data;
-          }
-          res.json(data);
-        }, err => {
-          throw err;
-        });
-      }
-    }, err => {
-      throw err;
-    });
-
+  shortcut(normName, platform).then(data => {
+    if(!data) res.status(404).json({error: 404, msg: "Not Found"});
+    else res.json(data);
   }, err => {
     console.log(err);
     res.status(500).send('Error');
@@ -273,7 +241,8 @@ app.get(`/:platform/shortcut/:userName`, userLimiter, (req, res, next) => {
 
 function verifyMatchId(_matchId) {
   try{
-    const splitedMatchId = _matchId.split('_');
+    const matchId = urlencode.decode(_matchId);
+    const splitedMatchId = matchId.split('_');
     const platform = splitedMatchId[0].toLowerCase();
     if(PLATFORM_MY[platform] === undefined) return false;
     if(isNaN(splitedMatchId[1])) return false;
@@ -290,7 +259,7 @@ app.get(`/:platform/matches`, userLimiter, (req, res, next) => {
   if(PLATFORM_MY[platform] === undefined) { next(); return; }
 
   /** Verify idmy */
-  const idMy = req.query.idmy;
+  const idMy = urlencode.decode(req.query.idmy);
   if(isNaN(idMy)) { next(); return; }
 
   /** Verify Match Ids */
@@ -342,16 +311,6 @@ app.get(`/:platform/match/:matchId`, matchLimiter, (req, res, next) => {
   });
 })
 
-// app.get(`/:platform/match/:matchId`, (req, res) => {
-//   var platform = urlencode.decode(req.params.platform);
-  
-//   if(PLATFORM_MY[platform] === undefined) {
-//     next();
-//   }
-
-//   res.send(template.HTMLmatch(req.params.matchId, res.__, platform));
-// });
-
 //Error Handling
 app.use(function (err, req, res, next) {
   console.error(err.stack)
@@ -363,9 +322,5 @@ app.use(function (req, res, next) {
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
-  riotData.Init().then(()=> {
-    // riot.Search('devil', 'kr').then(data=> {
-    //   console.log(data);
-    // })
-  });
+  riotData.Init();
 });
