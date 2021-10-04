@@ -1,4 +1,4 @@
-const { PLATFORM_MY } = require('./lib/constant');
+const { PLATFORM_MY, PLATFORMS } = require('./lib/constant');
 
 const express = require('express');
 const app = express();
@@ -8,7 +8,6 @@ const crypto = require('crypto');
 
 const bodyParser = require('body-parser')
 const urlencode = require('urlencode');
-const sanitizedHtml = require('sanitize-html');
 const cookieParser = require('cookie-parser');
 const rateLimit = require("express-rate-limit");
 const path = require('path')
@@ -21,22 +20,17 @@ const i18n = new I18n({
 })
 
 
-const template = require('./lib/template.js');
-const riot = require('./lib/riot.js');
+const template = require('./lib/template');
+const riotData = require('./lib/riot-data');
+var riot;
+
+const { NormalizeName } = require('./lib/util');
+const shortcut = require('./lib/shortcut');
 
 /** Config */
 const config = require('./config.json');
 if(config['isDevelop']) {
   template.RemoveGtag();
-}
-
-function NormalizeName(name) {
-  var username = name;
-  username = username.replace(/[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi, '');
-  username = username.replace(/ /g,'');
-  username = username.toLowerCase();
-  username = sanitizedHtml(username);
-  return username;
 }
 
 app.use((req, res, next) => {
@@ -135,19 +129,7 @@ app.get('/', (req, res) => {
   res.send(template.HTMLindex(res.__, req.cookies['platform-lologme'], res.locals.cspNonce));
 });
 
-// app.get('/lang-ko', function (req, res) {
-//   res.cookie('lang-lologme', 'ko');
-//   res.redirect('back');
-// });
-
-// app.get('/lang-en', function (req, res) {
-//   res.cookie('lang-lologme', 'en');
-//   res.redirect('back');
-// });
-
 app.get(`/search`, (req, res) => {
-  //res.redirect(`/${urlencode.encode(req.body.platform)}/user/${urlencode.encode(req.body.username)}`);
-  // res.redirect(`/${req.query.platform}/user/${req.query.username}`);
 
   try{
     var normName = NormalizeName(req.query.username);
@@ -157,73 +139,49 @@ app.get(`/search`, (req, res) => {
     if(PLATFORM_MY[platform] === undefined) {
       throw 'unkown platform';
     }
+    res.redirect(`/${platform}/user/${normName}`);
 
-    riot.Update(normName, platform, 86400000).then(data => {
-      res.redirect(`/${platform}/user/${normName}`);
-    }, err => {
-      console.log('riot Update Err');
-      next();
-    })
   } catch (err) {
     console.log('update Err');
     next();
   }
 });
 
-app.get(`/update`, (req, res, next) => {
-  // var normName = NormalizeName(urlencode.decode(req.body.username));
+app.get(`/update/:idmy`, (req, res, next) => {
+  const idMy = urlencode.decode(req.params.idmy);
 
-  // var platform = urlencode.decode(req.body.platform);
-  // platform = Object.keys(PLATFORM_MY)[platform];
-  // riot.Update(normName, platform).then(data => {
-  //   res.redirect(`${urlencode.encode(platform)}/user/${normName}`);
-  // })
-  try{
-    var normName = NormalizeName(req.query.username);
+  // Varify idMy
+  if(isNaN(idMy)) { next(); return; }
 
-    var platform = req.query.platform;
-
-    if(PLATFORM_MY[platform] === undefined) {
-      throw 'unkown platform';
-    }
-
-    riot.Update(normName, platform).then(data => {
-      res.redirect(`/${platform}/user/${normName}`);
-    }, err => {
-      console.log('riot Update Err');
-      next();
-    })
-  } catch (err) {
-    console.log('update Err');
-    next();
-  }
-});
-
-app.get(`/:platform/id/:userId`, userLimiter, (req, res, next) => {
-  var platform = urlencode.decode(req.params.platform);
-  var userId = req.params.userId;
-  // Varify query
-  if (PLATFORM_MY[platform] === undefined) {
-    next();
-  }
-  riot.SearchId(userId, platform).then(data=> {
-    res.redirect(`/${platform}/user/${data.norm_name}`);
+  riotData.UpdateSummoner(idMy, 60000).then(userData => {
+    if(!userData) { next(); return; }
+    res.redirect(`/${PLATFORMS[userData.platform_my]}/user/${userData.norm_name}`);
   }, err => {
     console.log(err);
-    next();
-  })
-})
+    res.status(500).send('Error');
+  });
+});
+
+app.get(`/id/:idmy`, userLimiter, (req, res, next) => {
+  const idMy = urlencode.decode(req.params.idmy);
+
+  // Varify idMy
+  if(isNaN(idMy)) { next(); return; }
+
+  riotData.UpdateSummoner(idMy, 600000).then(userData => {
+    if(!userData) { next(); return; }
+    res.redirect(`/${PLATFORMS[userData.platform_my]}/user/${userData.norm_name}`);
+  }, err => {
+    console.log(err);
+    res.status(500).send('Error');
+  });
+});
 
 app.get(`/:platform/user/:userName`, userLimiter, (req, res, next) => {
   var platform = urlencode.decode(req.params.platform);
-  var begin = req.query.begin;
-  var end = req.query.end;
 
-
-  // Varify query
-  if(PLATFORM_MY[platform] === undefined) {
-    next();
-  }
+  // Verify query
+  if(PLATFORM_MY[platform] === undefined) { next(); return; }
 
   res.cookie('platform-lologme', platform, { maxAge: 3000000000 });
 
@@ -232,18 +190,16 @@ app.get(`/:platform/user/:userName`, userLimiter, (req, res, next) => {
 
   console.log(platform, normName);
 
-  riot.SearchCustom(normName, platform, begin, end).then(data => {
-    if (!data) {
+  riotData.SearchSummonerName(normName, platform).then(summonerData => {
+    if (!summonerData) {
       res.status(404).send(template.HTMLmsg(`"${req.params.userName}" ${res.__('user_not_found')}`, res.__, req.cookies['platform-lologme'], res.locals.cspNonce));
     } else {
-      /** Save Recent Users */
-      var recentUsers = req.cookies['recent-lologme-' + platform]
-
+      /** Save Recent Users Cookies */
+      let recentUsers = req.cookies['recent-lologme-' + platform]
       if(!recentUsers) recentUsers = [];
-
       try {
         for(i in recentUsers) {
-          if(recentUsers[i] === data.userData.real_name) {
+          if(recentUsers[i] === summonerData.summoner_name) {
             recentUsers.splice(i, 1);
             break;
           }
@@ -251,102 +207,81 @@ app.get(`/:platform/user/:userName`, userLimiter, (req, res, next) => {
       } catch(err) {
         recentUsers = [];
       }
-
-      recentUsers.unshift(data.userData.real_name);
-
+      recentUsers.unshift(summonerData.summoner_name);
       res.cookie('recent-lologme-' + platform, recentUsers, { maxAge: 3000000000 });
 
-      res.send(template.HTMLuser(data, res.__, platform, begin, end, res.locals.cspNonce));
+      riotData.SearchMatchList(summonerData.puuid, platform).then(matchList => {
+        res.send(template.HTMLuser(summonerData, matchList, res.__, platform, res.locals.cspNonce));
+      });
     }
-  }, err => {
-    console.log(err);
-    res.status(500).send('Error');
-  })
-});
-
-app.get(`/:platform/shortcut/:userName`, userLimiter, (req, res, next) => {
-  var platform = urlencode.decode(req.params.platform);
-
-  // Varify query
-  if(PLATFORM_MY[platform] === undefined) {
-    next();
-  }
-
-  var normName = NormalizeName(urlencode.decode(req.params.userName));
-
-  console.log("Shortcut: ", platform, normName);
-
-  /** Update every 10min */
-  riot.Update(normName, platform, 600000).then(() => {
-    riot.SearchCustom(normName, platform, undefined, undefined).then(data => {
-      if (!data) {
-        res.status(404).json({error: 404, msg: "Not Found"});
-      } else {
-        /** Remove data */
-        delete data.userData.id_my;
-        delete data.userData.account_id;
-        delete data.userData.summoner_id;
-        delete data.userData.puuid;
-  
-        /** Get 5 Games */
-        if(!Array.isArray(data.gameData))data.gameData = [];
-        gameIds = [];
-        data.userData.game_count = data.gameData.length;
-        data.gameData = data.gameData.splice(0, 5);
-        for(game of data.gameData) {
-          gameIds.push(game.game_id);
-          delete game.id_my;
-        }
-        riot.SearchDetail(normName, platform, gameIds).then(data2 => {
-          if (data2) {
-            data.partData = data2.data;
-          }
-          res.json(data);
-        }, err => {
-          throw err;
-        });
-      }
-    }, err => {
-      throw err;
-    });
-
   }, err => {
     console.log(err);
     res.status(500).send('Error');
   });
 });
 
-app.get(`/:platform/user/:userName/detail`, userLimiter, (req, res, next) => {
+app.get(`/:platform/shortcut/:userName`, userLimiter, (req, res, next) => {
   var platform = urlencode.decode(req.params.platform);
 
-  // Varify query
-  if(PLATFORM_MY[platform] === undefined) {
-    next();
-  }
+  // Verify query
+  if(PLATFORM_MY[platform] === undefined) { next(); return; }
 
   var normName = NormalizeName(urlencode.decode(req.params.userName));
 
-  /** Varify Game Ids */
-  var gameIds = [];
+  console.log("Shortcut: ", platform, normName);
+
+  shortcut(normName, platform).then(data => {
+    if(!data) res.status(404).json({error: 404, msg: "Not Found"});
+    else res.json(data);
+  }, err => {
+    console.log(err);
+    res.status(500).send('Error');
+  });
+});
+
+function verifyMatchId(_matchId) {
+  try{
+    const matchId = urlencode.decode(_matchId);
+    const splitedMatchId = matchId.split('_');
+    const platform = splitedMatchId[0].toLowerCase();
+    if(PLATFORM_MY[platform] === undefined) return false;
+    if(isNaN(splitedMatchId[1])) return false;
+  } catch(err) {
+    return false;
+  }
+  return true;
+}
+
+app.get(`/:platform/matches`, userLimiter, (req, res, next) => {
+  var platform = urlencode.decode(req.params.platform);
+
+  /** Verify Platform */
+  if(PLATFORM_MY[platform] === undefined) { next(); return; }
+
+  /** Verify idmy */
+  const idMy = urlencode.decode(req.query.idmy);
+  if(isNaN(idMy)) { next(); return; }
+
+  /** Verify Match Ids */
+  const matchIds = [];
   if(Array.isArray(req.query.m)) {
     if(req.query.m.length <= 20) {
-      for(gameId of req.query.m) {
-        if(!isNaN(gameId)) {
-          gameIds.push(gameId);
+      for(const matchId of req.query.m) {
+        if(verifyMatchId(matchId)) {
+          matchIds.push(matchId);
         }
       }
     }
   } else {
-    if(!isNaN(req.query.m)) {
-      gameIds.push(req.query.m);
+    if(verifyMatchId(req.query.m)) {
+      matchIds.push(req.query.m);
     }
   }
 
-  if(gameIds.length === 0) {
+  if(matchIds.length === 0) {
     res.status(404).send(template.HTMLmsg(`404 Not Found`, res.__, req.cookies['platform-lologme'], res.locals.cspNonce));
   } else {
-    riot.SearchDetail(normName, platform, gameIds).then(data => {
-
+    riotData.SearchMatches(idMy, matchIds).then(data => {
       if (!data) {
         res.status(404).send(template.HTMLmsg(`404 Not Found`, res.__, req.cookies['platform-lologme'], res.locals.cspNonce));
       } else {
@@ -355,35 +290,26 @@ app.get(`/:platform/user/:userName/detail`, userLimiter, (req, res, next) => {
     }, err => {
       console.log(err);
       res.status(500).send('Error');
-    })
+    });
   }
 });
 
 app.get(`/:platform/match/:matchId`, matchLimiter, (req, res, next) => {
   var platform = urlencode.decode(req.params.platform);
 
-  // Varify query
-  if(PLATFORM_MY[platform] === undefined) {
-    next();
-  }
+  /** Verify query */
+  if(PLATFORM_MY[platform] === undefined) { next(); return; }
 
-  riot.GetGame(req.params.matchId, platform).then((data) => {
-    res.json(data);
+  /** Verify Match Id */
+  if(!verifyMatchId(req.params.matchId)) { next(); return; }
+
+  riotData.SearchMatchDetail(req.params.matchId).then((matchData) => {
+    res.json(matchData);
   }, (err) => {
     console.log(err);
     next();
-  })
+  });
 })
-
-// app.get(`/:platform/match/:matchId`, (req, res) => {
-//   var platform = urlencode.decode(req.params.platform);
-  
-//   if(PLATFORM_MY[platform] === undefined) {
-//     next();
-//   }
-
-//   res.send(template.HTMLmatch(req.params.matchId, res.__, platform));
-// });
 
 //Error Handling
 app.use(function (err, req, res, next) {
@@ -396,9 +322,5 @@ app.use(function (req, res, next) {
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
-  riot.Init().then(()=> {
-    // riot.Search('devil', 'kr').then(data=> {
-    //   console.log(data);
-    // })
-  });
+  riotData.Init();
 });
