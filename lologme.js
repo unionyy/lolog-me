@@ -130,7 +130,6 @@ app.get('/', (req, res) => {
 });
 
 app.get(`/search`, (req, res) => {
-
   try{
     var normName = NormalizeName(req.query.username);
 
