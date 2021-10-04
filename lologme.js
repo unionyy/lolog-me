@@ -1,4 +1,4 @@
-const { PLATFORM_MY } = require('./lib/constant');
+const { PLATFORM_MY, PLATFORMS } = require('./lib/constant');
 
 const express = require('express');
 const app = express();
@@ -8,7 +8,6 @@ const crypto = require('crypto');
 
 const bodyParser = require('body-parser')
 const urlencode = require('urlencode');
-const sanitizedHtml = require('sanitize-html');
 const cookieParser = require('cookie-parser');
 const rateLimit = require("express-rate-limit");
 const path = require('path')
@@ -25,19 +24,12 @@ const template = require('./lib/template');
 const riotData = require('./lib/riot-data');
 var riot;
 
+const { NormalizeName } = require('./lib/util');
+
 /** Config */
 const config = require('./config.json');
 if(config['isDevelop']) {
   template.RemoveGtag();
-}
-
-function NormalizeName(name) {
-  var username = name;
-  username = username.replace(/[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi, '');
-  username = username.replace(/ /g,'');
-  username = username.toLowerCase();
-  username = sanitizedHtml(username);
-  return username;
 }
 
 app.use((req, res, next) => {
@@ -136,19 +128,7 @@ app.get('/', (req, res) => {
   res.send(template.HTMLindex(res.__, req.cookies['platform-lologme'], res.locals.cspNonce));
 });
 
-// app.get('/lang-ko', function (req, res) {
-//   res.cookie('lang-lologme', 'ko');
-//   res.redirect('back');
-// });
-
-// app.get('/lang-en', function (req, res) {
-//   res.cookie('lang-lologme', 'en');
-//   res.redirect('back');
-// });
-
 app.get(`/search`, (req, res) => {
-  //res.redirect(`/${urlencode.encode(req.body.platform)}/user/${urlencode.encode(req.body.username)}`);
-  // res.redirect(`/${req.query.platform}/user/${req.query.username}`);
 
   try{
     var normName = NormalizeName(req.query.username);
@@ -158,117 +138,49 @@ app.get(`/search`, (req, res) => {
     if(PLATFORM_MY[platform] === undefined) {
       throw 'unkown platform';
     }
+    res.redirect(`/${platform}/user/${normName}`);
 
-    riot.Update(normName, platform, 86400000).then(data => {
-      res.redirect(`/${platform}/user/${normName}`);
-    }, err => {
-      console.log('riot Update Err');
-      next();
-    })
   } catch (err) {
     console.log('update Err');
     next();
   }
 });
 
-app.get(`/update`, (req, res, next) => {
-  // var normName = NormalizeName(urlencode.decode(req.body.username));
+app.get(`/update/:idmy`, (req, res, next) => {
+  const idMy = req.params.idmy;
 
-  // var platform = urlencode.decode(req.body.platform);
-  // platform = Object.keys(PLATFORM_MY)[platform];
-  // riot.Update(normName, platform).then(data => {
-  //   res.redirect(`${urlencode.encode(platform)}/user/${normName}`);
-  // })
-  try{
-    var normName = NormalizeName(req.query.username);
+  // Varify idMy
+  if(isNaN(idMy)) { next(); return; }
 
-    var platform = req.query.platform;
-
-    if(PLATFORM_MY[platform] === undefined) {
-      throw 'unkown platform';
-    }
-
-    riot.Update(normName, platform).then(data => {
-      res.redirect(`/${platform}/user/${normName}`);
-    }, err => {
-      console.log('riot Update Err');
-      next();
-    })
-  } catch (err) {
-    console.log('update Err');
-    next();
-  }
-});
-
-app.get(`/:platform/id/:userId`, userLimiter, (req, res, next) => {
-  var platform = urlencode.decode(req.params.platform);
-  var userId = req.params.userId;
-  // Varify query
-  if (PLATFORM_MY[platform] === undefined) {
-    next();
-  }
-  riot.SearchId(userId, platform).then(data=> {
-    res.redirect(`/${platform}/user/${data.norm_name}`);
-  }, err => {
-    console.log(err);
-    next();
-  })
-})
-
-app.get(`/:platform/user/:userName`, userLimiter, (req, res, next) => {
-  var platform = urlencode.decode(req.params.platform);
-  var begin = req.query.begin;
-  var end = req.query.end;
-
-
-  // Varify query
-  if(PLATFORM_MY[platform] === undefined) {
-    next();
-  }
-
-  res.cookie('platform-lologme', platform, { maxAge: 3000000000 });
-
-  // var ip = req.header('x-forwarded-for');
-  var normName = NormalizeName(urlencode.decode(req.params.userName));
-
-  console.log(platform, normName);
-
-  riot.SearchCustom(normName, platform, begin, end).then(data => {
-    if (!data) {
-      res.status(404).send(template.HTMLmsg(`"${req.params.userName}" ${res.__('user_not_found')}`, res.__, req.cookies['platform-lologme'], res.locals.cspNonce));
-    } else {
-      /** Save Recent Users */
-      var recentUsers = req.cookies['recent-lologme-' + platform]
-
-      if(!recentUsers) recentUsers = [];
-
-      try {
-        for(i in recentUsers) {
-          if(recentUsers[i] === data.userData.real_name) {
-            recentUsers.splice(i, 1);
-            break;
-          }
-        }
-      } catch(err) {
-        recentUsers = [];
-      }
-
-      recentUsers.unshift(data.userData.real_name);
-
-      res.cookie('recent-lologme-' + platform, recentUsers, { maxAge: 3000000000 });
-
-      res.send(template.HTMLuser(data, res.__, platform, begin, end, res.locals.cspNonce));
-    }
+  riotData.UpdateSummoner(idMy, 60000).then(userData => {
+    if(!userData) { next(); return; }
+    res.redirect(`/${PLATFORMS[userData.platform_my]}/user/${userData.norm_name}`);
   }, err => {
     console.log(err);
     res.status(500).send('Error');
-  })
+  });
 });
-app.get(`/:platform/test/:userName`, userLimiter, (req, res, next) => {
+
+app.get(`/id/:idmy`, userLimiter, (req, res, next) => {
+  const idMy = req.params.idmy;
+
+  // Varify idMy
+  if(isNaN(idMy)) { next(); return; }
+
+  riotData.UpdateSummoner(idMy, 600000).then(userData => {
+    if(!userData) { next(); return; }
+    res.redirect(`/${PLATFORMS[userData.platform_my]}/user/${userData.norm_name}`);
+  }, err => {
+    console.log(err);
+    res.status(500).send('Error');
+  });
+});
+
+app.get(`/:platform/user/:userName`, userLimiter, (req, res, next) => {
   var platform = urlencode.decode(req.params.platform);
 
-  // Varify query
-  if(PLATFORM_MY[platform] === undefined) next();
+  // Verify query
+  if(PLATFORM_MY[platform] === undefined) { next(); return; }
 
   res.cookie('platform-lologme', platform, { maxAge: 3000000000 });
 

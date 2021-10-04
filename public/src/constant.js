@@ -3,7 +3,11 @@ const RIOTCDNURI = 'https://ddragon.leagueoflegends.com/cdn/';
 const BANANACDN = 'https://ddragon.bangingheads.net/cdn/';
 
 const VERSION = {
-    latest:     "11.15.1",
+    latest:     "11.19.1",
+    "11.19.1":  "1632294000",
+    "11.18.1":  "1631170800",
+    "11.17.1":  "1629874800",
+    "11.16.1":  "1628665200",
     "11.15.1":  "1626854400",
     "11.14.1":  "1625727600",
     "11.13.1":  "1624431600",
@@ -240,6 +244,7 @@ const CHAMPION = {
     '523': 'Aphelios',
     '526': 'Rell',
     '555': 'Pyke',
+    '711': 'Vex',
     '777': 'Yone',
     '875': 'Sett',
     '876': 'Lillia',
