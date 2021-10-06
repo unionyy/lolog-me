@@ -201,6 +201,9 @@ const LANG = {
 	"icon_ofa": "단일",
 	"icon_ai": "AI대전",
 	"icon_poro": "포로왕",
+	"icon_tut": "튜토리얼",
+	"icon_etc": "기타",
+	"icon_clash": "격전",
 
     "month_1": "2월",
 	"month_2": "3월",

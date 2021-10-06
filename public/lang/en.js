@@ -202,6 +202,9 @@ const LANG = {
 	"icon_ofa": "OFA",
 	"icon_ai": "AI",
 	"icon_poro": "Poro",
+	"icon_tut": "Tut",
+	"icon_etc": "etc",
+	"icon_clash": "Clash",
 
 	"game_count": " lol",
 	"month_1": "Feb",
