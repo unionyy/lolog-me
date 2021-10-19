@@ -77,10 +77,26 @@ function GetRecentGames(_index=0) {
 
                     /** Parse Timestamp */
                     const ts = new Date(match.start_time);
-                    const month = ('0' + (ts.getMonth() + 1)).slice(-2);
-                    const day = ('0' + ts.getDate()).slice(-2);
+                    ts.setSeconds(ts.getSeconds() + match.duration); // End Time
 
-                    const dateString = month  + '-' + day;
+                    let dateString = "";
+
+                    const ago = parseInt((new Date() - ts) / 60000);
+                    
+                    if(ago < 60) {
+                        dateString = ago + LANG['min_ago'];
+                    }
+                    else if(ago < 1440) {
+                        dateString = parseInt(ago / 60) + LANG['hour_ago'];
+                    }
+                    else if(ago < 14400) {
+                        dateString = parseInt(ago / 1440) + LANG['days_ago'];
+                    }
+                    else {
+                        const month = ('0' + (ts.getMonth() + 1)).slice(-2);
+                        const day = ('0' + ts.getDate()).slice(-2);
+                        dateString = month  + '-' + day;
+                    }
 
                     let matchHtml = `<div class="recent-game-wrapper" platform="${platform}" matchId="${matchIdFull}" timestamp=${match.start_time}>
                         <div class="recent-game recent-game-${parsedWin.winText}" team="${parsedWin.teamText}" duration="${match.duration}">`;
