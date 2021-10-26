@@ -62,7 +62,7 @@ app.use(helmet({
   contentSecurityPolicy: cspOptions,
 }));
 app.use(cookieParser());
-app.use(express.static('public'));
+app.use(express.static('lolog-me/public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 
 /** Language */
