@@ -35,11 +35,10 @@ const riotData = require('./lib/riot-data');
 const { NormalizeName, VerifyMatchId } = require('./lib/util');
 const shortcut = require('./lib/shortcut');
 
-/** Config */
-const config = require('./config.json');
-if(config['isDevelop']) {
-  template.RemoveGtag();
-}
+const { IS_DEVELOP, PUBLIC_LOC } = require('./config.json');
+
+/** Remove GTAG if develop version */
+if(IS_DEVELOP) template.RemoveGtag();
 
 app.use((req, res, next) => {
   res.locals.cspNonce = crypto.randomBytes(16).toString("hex");
@@ -62,7 +61,7 @@ app.use(helmet({
   contentSecurityPolicy: cspOptions,
 }));
 app.use(cookieParser());
-app.use(express.static('lolog-me/public'));
+app.use(express.static(PUBLIC_LOC));
 app.use(bodyParser.urlencoded({ extended: false }));
 
 /** Language */
