@@ -29,7 +29,7 @@ const i18n = new I18n({
 })
 
 
-const template = require('./lib/template');
+const template = require('./lib/templates/template');
 const riotData = require('./lib/riot-data');
 
 const { NormalizeName, VerifyMatchId } = require('./lib/util');
