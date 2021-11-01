@@ -146,7 +146,7 @@ app.get(`/search`, rateLimit10, (req, res) => {
     if(PLATFORM_MY[platform] === undefined) {
       throw 'unkown platform';
     }
-    res.redirect(`/${platform}/user/${normName}`);
+    res.redirect(`/${platform}/user/${normName}?save=true`);
 
   } catch (err) {
     console.log('update Err');
@@ -202,20 +202,22 @@ app.get(`/:platform/user/:userName`, rateLimit10, (req, res, next) => {
       res.status(404).send(template.HTMLmsg(`"${req.params.userName}" ${res.__('user_not_found')}`, res.__, req.cookies['platform-lologme'], res.locals.cspNonce));
     } else {
       /** Save Recent Users Cookies */
-      let recentUsers = req.cookies['recent-lologme-' + platform]
-      if(!recentUsers) recentUsers = [];
-      try {
-        for(i in recentUsers) {
-          if(recentUsers[i] === summonerData.summoner_name) {
-            recentUsers.splice(i, 1);
-            break;
+      if(req.query.save) {
+        let recentUsers = req.cookies['recent-lologme-' + platform]
+        if(!recentUsers) recentUsers = [];
+        try {
+          for(i in recentUsers) {
+            if(recentUsers[i] === summonerData.summoner_name) {
+              recentUsers.splice(i, 1);
+              break;
+            }
           }
+        } catch(err) {
+          recentUsers = [];
         }
-      } catch(err) {
-        recentUsers = [];
+        recentUsers.unshift(summonerData.summoner_name);
+        res.cookie('recent-lologme-' + platform, recentUsers, { maxAge: 3000000000 });
       }
-      recentUsers.unshift(summonerData.summoner_name);
-      res.cookie('recent-lologme-' + platform, recentUsers, { maxAge: 3000000000 });
 
       riotData.SearchMatchList(summonerData.puuid, platform).then(matchList => {
         res.send(template.HTMLuser(summonerData, matchList, res.__, platform, res.locals.cspNonce));
