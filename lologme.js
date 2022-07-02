@@ -31,6 +31,7 @@ const i18n = new I18n({
 
 const template = require('./lib/templates/template');
 const riotData = require('./lib/riot-data');
+const { RiotData } = require('./lib/RiotData')
 
 const { NormalizeName, VerifyMatchId } = require('./lib/util');
 const shortcut = require('./lib/shortcut');
@@ -39,6 +40,9 @@ const { IS_DEVELOP, PUBLIC_LOC } = require('./config.json');
 
 /** Remove GTAG if develop version */
 if(IS_DEVELOP) template.RemoveGtag();
+
+const riotDataInstance = new RiotData()
+riotDataInstance.initialize()
 
 app.use((req, res, next) => {
   res.locals.cspNonce = crypto.randomBytes(16).toString("hex");
