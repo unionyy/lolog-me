@@ -223,7 +223,7 @@ app.get(`/:platform/user/:userName`, rateLimit10, (req, res, next) => {
       }
 
       riotData.SearchMatchList(summonerData.puuid, platform).then(matchList => {
-        res.send(template.HTMLuser(summonerData, matchList, res.__, platform, res.locals.cspNonce));
+        res.send(template.HTMLuser(summonerData, matchList, res.__, platform, res.locals.cspNonce, riotDataInstance.riotCdnUri));
       });
     }
   }, err => {
