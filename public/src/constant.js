@@ -273,7 +273,7 @@ async function UpdateChampion() {
 
 UpdateChampion()
 
-const RUNE = {
+let RUNE = {
     '8000': 'perk-images/Styles/7201_Precision.png',
     '8005': 'perk-images/Styles/Precision/PressTheAttack/PressTheAttack.png',
     '8008': 'perk-images/Styles/Precision/LethalTempo/LethalTempoTemp.png',
@@ -297,6 +297,16 @@ const RUNE = {
     '8465': 'perk-images/Styles/Resolve/Guardian/Guardian.png',
     '9923': 'perk-images/Styles/Domination/HailOfBlades/HailOfBlades.png'
 };
+
+async function UpdateRune() {
+    await fetch(`/src/rune.json`)
+        .then(response => response.json(), err => {_container.html('<span class="match-fail">Try Again</span>');})
+        .then(runes => {
+            RUNE = runes;
+        });
+}
+
+UpdateRune()
 
 const POSITION = ['TOP', 'JUNGLE', 'MIDDLE', 'BOTTOM', 'SUPPORT', 'UNKNOWN', 'NONE'];
 
