@@ -74,6 +74,17 @@ const VERSION = {
     "9.1.1":    "1547020800"
 };
 
+async function UpdateVersion() {
+    await fetch(`/src/latest.version`)
+        .then(response => response.text(), err => {_container.html('<span class="match-fail">Try Again</span>');})
+        .then(latestVersion => {
+            console.log(latestVersion)
+            VERSION.latest = latestVersion;
+        });
+}
+
+UpdateVersion()
+
 const SPELL = {
     '1': 'SummonerBoost',
     '3': 'SummonerExhaust',
@@ -92,7 +103,7 @@ const SPELL = {
     '54': 'Summoner_UltBook_Placeholder'
 };
 
-const CHAMPION = {
+let CHAMPION = {
     '1': 'Annie',
     '2': 'Olaf',
     '3': 'Galio',
@@ -251,6 +262,16 @@ const CHAMPION = {
     '876': 'Lillia',
     '887': 'Gwen'
 };
+
+async function UpdateChampion() {
+    await fetch(`/src/champion.json`)
+        .then(response => response.json(), err => {_container.html('<span class="match-fail">Try Again</span>');})
+        .then(champions => {
+            CHAMPION = champions;
+        });
+}
+
+UpdateChampion()
 
 const RUNE = {
     '8000': 'perk-images/Styles/7201_Precision.png',
