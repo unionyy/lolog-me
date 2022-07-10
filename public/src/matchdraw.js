@@ -61,6 +61,8 @@ function ItemGen(_items, _cdnuri, _vision) {
 }
 
 function FindCDN(_timestamp, _base) {
+    return _base + 'latest';
+
     _timestamp = new Date(_timestamp);
     /** Find version */
     var cdnuri = _base;
