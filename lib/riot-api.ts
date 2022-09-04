@@ -17,7 +17,18 @@ const { RIOT_TOKEN } = require('../config.json');
 
 const BASEURL = '.api.riotgames.com'
 
-var config_global = {
+type RiotApiConfig = {
+    attempts: number,
+    period: number,
+    log: boolean
+}
+
+type CustomHttpResponse = {
+    code: number,
+    json: Object
+}
+
+var config_global: RiotApiConfig = {
     attempts: 5,
     period  : 1000, // ms
     log     : false
@@ -25,7 +36,7 @@ var config_global = {
 
 
 /* HTTPS GET REQUEST */
-function HttpsReq(_hostname, _path, _log) {
+function HttpsReq(_hostname : string, _path : string, _log : boolean): Promise<CustomHttpResponse> {
     const options = {
         hostname: _hostname,
         port: 443,
@@ -37,14 +48,14 @@ function HttpsReq(_hostname, _path, _log) {
         },
     };
     return new Promise((resolve, reject) => {
-        const req = https.get(options, (res) => {
+        const req = https.get(options, (res: any) => {
             if(_log) {
                 console.log(`Get: ${_hostname}${_path}, statusCode: ${res.statusCode}`);
             }
             res.setEncoding('utf-8');
 
             var _res = '';
-            res.on('data', (d) => {
+            res.on('data', (d: any) => {
                 //process.stdout.write(d); // If you want to print res
                 _res += d;
             });
@@ -57,7 +68,7 @@ function HttpsReq(_hostname, _path, _log) {
                 
             });
         });
-        req.on('error', (error) => {
+        req.on('error', (error: any) => {
             reject(error);
         });
     });
@@ -65,7 +76,7 @@ function HttpsReq(_hostname, _path, _log) {
 
 
 /* Make Overrided Configure */
-function MakeConfig(_config) {
+function MakeConfig(_config: RiotApiConfig): RiotApiConfig {
     if(_config) {
         var config_overided = {
             attempts: _config.attempts || config_global.attempts,
@@ -83,7 +94,7 @@ function MakeConfig(_config) {
 }
 
 /* Request with Query Prameters */
-async function QueryReq (_path, _params, _platform, _config) {
+async function QueryReq (_path: string, _params: { [x: string]: any; }, _platform: string, _config: RiotApiConfig) {
     _config = MakeConfig(_config);
 
     /* Make Query Parameters */
@@ -124,7 +135,7 @@ async function QueryReq (_path, _params, _platform, _config) {
                 console.log('waiting...');
             }
             setTimeout(function() {
-                resolve();
+                resolve(true)
               }, _config.period);
         })
         
@@ -137,7 +148,7 @@ async function QueryReq (_path, _params, _platform, _config) {
     }
 }
 
-module.exports.SetGlobalConfig = function (_config) {
+module.exports.SetGlobalConfig = function (_config: any) {
     config_global = MakeConfig(_config);
 
     if(config_global.log) {
@@ -146,50 +157,50 @@ module.exports.SetGlobalConfig = function (_config) {
 }
 
 module.exports.LOLSTATUSV4 = {
-    platformData: function(_platform, _config) {
+    platformData: function(_platform: any, _config: any) {
         return QueryReq('/lol/status/v4/platform-data', {}, _platform, _config);
     }
 }
 
 module.exports.SummonerV4 = {
-    byAccount: function(_encryptedAccountId, _platform, _config) {
+    byAccount: function(_encryptedAccountId: any, _platform: any, _config: any) {
         const path = '/lol/summoner/v4/summoners/by-account/' + urlencode.encode(_encryptedAccountId);
         return QueryReq(path , {}, _platform, _config);
     },
-    byName: function(_summonerName, _platform, _config) {
+    byName: function(_summonerName: any, _platform: any, _config: any) {
         const path = '/lol/summoner/v4/summoners/by-name/' + urlencode.encode(_summonerName)
         return QueryReq(path, {}, _platform, _config);
     },
-    byPUUID: function(_encryptedPUUID, _platform, _config) {
+    byPUUID: function(_encryptedPUUID: any, _platform: any, _config: any) {
         const path = '/lol/summoner/v4/summoners/by-puuid/' + urlencode.encode(_encryptedPUUID);
         return QueryReq(path, {}, _platform, _config);
     },
-    bySummonerId: function(_encryptedSummonerId, _platform, _config) {
+    bySummonerId: function(_encryptedSummonerId: any, _platform: any, _config: any) {
         const path = '/lol/summoner/v4/summoners/' + urlencode.encode(_encryptedSummonerId);
         return QueryReq(path, {}, _platform, _config);
     }
 }
 
 module.exports.LeagueV4 = {
-    bySummoner: function(_encryptedSummonerId, _platform, _config) {
+    bySummoner: function(_encryptedSummonerId: any, _platform: any, _config: any) {
         const path = '/lol/league/v4/entries/by-summoner/' + urlencode.encode(_encryptedSummonerId);
         return QueryReq(path, {}, _platform, _config);
     }
 }
 
 module.exports.MatchV5 = {
-    matches: function(_matchId, _platform, _config) {
+    matches: function(_matchId: string, _platform: string, _config: any) {
         _matchId = `${_platform.toUpperCase()}_${_matchId}`;
         _platform = PLATFORM_ROUTING[_platform];
         const path = '/lol/match/v5/matches/' + urlencode.encode(_matchId);
         return QueryReq(path, {}, _platform, _config);
     },
-    byPUUID: function(_encryptedPUUID, _params, _platform, _config) {
+    byPUUID: function(_encryptedPUUID: any, _params: any, _platform: string, _config: any) {
         _platform = PLATFORM_ROUTING[_platform];
         const path = `/lol/match/v5/matches/by-puuid/${urlencode.encode(_encryptedPUUID)}/ids`;
         return QueryReq(path, _params, _platform, _config);
     },
-    timeline: function(_matchId, _platform, _config) {
+    timeline: function(_matchId: string, _platform: string, _config: any) {
         _matchId = `${_platform.toUpperCase()}_${_matchId}`;
         _platform = PLATFORM_ROUTING[_platform];
         const path = `/lol/match/v5/matches/${urlencode.encode(_matchId)}/timeline`;
