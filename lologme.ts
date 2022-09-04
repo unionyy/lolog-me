@@ -7,21 +7,21 @@
  * - Used Web Framework: ExpressJS
  ***********************************/
 
-const { PLATFORM_MY, PLATFORMS } = require('./lib/constant');
+import { PLATFORM_MY, PLATFORMS } from './lib/constant';
 
-const express = require('express');
+import express from 'express';
 const app = express();
 const port = 1028;
 
-const crypto = require('crypto');
+import crypto from 'crypto';
 
-const bodyParser = require('body-parser')
-const urlencode = require('urlencode');
-const cookieParser = require('cookie-parser');
-const rateLimit = require("express-rate-limit");
-const path = require('path')
-const helmet = require('helmet')
-const { I18n } = require('i18n')
+import bodyParser from 'body-parser';
+import urlencode from 'urlencode';
+import cookieParser from 'cookie-parser';
+const rateLimit =  require("express-rate-limit");
+import path from 'path';
+import helmet from 'helmet';
+import { I18n } from 'i18n';
 const i18n = new I18n({
   locales: ['en', 'ko'],
   cookie: 'lang-lologme',
@@ -29,12 +29,12 @@ const i18n = new I18n({
 })
 
 
-const template = require('./lib/templates/template');
-const riotData = require('./lib/riot-data');
-const { RiotData } = require('./lib/RiotData')
+import template from './lib/templates/template';
+import riotData from './lib/riot-data';
+import { RiotData } from './lib/RiotData';
 
-const { NormalizeName, VerifyMatchId } = require('./lib/util');
-const shortcut = require('./lib/shortcut');
+import { NormalizeName, VerifyMatchId } from './lib/util';
+import shortcut from './lib/shortcut';
 
 const { IS_DEVELOP, PUBLIC_LOC } = require('./config.json');
 
@@ -44,25 +44,21 @@ if(IS_DEVELOP) template.RemoveGtag();
 const riotDataInstance = new RiotData()
 riotDataInstance.initialize()
 
-app.use((req, res, next) => {
+app.use((_req, res, next) => {
   res.locals.cspNonce = crypto.randomBytes(16).toString("hex");
   next();
 });
 
-const cspOptions = {
+app.use(helmet.contentSecurityPolicy({
+  useDefaults: true,
   directives: {
-    ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-    "script-src": ["'self'", "https://code.jquery.com", 
+    scriptSrc: ["'self'", "https://code.jquery.com", 
               "https://www.googletagmanager.com", "https://www.google-analytics.com", "https://ssl.google-analytics.com", "https://tagmanager.google.com",
-              "*.gstatic.com", (req, res) => `'nonce-${res.locals.cspNonce}'`],
-    "img-src": ["'self'", "*.leagueoflegends.com", "ddragon.bangingheads.net", "www.googletagmanager.com", "https://www.google-analytics.com" , "https://*.gstatic.com", "https://www.gstatic.com", "data:"],
+              "*.gstatic.com", (_req: any, res: any) => `'nonce-${res.locals.cspNonce}'`],
+    imgSrc: ["'self'", "*.leagueoflegends.com", "ddragon.bangingheads.net", "www.googletagmanager.com", "https://www.google-analytics.com" , "https://*.gstatic.com", "https://www.gstatic.com", "data:"],
    
-    "connect-src": ["'self'", "https://www.google-analytics.com", "https://ddragon.leagueoflegends.com", "https://ddragon.bangingheads.net/cdn/"]
+    connectSrc: ["'self'", "https://www.google-analytics.com", "https://ddragon.leagueoflegends.com", "https://ddragon.bangingheads.net/cdn/"]
   }
-}
-
-app.use(helmet({
-  contentSecurityPolicy: cspOptions,
 }));
 app.use(cookieParser());
 app.use(express.static(PUBLIC_LOC));
@@ -115,10 +111,10 @@ app.use(i18n.init);
 const rateLimit10 = rateLimit({
   windowMs: 10 * 1000,
   max: 10,
-  handler: function  (req, res, next) {
+  handler: function  (_req: any, _res: any, _next: any) {
     /** empty */
   },
-  onLimitReached: function (req, res, options) {
+  onLimitReached: function (req: { cookies: { [x: string]: any; }; }, res: { status: (arg0: any) => { (): any; new(): any; send: { (arg0: string): void; new(): any; }; }; __: (arg0: string) => any; locals: { cspNonce: any; }; }, options: { statusCode: any; }) {
     console.log('Rate Limit: user');
     res.status(options.statusCode).send(template.HTMLmsg(res.__('rate_limit'), res.__, req.cookies['platform-lologme'], res.locals.cspNonce));
   }
@@ -126,10 +122,10 @@ const rateLimit10 = rateLimit({
 const rateLimit100 = rateLimit({
   windowMs: 10 * 1000,
   max: 100,
-  handler: function  (req, res, next) {
+  handler: function  (_req: any, _res: any, _next: any) {
     /** empty */
   },
-  onLimitReached: function (req, res, options) {
+  onLimitReached: function (req: { cookies: { [x: string]: any; }; }, res: { status: (arg0: any) => { (): any; new(): any; send: { (arg0: string): void; new(): any; }; }; __: (arg0: string) => any; locals: { cspNonce: any; }; }, options: { statusCode: any; }) {
     console.log('Rate Limit: match');
     res.status(options.statusCode).send(template.HTMLmsg(res.__('rate_limit'), res.__, req.cookies['platform-lologme'], res.locals.cspNonce));
   }
@@ -140,14 +136,18 @@ app.get('/', rateLimit10, (req, res) => {
   res.send(template.HTMLindex(res.__, req.cookies['platform-lologme'], res.locals.cspNonce));
 });
 
-app.get(`/search`, rateLimit10, (req, res) => {
+app.get(`/search`, rateLimit10, (req, res, next) => {
   try{
     var normName = NormalizeName(req.query.username);
 
-    var platform = req.query.platform;
+    if(typeof(req.query.platform) !== 'string') {
+      throw 'unknown platform' + req.query.platform
+    }
+
+    const platform : string = req.query.platform
 
     if(PLATFORM_MY[platform] === undefined) {
-      throw 'unkown platform';
+      throw 'unknown platform' + platform
     }
     res.redirect(`/${platform}/user/${normName}?save=true`);
 
@@ -158,7 +158,7 @@ app.get(`/search`, rateLimit10, (req, res) => {
 });
 
 app.get(`/update/:idmy`, rateLimit10, (req, res, next) => {
-  const idMy = urlencode.decode(req.params.idmy);
+  const idMy : number = +urlencode.decode(req.params.idmy);
 
   // Varify idMy
   if(isNaN(idMy)) { next(); return; }
@@ -173,7 +173,7 @@ app.get(`/update/:idmy`, rateLimit10, (req, res, next) => {
 });
 
 app.get(`/id/:idmy`, rateLimit10, (req, res, next) => {
-  const idMy = urlencode.decode(req.params.idmy);
+  const idMy : number = +urlencode.decode(req.params.idmy);
 
   // Varify idMy
   if(isNaN(idMy)) { next(); return; }
@@ -209,7 +209,7 @@ app.get(`/:platform/user/:userName`, rateLimit10, (req, res, next) => {
         let recentUsers = req.cookies['recent-lologme-' + platform]
         if(!recentUsers) recentUsers = [];
         try {
-          for(i in recentUsers) {
+          for(var i in recentUsers) {
             if(recentUsers[i] === summonerData.summoner_name) {
               recentUsers.splice(i, 1);
               break;
@@ -258,7 +258,8 @@ app.get(`/:platform/matches`, rateLimit10, (req, res, next) => {
   if(PLATFORM_MY[platform] === undefined) { next(); return; }
 
   /** Verify idmy */
-  const idMy = urlencode.decode(req.query.idmy);
+  if(typeof(req.query.idmy) !== 'string') { next(); return; }
+  const idMy : number = +urlencode.decode(req.query.idmy);
   if(isNaN(idMy)) { next(); return; }
 
   /** Verify Match Ids */
@@ -311,11 +312,11 @@ app.get(`/:platform/match/:matchId`, rateLimit10, (req, res, next) => {
 })
 
 //Error Handle
-app.use(function (err, req, res, next) {
+app.use(function (err: any, _req: any, res: any, _next: any) {
   console.error(err.stack)
   res.status(500).send('Something broke!')
 })
-app.use(function (req, res, next) {
+app.use(function (req, res, _next) {
   res.status(404).send(template.HTMLmsg(res.__('404_msg'), res.__, req.cookies['platform-lologme'], res.locals.cspNonce))
 })
 
