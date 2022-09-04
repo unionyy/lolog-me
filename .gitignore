@@ -3,3 +3,7 @@ package-lock.json
 secure
 public/sitemap.xml
 config.json
+
+rune.json
+champion.json
+latest.version
