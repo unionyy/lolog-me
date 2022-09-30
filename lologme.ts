@@ -30,7 +30,7 @@ const i18n = new I18n({
 
 
 import template from './lib/templates/template';
-import riotData from './lib/riot-data';
+import * as riotData from './lib/riot-data';
 import { RiotData } from './lib/RiotData';
 
 import { NormalizeName, VerifyMatchId } from './lib/util';
@@ -263,18 +263,18 @@ app.get(`/:platform/matches`, rateLimit10, (req, res, next) => {
   if(isNaN(idMy)) { next(); return; }
 
   /** Verify Match Ids */
-  const matchIds = [];
+  const matchIds: string[] = [];
   if(Array.isArray(req.query.m)) {
     if(req.query.m.length <= 20) {
       for(const matchId of req.query.m) {
         if(VerifyMatchId(matchId)) {
-        matchIds.push(matchId);
+        matchIds.push(matchId as string);
         }
       }
     }
   } else {
     if(VerifyMatchId(req.query.m)) {
-      matchIds.push(req.query.m);
+      matchIds.push(req.query.m as string);
     }
   }
 

@@ -19,17 +19,21 @@
  ********************************************/
 
 
-const { PLATFORM_MY, POSITION_MY, PLATFORMS } = require('./constant');
+import { PLATFORM_MY, POSITION_MY, PLATFORMS } from './constant';
+import { SummonerDTO, LeagueEntryDTO, MatchDto } from './riot-api-res'
 
-const riotApi = require('./riot-api'); 
-const dbio = require('./dbio');
-const { NormalizeName } = require('./util');
+import * as riotApi from './riot-api'; 
+import dbio from './dbio';
+import { NormalizeName } from './util';
+
+export { Init, SearchSummonerName, UpdateSummoner, SearchSummonerIdMy,
+    SearchMatchList, SearchMatches, SearchMatchDetail }
 
 
 var searchQ = {};
 
 /* Initialize DB-IO & RIOT API Server Check  (Called before use) */
-module.exports.Init = async function() {
+async function Init() {
     await dbio.Init();
 
     riotApi.SetGlobalConfig({
@@ -49,7 +53,7 @@ module.exports.Init = async function() {
 }
 
 /* Search Summoner by Name */
-module.exports.SearchSummonerName = async function(_normName, _platform) {
+async function SearchSummonerName(_normName: any, _platform: string) {
     const dbSummoner = await dbio.GetSummonerByName(_normName, PLATFORM_MY[_platform]);
     // DB Hit
     if(dbSummoner) return dbSummoner;
@@ -76,14 +80,14 @@ module.exports.SearchSummonerName = async function(_normName, _platform) {
 };
 
 /* Update Summoner by idMy */
-module.exports.UpdateSummoner = async function(_idMy, _til) {
+async function UpdateSummoner(_idMy: any, _til: number) {
     const dbSummoner = await dbio.GetSummonerByidMy(_idMy);
 
     // DB Miss (No Summoner)
     if(!dbSummoner) return false;
 
     // 1 Minute term
-    if(dbSummoner.update_time > new Date() - _til) {
+    if(dbSummoner.update_time > new Date().getTime() - _til) {
         return dbSummoner;
     }
 
@@ -99,11 +103,11 @@ module.exports.UpdateSummoner = async function(_idMy, _til) {
     return false;
 };
 
-async function SearchSummonerAPI (_normName, _platform, _puuid = -1) {
-    let summoner;
+async function SearchSummonerAPI (_normName: string, _platform: string, _puuid: string | null = null) {
+    let summoner: SummonerDTO;
 
     /** Search by Name */
-    if(_puuid == -1) {
+    if(_puuid == null) {
         let searchName = _normName
         if(searchName.length === 2) {
             let addBlank = searchName[0];
@@ -111,28 +115,42 @@ async function SearchSummonerAPI (_normName, _platform, _puuid = -1) {
             addBlank += searchName[1];
             searchName = addBlank;
         }
-        summoner = await riotApi.SummonerV4.byName(searchName, _platform);
-        if(summoner.code !== 200) {
-            console.log('no user', summoner.code);
+        const res = await riotApi.SummonerV4.byName(searchName, _platform);
+        if(res.code !== 200) {
+            console.log('no user', res.code);
             return false;
         }
+        summoner = res.json as SummonerDTO
     }
     /** Search by PUUID */
     else {
-        summoner = await riotApi.SummonerV4.byPUUID(_puuid, _platform);
-        if(summoner.code !== 200) {
-            console.log('no user', summoner.code);
+        const res = await riotApi.SummonerV4.byPUUID(_puuid, _platform);
+        if(res.code !== 200) {
+            console.log('no user', res.code);
             return false;
         }
-        _normName = NormalizeName(summoner.json.name);
+        summoner = res.json as SummonerDTO
+        _normName = NormalizeName(summoner.name);
     }
     
-    
-    let solo = {};
-    let flex = {};
-    const league = await riotApi.LeagueV4.bySummoner(summoner.json.id, _platform);
+    const defaultLeagueEntryDTO = {
+        tier: 'Unranked',
+        rank: 'none',
+        leaguePoints: 0,
+        wins: 0,
+        losses: 0
+    }
+    let solo: LeagueEntryDTO = {
+        ...defaultLeagueEntryDTO,
+        queueType: 'RANKED_SOLO_5x5'
+    }
+    let flex: LeagueEntryDTO = {
+        ...defaultLeagueEntryDTO,
+        queueType: 'RANKED_FLEX_SR'
+    }
+    const league = await riotApi.LeagueV4.bySummoner(summoner.id, _platform);
     if(league.code === 200) {
-        for(const elem of league.json) {
+        for(const elem of league.json as LeagueEntryDTO[]) {
             if(elem.queueType === 'RANKED_SOLO_5x5') {
                 solo = elem;
             } else if(elem.queueType === 'RANKED_FLEX_SR') {
@@ -145,13 +163,13 @@ async function SearchSummonerAPI (_normName, _platform, _puuid = -1) {
         norm_name: _normName,
         platform_my: PLATFORM_MY[_platform],
 
-        account_id: summoner.json.accountId,
-        summoner_id: summoner.json.id,
-        puuid: summoner.json.puuid,
+        account_id: summoner.accountId,
+        summoner_id: summoner.id,
+        puuid: summoner.puuid,
 
-        summoner_name: summoner.json.name,
-        profile_icon_id: summoner.json.profileIconId,
-        summoner_level: summoner.json.summonerLevel,
+        summoner_name: summoner.name,
+        profile_icon_id: summoner.profileIconId,
+        summoner_level: summoner.summonerLevel,
 
         solo_tier: solo.tier || 'Unranked',
         solo_rank: solo.rank || 'none',
@@ -169,9 +187,8 @@ async function SearchSummonerAPI (_normName, _platform, _puuid = -1) {
     };
 }
 
-
 /* Search Summoner by id_my */
-module.exports.SearchSummonerIdMy = async function(_id_my) {
+async function SearchSummonerIdMy(_id_my: number) {
     const dbSummoner = await dbio.GetSummonerByidMy(_id_my);
     // DB Hit
     if(dbSummoner) return dbSummoner;
@@ -180,7 +197,7 @@ module.exports.SearchSummonerIdMy = async function(_id_my) {
 };
 
 /* Search Match List by PUUID from RIOT API ONLY */
-module.exports.SearchMatchList = async function(_puuid, _platform) {
+async function SearchMatchList(_puuid: string, _platform: string) {
     const apiMatches = await riotApi.MatchV5.byPUUID(_puuid, { count: 100 }, _platform);
     if(apiMatches.code == 200) return apiMatches.json;
     else {
@@ -190,8 +207,8 @@ module.exports.SearchMatchList = async function(_puuid, _platform) {
 }
 
 /* Search Matches by id_my and Match Ids */
-module.exports.SearchMatches = async function(_idMy, _matchIds) {
-    const matches = {};
+async function SearchMatches(_idMy: number, _matchIds: string[]) {
+    const matches: any = {};
 
     /** Parse matchIds */
     const matchIds = [];
@@ -236,22 +253,23 @@ module.exports.SearchMatches = async function(_idMy, _matchIds) {
     return matches;
 }
 
-async function SearchMatchAPI(_matchId) {
-    const matchId = _matchId.match_id;
-    const platform = _matchId.platform;
+async function SearchMatchAPI(_matchId: { match_id: any; platform: any; platform_my?: any; }) {
+    const matchId: string = _matchId.match_id;
+    const platform: string = _matchId.platform;
 
-    const match = await riotApi.MatchV5.matches(matchId, platform);
+    const res = await riotApi.MatchV5.matches(matchId, platform);
 
-    if(match.code !== 200) {
-        console.log('no match', match.code);
+    if(res.code !== 200) {
+        console.log('no match', res.code);
         return false;
     }
+    const match = res.json as MatchDto;
 
     /***** Parse Match *****/
-    const teams = {};
+    const teams: any = {};
 
     /** Retry if (Duration < 5 minute) */
-    const matchInfo = match.json.info;
+    const matchInfo = match.info;
     
     /** gameDuration & gameEndTimestamp Before or After 11.20 */
     if(!matchInfo.gameEndTimestamp) matchInfo.gameDuration /= 1000;
@@ -321,7 +339,7 @@ async function SearchMatchAPI(_matchId) {
 
     /** Make win_my */
     for (const teamId in teams) {
-        var winMy = parseInt(Number(teamId) / 10);
+        var winMy = Math.floor(Number(teamId) / 10);
         if(isRetry) winMy += 3;
         else if(teams[teamId].win) winMy += 1;
         else winMy += 2;
@@ -332,18 +350,18 @@ async function SearchMatchAPI(_matchId) {
         match_id:       matchId,
         platform_my:    PLATFORM_MY[platform],
 
-        start_time:     parseInt(matchInfo.gameStartTimestamp / 1000),
-        duration:       parseInt(matchInfo.gameDuration),
+        start_time:     Math.floor(matchInfo.gameStartTimestamp / 1000),
+        duration:       Math.floor(matchInfo.gameDuration),
         queue_id:       matchInfo.queueId,
         teams:          teams
     }
 }
 
-async function DBInputMatchesWithParticipants(_matches) {
+async function DBInputMatchesWithParticipants(_matches: any) {
     const inputMatches = [];
     const inputParticipants = [];
     const puuids = [];
-    const participantsMap = {};
+    const participantsMap: any = {};
     for(const match of _matches) {
         inputMatches.push(match);
         for(const teamId in match.teams) {
@@ -364,7 +382,7 @@ async function DBInputMatchesWithParticipants(_matches) {
 
     /** Check if Users Exist in DB */
     const existPUUIDs = await dbio.CheckSummonersByPUUID(puuids);
-    const puuidMap = {};
+    const puuidMap: any = {};
     const inputSummoners = [];
     const freshPUUIDs = [];
     for(const existPUUID of existPUUIDs) puuidMap[existPUUID.puuid] = existPUUID.id_my;
@@ -388,7 +406,7 @@ async function DBInputMatchesWithParticipants(_matches) {
 }
 
 /* Search Match Detail(Match & Participants) from DB ONLY */
-module.exports.SearchMatchDetail = async function(_matchId) {
+async function SearchMatchDetail(_matchId: string) {
     const splitedMatchId = _matchId.split('_');
     const matchId = {
         match_id:       splitedMatchId[1],
