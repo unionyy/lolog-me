@@ -10,10 +10,10 @@
  * *************
  ***************************************/
 
-const https = require('https');
-const urlencode = require('urlencode');
-const { PLATFORM_ROUTING } = require('./constant');
-const { RIOT_TOKEN } = require('../config.json');
+import https from 'https';
+import urlencode from 'urlencode';
+import { PLATFORM_ROUTING } from './constant';
+import { RIOT_TOKEN } from '../config.json';
 
 const BASEURL = '.api.riotgames.com'
 
@@ -191,18 +191,18 @@ module.exports.LeagueV4 = {
 module.exports.MatchV5 = {
     matches: function(_matchId: string, _platform: string, _config: any) {
         _matchId = `${_platform.toUpperCase()}_${_matchId}`;
-        _platform = PLATFORM_ROUTING[_platform];
+        _platform = PLATFORM_ROUTING[_platform]!;
         const path = '/lol/match/v5/matches/' + urlencode.encode(_matchId);
         return QueryReq(path, {}, _platform, _config);
     },
     byPUUID: function(_encryptedPUUID: any, _params: any, _platform: string, _config: any) {
-        _platform = PLATFORM_ROUTING[_platform];
+        _platform = PLATFORM_ROUTING[_platform]!;
         const path = `/lol/match/v5/matches/by-puuid/${urlencode.encode(_encryptedPUUID)}/ids`;
         return QueryReq(path, _params, _platform, _config);
     },
     timeline: function(_matchId: string, _platform: string, _config: any) {
         _matchId = `${_platform.toUpperCase()}_${_matchId}`;
-        _platform = PLATFORM_ROUTING[_platform];
+        _platform = PLATFORM_ROUTING[_platform]!;
         const path = `/lol/match/v5/matches/${urlencode.encode(_matchId)}/timeline`;
         return QueryReq(path, {}, _platform, _config);
     }
