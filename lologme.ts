@@ -18,7 +18,7 @@ import crypto from 'crypto';
 import bodyParser from 'body-parser';
 import urlencode from 'urlencode';
 import cookieParser from 'cookie-parser';
-const rateLimit =  require("express-rate-limit");
+import rateLimit from 'express-rate-limit';
 import path from 'path';
 import helmet from 'helmet';
 import { I18n } from 'i18n';
@@ -36,7 +36,7 @@ import { RiotData } from './lib/RiotData';
 import { NormalizeName, VerifyMatchId } from './lib/util';
 import shortcut from './lib/shortcut';
 
-const { IS_DEVELOP, PUBLIC_LOC } = require('./config.json');
+import { IS_DEVELOP, PUBLIC_LOC } from './config.json';
 
 /** Remove GTAG if develop version */
 if(IS_DEVELOP) template.RemoveGtag();
@@ -114,7 +114,7 @@ const rateLimit10 = rateLimit({
   handler: function  (_req: any, _res: any, _next: any) {
     /** empty */
   },
-  onLimitReached: function (req: { cookies: { [x: string]: any; }; }, res: { status: (arg0: any) => { (): any; new(): any; send: { (arg0: string): void; new(): any; }; }; __: (arg0: string) => any; locals: { cspNonce: any; }; }, options: { statusCode: any; }) {
+  onLimitReached: function (req: any, res: any, options: any) {
     console.log('Rate Limit: user');
     res.status(options.statusCode).send(template.HTMLmsg(res.__('rate_limit'), res.__, req.cookies['platform-lologme'], res.locals.cspNonce));
   }
@@ -125,7 +125,7 @@ const rateLimit100 = rateLimit({
   handler: function  (_req: any, _res: any, _next: any) {
     /** empty */
   },
-  onLimitReached: function (req: { cookies: { [x: string]: any; }; }, res: { status: (arg0: any) => { (): any; new(): any; send: { (arg0: string): void; new(): any; }; }; __: (arg0: string) => any; locals: { cspNonce: any; }; }, options: { statusCode: any; }) {
+  onLimitReached: function (req: any, res: any, options: any) {
     console.log('Rate Limit: match');
     res.status(options.statusCode).send(template.HTMLmsg(res.__('rate_limit'), res.__, req.cookies['platform-lologme'], res.locals.cspNonce));
   }
