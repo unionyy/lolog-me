@@ -34,7 +34,7 @@ import * as riotData from './lib/riot-data';
 import { RiotData } from './lib/RiotData';
 
 import { NormalizeName, VerifyMatchId } from './lib/util';
-import shortcut from './lib/shortcut';
+import { GetSummonerShortcut } from './lib/shortcut';
 
 import { IS_DEVELOP, PUBLIC_LOC } from './config.json';
 
@@ -242,7 +242,7 @@ app.get(`/:platform/shortcut/:userName`, rateLimit100, (req, res, next) => {
 
   console.log("Shortcut: ", platform, normName);
 
-  shortcut(normName, platform).then(data => {
+  GetSummonerShortcut(normName, platform).then(data => {
     if(!data) res.status(404).json({error: 404, msg: "Not Found"});
     else res.json(data);
   }, err => {

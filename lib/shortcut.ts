@@ -4,13 +4,13 @@
  * 
  ********************************************/
 
-const riotData = require('./riot-data');
+import * as riotData from './riot-data';
 
-module.exports = async function(_normName, _platform) {
+export async function GetSummonerShortcut(_normName: string, _platform: string) {
     const summoner = await riotData.SearchSummonerName(_normName, _platform);
     if(!summoner) return false;
 
-    let matchList = await riotData.SearchMatchList(summoner.puuid, _platform);
+    let matchList: any = await riotData.SearchMatchList(summoner.puuid, _platform);
     matchList = matchList.slice(0, 5);
 
     const matches = await riotData.SearchMatches(summoner.id_my, matchList);
