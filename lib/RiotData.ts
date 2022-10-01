@@ -18,8 +18,8 @@ export { RiotData }
 class RiotData {
     _riotCdnUri: string = ""
     _latestVersion: string = ""
-    _runes: { [index: number]: string } = {}
-    _champions: { [index: string]: string } = {}
+    _runes: { [key: number]: string } = {}
+    _champions: { [key: string]: string } = {}
 
     constructor() {
     }

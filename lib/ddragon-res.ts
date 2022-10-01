@@ -17,7 +17,7 @@ type RuneDto = {
 }
 
 type ChampionDto = {
-    data: { [index: string]: ChampionDataDto }
+    data: { [key: string]: ChampionDataDto }
 }
 type ChampionDataDto = {
     id: string,
