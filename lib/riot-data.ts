@@ -23,7 +23,7 @@ import { PLATFORM_MY, POSITION_MY, PLATFORMS } from './constant';
 import { SummonerDTO, LeagueEntryDTO, MatchDto } from './riot-api-res'
 
 import * as riotApi from './riot-api'; 
-import dbio from './dbio';
+import * as dbio from './dbio';
 import { NormalizeName } from './util';
 
 export { Init, SearchSummonerName, UpdateSummoner, SearchSummonerIdMy,
@@ -54,7 +54,7 @@ async function Init() {
 
 /* Search Summoner by Name */
 async function SearchSummonerName(_normName: any, _platform: string) {
-    const dbSummoner = await dbio.GetSummonerByName(_normName, PLATFORM_MY[_platform]);
+    const dbSummoner: any = await dbio.GetSummonerByName(_normName, PLATFORM_MY[_platform]);
     // DB Hit
     if(dbSummoner) return dbSummoner;
     // DB Miss
@@ -64,7 +64,7 @@ async function SearchSummonerName(_normName: any, _platform: string) {
         if(!apiSummoner) return false;
 
         // API Hit
-        const dbSummonerPUUID = await dbio.GetSummonerByPUUID(apiSummoner.puuid);
+        const dbSummonerPUUID = await dbio.GetSummonerByPUUID(apiSummoner.puuid as string);
         if(dbSummonerPUUID) {
             // Summoner Name Changed
             if(await dbio.UpdateSummoner(apiSummoner)) return await dbio.GetSummonerByName(_normName, PLATFORM_MY[_platform]);
@@ -81,7 +81,7 @@ async function SearchSummonerName(_normName: any, _platform: string) {
 
 /* Update Summoner by idMy */
 async function UpdateSummoner(_idMy: any, _til: number) {
-    const dbSummoner = await dbio.GetSummonerByidMy(_idMy);
+    const dbSummoner: any = await dbio.GetSummonerByidMy(_idMy);
 
     // DB Miss (No Summoner)
     if(!dbSummoner) return false;
@@ -222,7 +222,7 @@ async function SearchMatches(_idMy: number, _matchIds: string[]) {
     }
 
     /** Get Matches From DB */
-    const dbMatches = await dbio.GetMatches(matchIds) || [];
+    const dbMatches: any = await dbio.GetMatches(matchIds) || [];
     for(const match of dbMatches) matches[match.match_id] = match;
 
     /** Get Matches From Riot API */
@@ -239,12 +239,12 @@ async function SearchMatches(_idMy: number, _matchIds: string[]) {
     await DBInputMatchesWithParticipants(apiMatches);
 
     /** Get Remained Matches From DB */
-    const dbRemainedMatches = await dbio.GetMatches(dbMissMatchIds) || [];
+    const dbRemainedMatches: any = await dbio.GetMatches(dbMissMatchIds) || [];
     for(const match of dbRemainedMatches) matches[match.match_id] = match;
 
     
     /** Get Participants From DB (Participants MUST Exist in DB */
-    const dbParticipants = await dbio.GetParticipants(_idMy, matchIds);
+    const dbParticipants: any = await dbio.GetParticipants(_idMy, matchIds);
     for(const participant of dbParticipants) {
         if(matches[participant.match_id])
             matches[participant.match_id].participant = participant;
@@ -381,7 +381,7 @@ async function DBInputMatchesWithParticipants(_matches: any) {
     const matchesPromise = dbio.InputMatches(inputMatches);
 
     /** Check if Users Exist in DB */
-    const existPUUIDs = await dbio.CheckSummonersByPUUID(puuids);
+    const existPUUIDs: any = await dbio.CheckSummonersByPUUID(puuids);
     const puuidMap: any = {};
     const inputSummoners = [];
     const freshPUUIDs = [];
@@ -395,7 +395,7 @@ async function DBInputMatchesWithParticipants(_matches: any) {
 
     /** INSERT SUMMONERS and GET ID_MY */
     await dbio.InputSummonersSimple(inputSummoners);
-    const existFreshPUUIDs = await dbio.CheckSummonersByPUUID(freshPUUIDs);
+    const existFreshPUUIDs: any = await dbio.CheckSummonersByPUUID(freshPUUIDs);
     for(const freshPUUID of existFreshPUUIDs) puuidMap[freshPUUID.puuid] = freshPUUID.id_my;
     for(const participant of inputParticipants) participant.id_my = puuidMap[participant.puuid];
 
@@ -413,7 +413,7 @@ async function SearchMatchDetail(_matchId: string) {
         platform_my:    PLATFORM_MY[splitedMatchId[0].toLowerCase()]
     };
 
-    const dbMatch = await dbio.GetMatches([matchId]);
+    const dbMatch: any = await dbio.GetMatches([matchId]);
     if(!dbMatch) return false;
     const dbParticipants = await dbio.GetParticipantsOfMatch(matchId);
     dbMatch[0].participants = dbParticipants;

@@ -23,7 +23,14 @@
  * 
  ***************************************/
 
-const mysql = require('mysql');
+import mysql from 'mysql';
+
+export { Init, GetSummonerByName, GetSummonerByPUUID, 
+    GetSummonerByidMy, InputSummoner, UpdateSummoner,
+    InputSummonersSimple,  CheckSummonersByPUUID, GetMatches,
+    InputMatches, GetParticipants, GetParticipantsOfMatch,
+    InputParticipants, }
+
 const { MYSQL_HOST, MYSQL_USER, MYSQL_PW, MYSQL_DB } = require('../config.json');
 var db_config = {
     host: MYSQL_HOST,
@@ -34,9 +41,9 @@ var db_config = {
     supportBigNumbers: true,
     charset: 'utf8mb4'
 }
-var db;
+var db: mysql.Connection;
 
-function handleDisconnect() {
+function handleDisconnect(): Promise<void> {
     return new Promise((resolve, reject,) => {
         db = mysql.createConnection(db_config);
 
@@ -62,7 +69,7 @@ function handleDisconnect() {
 }
 
 /** Initialize DBIO (Connect to MySQL Server) */
-module.exports.Init = async function () {
+async function Init () {
     await handleDisconnect().catch(err => {
         throw err;
     });
@@ -70,7 +77,7 @@ module.exports.Init = async function () {
 
 /**************** SUMMONERS IOs ****************/
 /* Get Summoner by Normalized Name & Platform */
-module.exports.GetSummonerByName = function (_normName, _platform, _cols = '*') {
+function GetSummonerByName(_normName: string, _platform: number, _cols: string = '*') {
     return new Promise((resolve, reject,) => {
         db.query(
             `SELECT ${_cols} FROM summoners WHERE norm_name=? AND platform_my=?`,
@@ -92,7 +99,7 @@ module.exports.GetSummonerByName = function (_normName, _platform, _cols = '*') 
     });
 }
 /* Get Summoner by PUUID */
-module.exports.GetSummonerByPUUID = function (_puuid) {
+function GetSummonerByPUUID(_puuid: string) {
     return new Promise((resolve, reject,) => {
         db.query(
             `SELECT * FROM summoners WHERE puuid=?`,
@@ -114,7 +121,7 @@ module.exports.GetSummonerByPUUID = function (_puuid) {
     });
 }
 /* Get Summoner by id_my */
-module.exports.GetSummonerByidMy = function (_idMy) {
+function GetSummonerByidMy(_idMy: number) {
     return new Promise((resolve, reject,) => {
         db.query(
             `SELECT * FROM summoners WHERE id_my=?`,
@@ -136,7 +143,7 @@ module.exports.GetSummonerByidMy = function (_idMy) {
     });
 }
 /* Input Summoner */
-module.exports.InputSummoner = function (_data) {
+function InputSummoner(_data: any) {
     return new Promise((resolve, reject,) => {
         db.query(
             `INSERT IGNORE INTO summoners (
@@ -161,7 +168,7 @@ module.exports.InputSummoner = function (_data) {
     });
 }
 /* Update Summoner */
-module.exports.UpdateSummoner = function (_data) {
+function UpdateSummoner(_data: any) {
     return new Promise((resolve, reject,) => {
         db.query(
             `UPDATE summoners SET
@@ -187,9 +194,9 @@ module.exports.UpdateSummoner = function (_data) {
     });
 }
 /* Simply Input Summoners for Get id_my */
-module.exports.InputSummonersSimple = function (_summoners) {
+function InputSummonersSimple(_summoners: any) {
     if(_summoners.length === 0) return new Promise((resolve, reject) => {resolve([]);});
-    const data = [];
+    const data: any = [];
     let queryString = `INSERT IGNORE INTO summoners (
         platform_my, update_time,
         summoner_id, puuid,
@@ -215,10 +222,10 @@ module.exports.InputSummonersSimple = function (_summoners) {
     });
 }
 /* Check Summoners Exits or Not & Get id_my */
-module.exports.CheckSummonersByPUUID = function (_puuids) {
+function CheckSummonersByPUUID(_puuids: string[]) {
     if(_puuids.length === 0) return new Promise((resolve, reject) => {resolve([]);});
     let puuidsString = "";
-    let data = [];
+    let data: string[] = [];
     for(const puuid of _puuids) {
         puuidsString += '?,';
         data.push(puuid);
@@ -244,11 +251,11 @@ module.exports.CheckSummonersByPUUID = function (_puuids) {
 
 /**************** MATCHES IOs ****************/
 /* Get Matches by match_id and platform_my */
-module.exports.GetMatches = function (_matchIds) {
+function GetMatches(_matchIds: any) {
     if(_matchIds.length === 0) return new Promise((resolve, reject) => {resolve([]);});
 
     let matchIdsString = "";
-    let data = [];
+    let data: any = [];
     for(const matchId of _matchIds) {
         matchIdsString += '(?,?),';
         data.push(matchId.match_id, matchId.platform_my);
@@ -271,11 +278,11 @@ module.exports.GetMatches = function (_matchIds) {
     });
 }
 /* Input Matches */
-module.exports.InputMatches = function(_matches) {
+function InputMatches(_matches: any) {
     if(_matches.length === 0) return new Promise((resolve, reject) => {resolve([]);});
 
     let matchesString = "";
-    let data = [];
+    let data: any = [];
     for(const match of _matches) {
         matchesString += "(?,?,FROM_UNIXTIME(?),?,?),";
         data.push(match.match_id, match.platform_my,
@@ -298,7 +305,7 @@ module.exports.InputMatches = function(_matches) {
 
 /**************** PARTICIPANTS IOs ****************/
 /* Get Participants by id_my and multiple match_id */
-module.exports.GetParticipants = function (_id_my, _matchIds) {
+function GetParticipants(_id_my: number, _matchIds: any) {
     if(_matchIds.length === 0) return new Promise((resolve, reject) => {resolve([]);});
 
     let matchIdsString = "";
@@ -326,7 +333,7 @@ module.exports.GetParticipants = function (_id_my, _matchIds) {
     });
 }
 /* Get Participants of Match by match_id */
-module.exports.GetParticipantsOfMatch = function (_matchId) {
+function GetParticipantsOfMatch(_matchId: any) {
     return new Promise((resolve, reject) => {
         db.query(
             `SELECT participants.*, summoners.summoner_name FROM participants LEFT OUTER JOIN summoners ON participants.id_my = summoners.id_my WHERE match_id=? AND participants.platform_my=?`,
@@ -345,11 +352,11 @@ module.exports.GetParticipantsOfMatch = function (_matchId) {
     });
 }
 /* Input Participants */
-module.exports.InputParticipants = function (_participants) {
+function InputParticipants(_participants: any) {
     if(_participants.length === 0) return new Promise((resolve, reject) => {resolve([]);});
 
     let participantsString = "";
-    let data = [];
+    let data: any = [];
     for(const pt of _participants) {
         participantsString += `(?,?, 
             ?,?,
