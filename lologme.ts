@@ -138,7 +138,7 @@ app.get('/', rateLimit10, (req, res) => {
 
 app.get(`/search`, rateLimit10, (req, res, next) => {
   try{
-    var normName = NormalizeName(req.query.username);
+    var normName = NormalizeName(req.query.username as string);
 
     if(typeof(req.query.platform) !== 'string') {
       throw 'unknown platform' + req.query.platform
@@ -267,13 +267,13 @@ app.get(`/:platform/matches`, rateLimit10, (req, res, next) => {
   if(Array.isArray(req.query.m)) {
     if(req.query.m.length <= 20) {
       for(const matchId of req.query.m) {
-        if(VerifyMatchId(matchId)) {
+        if(VerifyMatchId(matchId as string)) {
         matchIds.push(matchId as string);
         }
       }
     }
   } else {
-    if(VerifyMatchId(req.query.m)) {
+    if(VerifyMatchId(req.query.m as string)) {
       matchIds.push(req.query.m as string);
     }
   }

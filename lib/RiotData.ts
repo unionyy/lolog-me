@@ -81,7 +81,7 @@ class RiotData {
     }
 
     async getVersion() {
-        const versionJson = await HttpGetJson(VERSION_URI)
+        const versionJson: any = await HttpGetJson(VERSION_URI)
 
         if (versionJson.code !== 200) {
             console.log("Cannot get version.json, Status Code: " + versionJson.code)
@@ -94,7 +94,7 @@ class RiotData {
     async getChampionJson(lang: string) {
         const championUri = `${this.riotCdnUri}/data/${lang}/champion.json`
 
-        const championJson = await HttpGetJson(championUri)
+        const championJson: any = await HttpGetJson(championUri)
 
         if (championJson.code !== 200) {
             console.log("Cannot get champion.json, Status Code: " + championJson.code)
@@ -107,7 +107,7 @@ class RiotData {
     async getRuneJson(lang: string) {
         const runeUri = `${this.riotCdnUri}/data/${lang}/runesReforged.json`
 
-        const runeJson = await HttpGetJson(runeUri)
+        const runeJson: any = await HttpGetJson(runeUri)
 
         if (runeJson.code !== 200) {
             console.log("Cannot get runesReforged.json, Status Code: " + runeJson.code)

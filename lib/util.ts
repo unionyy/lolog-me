@@ -7,11 +7,11 @@
  * VerifyMatchId(_matchId)
  ***********************************/
 
-const sanitizedHtml = require("sanitize-html");
-const urlencode = require("urlencode");
-const { PLATFORM_MY } = require("./constant");
+import sanitizedHtml from "sanitize-html";
+import urlencode from "urlencode";
+import { PLATFORM_MY } from "./constant";
 
-module.exports.NormalizeName = function (_name) {
+export function NormalizeName(_name: string) {
   let userName = _name;
   if (userName.length > 50) userName = userName.slice(0, 50);
   userName = userName.replace(
@@ -24,27 +24,27 @@ module.exports.NormalizeName = function (_name) {
   return userName;
 };
 
-module.exports.VerifyMatchId = function (_matchId) {
+export function VerifyMatchId(_matchId: string) {
   try {
     const matchId = urlencode.decode(_matchId);
     const splitedMatchId = matchId.split("_");
     const platform = splitedMatchId[0].toLowerCase();
     if (PLATFORM_MY[platform] === undefined) return false;
-    if (isNaN(splitedMatchId[1])) return false;
+    if (splitedMatchId[1].length === 0) return false;
   } catch (err) {
     return false;
   }
   return true;
 };
 
-module.exports.HttpGetJson = async function (_uri) {
+export async function HttpGetJson(_uri: string) {
   return new Promise((resolve, reject) => {
     const https = require("https");
-    https.get(_uri, (res) => {
+    https.get(_uri, (res: any) => {
       res.setEncoding("utf-8");
 
       var _res = "";
-      res.on("data", (d) => {
+      res.on("data", (d: any) => {
         //process.stdout.write(d); // If you want to print res
         _res += d;
       });
