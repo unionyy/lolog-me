@@ -64,7 +64,7 @@ function GetRecentGames(_index=0) {
                         place: stat.wards_placed,
                         kill: stat.wards_killed
                     };
-                    let itemHtml = ItemGen([stat.item0, stat.item1, stat.item2, stat.item3, stat.item4, stat.item5, stat.item6], FindCDN(match.start_time, BANANACDN), visionData);
+                    let itemHtml = ItemGen([stat.item0, stat.item1, stat.item2, stat.item3, stat.item4, stat.item5, stat.item6], BANANACDN + VERSION.latest, visionData);
 
                     /** Medal */
                     let medalHtml = '';

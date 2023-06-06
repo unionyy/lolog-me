@@ -83,7 +83,7 @@ async function GetMatch(_container, _info) {
         .then(response => response.json(), err => {_container.html('<span class="match-fail">Try Again</span>');})
         .then(matchData => {
             /** Find version */
-            const cdnuri = FindCDN(_info.timestamp, BANANACDN);
+            const cdnuri = BANANACDN+VERSION.latest;
             
             /** Seperate Team */
             let myTeam;
