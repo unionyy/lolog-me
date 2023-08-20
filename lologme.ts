@@ -328,8 +328,8 @@ app.use(function (req, res, _next) {
 
 if(!IS_DEVELOP) {
   const options = {
-    key: fs.readFileSync('../keys/rootca.key'),
-    cert: fs.readFileSync('../keys/rootca.crt')
+    key: fs.readFileSync('./keys/rootca.key'),
+    cert: fs.readFileSync('./keys/rootca.crt')
   }
   http.createServer(app).listen(HTTP_PORT);
   https.createServer(options, app).listen(HTTPS_PORT);
