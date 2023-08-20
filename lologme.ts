@@ -10,8 +10,8 @@ import http from 'http';
 import https from 'https';
 import fs from 'fs';
 
-const HTTP_PORT = 80;
-const HTTPS_PORT = 443;
+const HTTP_PORT = 8080;
+const HTTPS_PORT = 8443;
 
 import { PLATFORM_MY, PLATFORMS } from './lib/constant';
 
