@@ -331,7 +331,7 @@ if(!IS_DEVELOP) {
     key: fs.readFileSync('./keys/rootca.key'),
     cert: fs.readFileSync('./keys/rootca.crt')
   }
-  http.createServer(app).listen(HTTP_PORT);
+  //http.createServer(app).listen(HTTP_PORT);
   https.createServer(options, app).listen(HTTPS_PORT);
 }
 
