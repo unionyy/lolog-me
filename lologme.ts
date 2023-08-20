@@ -6,6 +6,12 @@
  * - Send HTTP Requests
  * - Used Web Framework: ExpressJS
  ***********************************/
+import http from 'http';
+import https from 'https';
+import fs from 'fs';
+
+const HTTP_PORT = 8080;
+const HTTPS_PORT = 8443;
 
 import { PLATFORM_MY, PLATFORMS } from './lib/constant';
 
@@ -319,6 +325,15 @@ app.use(function (err: any, _req: any, res: any, _next: any) {
 app.use(function (req, res, _next) {
   res.status(404).send(template.HTMLmsg(res.__('404_msg'), res.__, req.cookies['platform-lologme'], res.locals.cspNonce))
 })
+
+if(!IS_DEVELOP) {
+  const options = {
+    key: fs.readFileSync('../keys/rootca.key'),
+    cert: fs.readFileSync('../keys/rootca.crt')
+  }
+  http.createServer(app).listen(HTTP_PORT);
+  https.createServer(options, app).listen(HTTPS_PORT);
+}
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
